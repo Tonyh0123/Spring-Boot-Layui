@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseRegistrationMapper">
+
+  <insert id="registration" parameterType="com.tangtang.manager.dto.StudentRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
+        INSERT  INTO base_admin_user (sys_user_name,sys_user_pwd,user_status,reg_time,user_phone,role_id)
+        VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{userPhone}, #{roleId})
+   </insert>
+
+    <insert id="regStudentInfo" parameterType="com.tangtang.manager.dto.StudentRegistrationDTO">
+        INSERT  INTO base_student (id, sys_user_name,school_name, school_student_id, school_student_name, school_student_email)
+        VALUES (#{id}, #{sysUserName}, #{schoolName}, #{studentId}, #{realName}, #{studentEmail})
+   </insert>
+
+    <insert id="regSchoolUser" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO">
+        INSERT  INTO base_school
+        (school_name,
+        school_manager_name,
+        school_manager_job,
+        school_manager_phone,
+        school_manager_email,
+        apply_status)
+        VALUES
+        (#{schoolName},
+        #{schoolManagerName},
+        #{schoolManagerJob},
+        #{schoolManagerPhone},
+        #{schoolManagerEmail},
+        #{applyStatus})
+   </insert>
+
+    <insert id="confirmSchoolsApply" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
+        INSERT  INTO base_admin_user (sys_user_name,sys_user_pwd,user_status,reg_time,user_phone,role_id)
+        VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{userPhone}, #{roleId})
+   </insert>
+
+    <update id="updateSchoolInfo">
+        UPDATE base_school
+        SET id = #{id} , sys_user_name = #{sysUserName} , apply_status = 1
+        WHERE keyid = #{keyid}
+    </update>
+
+
+</mapper>

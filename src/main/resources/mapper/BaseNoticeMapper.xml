@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseNoticeMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseNotice">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+        <result column="notice_date" jdbcType="VARCHAR" property="noticeDate" />
+        <result column="notice_url" jdbcType="VARCHAR" property="noticeUrl" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    notice_title,
+    notice_date,
+    notice_url
+  </sql>
+
+    <insert id="addNotice" parameterType="com.tangtang.manager.pojo.BaseNotice">
+        INSERT  INTO base_notice
+        (notice_title,
+        notice_date,
+        notice_url)
+        VALUES
+        (#{noticeTitle},
+        #{noticeDate},
+        #{noticeUrl})
+   </insert>
+
+    <select id="getNoticeList" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_notice
+    </select>
+
+
+</mapper>

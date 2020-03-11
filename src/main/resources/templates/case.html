@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+  <link rel="stylesheet" href="/css/index.css"></link>
+<body>
+  <!-- nav部分 -->
+  <div class="nav">
+    <div th:include="nav :: copyNav"></div>
+  </div>
+  <!-- banner部分 -->
+  <div class="banner case">
+    <div class="title">
+      <p>成功案例</p>
+      <p class="en">Successful Case</p>
+    </div>
+  </div>
+  <!-- main部分 -->
+  <div class="main-case">
+    <div class="layui-container">
+      <div class="layui-row">
+        <div class="layui-inline content">
+          <div class="layui-inline case-img"><img id="image1" src=""></div>
+          <p  class="lable" id="title1" >  </p>
+          <p id="content1">  </p>
+        </div>
+        <div class="layui-inline content even center">
+          <div class="layui-inline case-img"><img id="image2" src=""></div>
+          <p class="lable" id="title2">  </p>
+          <p id="content2">  </p>
+        </div>
+        <div class="layui-inline content">
+          <div class="layui-inline case-img"><img id="image3" src=""></div>
+          <p class="lable" id="title3">  </p>
+          <p id="content3">  </p>
+        </div>
+        <div class="layui-inline content even">
+          <div class="layui-inline case-img"><img id="image4" src=""></div>
+          <p class="lable" id="title4">  </p>
+          <p id="content4">  </p>
+        </div>
+        <div class="layui-inline content center">
+          <div class="layui-inline case-img"><img id="image5" src=""></div>
+          <p class="lable" id="title5">  </p>
+          <p id="content5">  </p>
+        </div>
+        <div class="layui-inline content even">
+          <div class="layui-inline case-img"><img id="image6" src=""></div>
+          <p class="lable" id="title6">  </p>
+          <p id="content6">  </p>
+        </div>
+        <div class="layui-inline content">
+          <div class="layui-inline case-img"><img id="image7" src=""></div>
+          <p class="lable" id="title7">  </p>
+          <p id="content7">  </p>
+        </div>
+        <div class="layui-inline content even center">
+          <div class="layui-inline case-img"><img id="image8" src=""></div>
+          <p class="lable" id="title8">  </p>
+          <p id="content8">  </p>
+        </div>
+        <div class="layui-inline content">
+          <div class="layui-inline case-img"><img id="image9" src=""></div>
+          <p class="lable" id="title9">  </p>
+          <p id="content9">  </p>
+        </div>
+      </div>
+      <div id="casePage"></div>
+    </div>
+  </div>
+  <!-- footer部分 -->
+  <div class="footer">
+    <div th:include="footer :: footer"></div>
+  </div>
+<!--  <script src="/js/firm.js"></script>-->
+
+</body>
+<script>
+  window.onload=function(){
+    $.ajax({
+      url:'/case/caseShowData',
+      dataType:'json',
+      async: true,
+      success:function(data) {
+        console.log("youmeiyou?-->"+data[9].caseRoleName);
+        //填充数据
+        for(var i=1; i<10; i++){
+          document.getElementById("title"+i.toString()).innerHTML =  data[i-1].caseTitle;
+          document.getElementById("content"+i.toString()).innerHTML =  data[i-1].caseGraSchoolMajor;
+          document.getElementById('image'+i.toString()).src = data[i-1].casePicUrl;
+        }
+
+        // $("#roleName1").val(data[8].caseRoleName);
+        // $("#roleTitle1").val(data[8].caseTitle);
+        // $("#roleName2").val(data[0].caseRoleName);
+        // $('#roleTitle2').val(data[0].caseTitle);
+        console.log("youmeiyou?-->"+data[9].caseRoleName);
+      }
+      ,error: function (data) {
+        console.log(data);
+      }
+    });
+  }
+</script>
+</html>

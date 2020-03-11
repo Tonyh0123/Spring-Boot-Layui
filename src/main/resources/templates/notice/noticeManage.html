@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='成功案例管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div id="caseListFather" class="layui-body" style="margin: 1%">
+
+        <hr class="layui-bg-orange"/>
+
+        <button class="layui-btn" onclick="openNoticeInsert()">新增通知/公告</button>
+
+        <table id="noticeList" lay-filter="userTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="previewFile">查看文件</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="previewPic">--</a>
+        </script>
+    </div>
+
+
+    <!--添加或编辑通知公告-->
+    <div id="addNotice" class="" style="display:none;">
+        <form id="noticeForm" class="layui-form layui-form-pane " method="post" action="" style="margin-top: auto; margin-left: auto;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+            <input id="id" type="hidden" name="id"/>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>标题</b></label>
+                <div class="layui-input-block">
+                    <input id="noticeTitle" name="noticeTitle" lay-verify="required" autocomplete="off" class="layui-input" placeholder="公告标题" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" ><b>发布日期</b></label>
+                <div class="layui-input-block">
+                    <input id="noticeDate" name="noticeDate" lay-verify="required" autocomplete="off" class="layui-input" placeholder="发布日期" type="text" readonly/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" ><b>文件地址</b></label>
+                <div class="layui-input-block">
+                    <input id="noticeUrl" name="noticeUrl" lay-verify="required" autocomplete="off" class="layui-input" placeholder="文件地址" type="text" readonly/>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-upload-button">
+                    <button type="button" class="layui-btn" id="uploadButton">
+                        <i class="layui-icon">&#xe67c;</i>上传文件
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton" style="display: none" onclick="pdfsee()">
+                        <i class="layui-icon">&#xe67c;</i>预览文件
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 80px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="userSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/notice/noticeList.js"></script>
+    <script>
+        var pdf = "";
+        layui.use('upload', function(){
+            var upload = layui.upload;
+            //执行实例
+            upload.render({
+                elem: '#uploadButton' //绑定元素
+                ,url: '/upload/noticeFileUpload' //上传接口
+                ,method: 'post'
+                ,accept: 'file'
+                ,done: function(res){
+
+                    document.getElementById("previewButton").style.display='';
+                    pdf = res.fileUrl;
+                    console.log(pdf);
+                    $("#noticeTitle").val(res.fileName);
+                    $("#noticeDate").val(res.fileDate);
+                    $("#noticeUrl").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+        });
+        function picPreview() {
+
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: ['auto'],
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#photottt'),
+            });
+        }
+
+        function pdfsee() {
+            var uul = pdf;
+            console.log(pdf);
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    type: 2,
+                    area: ['1000px', '750px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                });
+            });
+        };
+
+    </script>
+
+</div>
+
+</body>
+</html>

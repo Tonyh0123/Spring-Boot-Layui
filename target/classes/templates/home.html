@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <!--主体区域-->
+    <div class="layui-body">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-xs9">
+                    &nbsp;
+                    <h1 style="padding-top:50px;line-height:2.0;"><shiro:principal property="sysUserName"></shiro:principal>，欢迎登录
+                        <span style="font-weight: bold;font-size:28px;">大学生创业服务平台</span></a></h1><br>
+                    <h1>roleId:<shiro:principal property="roleId"></shiro:principal></h1><br>
+                    <h1>userPhone:<shiro:principal property="userPhone"></shiro:principal></h1><br>
+                    <h1>regTime:<shiro:principal property="regTime"></shiro:principal></h1><br>
+                    <h1>userStatus:<shiro:principal property="userStatus"></shiro:principal></h1><br>
+                    <button class="layui-btn layui-btn-normal" onclick="registration()">注册</button>
+                    <button class="layui-btn layui-btn-normal" onclick="registrationSchool()">校方注册申请</button>
+                    <button class="layui-btn layui-btn-normal" onclick="caseShow()">案例展示</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/js/error.js"></script>
+    <script src="/js/sysUser/userList.js"></script>
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+</body>
+</html>

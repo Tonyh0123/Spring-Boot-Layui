@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台 注册'"></head>
+<body>
+<div class="layui-row"  style="position:absolute; top:30%; left:48.5%; margin:-120px 0 0 -30px;">   <h1>创客注册</h1>   </div>
+<div class="layui-row"  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;">
+<form id="userForm" class="layui-form layui-form-pane" method="post" action="" >
+    <div class="layui-form-item" >
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" id="sysUserName" name="sysUserName" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <input id="roleId" type="hidden" name="roleId" value="2"/>     <!--   2======>学生类型   -->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label">角色类型</label>-->
+<!--        <div class="layui-input-block">-->
+<!--            <select name="roleId" id="roleId" lay-verify="required" lay-filter="roleId" onchange="showSchoolOrCompany(this.value)">-->
+<!--                <option value="">请选择</option>-->
+<!--                <option value="3" selected>高校</option>-->
+<!--                <option value="4">企业</option>-->
+<!--                <option value="2">学生</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div id="school" class="layui-form-item" >
+        <label class="layui-form-label">学校名</label>
+        <div class="layui-input-block">
+            <input type="text" id="schoolName" name="schoolName" lay-verify="required" lay-reqtext="学校名是必填项，岂能为空？" placeholder="请输入学校名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">学号</label>
+        <div class="layui-input-block">
+            <input type="text" id="studentId" name="studentId" lay-verify="required" lay-reqtext="学号是必填项，岂能为空？" placeholder="请输入学号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" id="realName" name="realName" lay-verify="required" lay-reqtext="姓名是必填项，岂能为空？" placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-block">
+            <input type="text" id="userPhone" name="userPhone" lay-verify="phone"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="text" id="studentEmail" name="studentEmail" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="sysUserPwd" lay-verify="required|pass" lay-reqtext="密码是必填项，岂能为空？" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="" lay-verify="required|pass|confirmPass" lay-reqtext="请再次输入密码" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="text-align: center;">
+        <div class="layui-input-block" style="margin: 0 auto;">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="mysubmit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</div>
+
+<script src="/static/js/dateUtils.js"></script>
+<script src="/static/js/sysUser/userList.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,confirmPass:function(value){
+                if($('input[name=sysUserPwd]').val() !== value)
+                    return '两次密码输入不一致！';
+            }
+            // ,confirmUserName:function(value){
+            //     var datas={sysUserName: value};
+            //     var message = '';
+            //     $.ajax({
+            //         type:"POST",
+            //         url:user/userIsExist,
+            //         async: false, //改为同步请求
+            //         contentType:'application/json;charset=UTF-8',
+            //         data:JSON.stringify(datas),
+            //         dataType:'json',
+            //         success:function(data){
+            //             if(data){
+            //             }else{
+            //                 message ="用户名已存在，请重新输入！"
+            //             }
+            //         }
+            //     });
+            //     console.log("here's before alert-----------=======>>>>>");
+            //     //需要注意  需要将返回信息写在ajax方法外
+            //     if (message !== '')
+            //         return message;
+            // }
+
+        });
+
+
+
+        //监听提交
+        form.on('submit(mysubmit)', function(data){
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // })
+
+            $.ajax({
+                type: "POST",
+                data: $("#userForm").serialize(),
+                url: "/user/regUser",
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.alert(data.msg,function(){
+                            window.location.href="/login";
+                        });
+                    } else {
+                        layer.alert(data.msg);
+                    }
+                },
+                error: function () {
+                    layer.alert("操作请求错误，请您稍后再试",function(){
+                        layer.closeAll();
+                        //加载load方法
+                        load(obj);//自定义
+                    });
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

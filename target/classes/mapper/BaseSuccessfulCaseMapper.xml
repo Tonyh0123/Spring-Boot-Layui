@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseSuccessfulCaseMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseSuccessfulCase">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="case_identifier" jdbcType="VARCHAR" property="caseIdentifier" />
+        <result column="case_title" jdbcType="VARCHAR" property="caseTitle" />
+        <result column="case_pic_url" jdbcType="VARCHAR" property="casePicUrl" />
+        <result column="case_role_name" jdbcType="VARCHAR" property="caseRoleName" />
+        <result column="case_gra_school_major" jdbcType="VARCHAR" property="caseGraSchoolMajor" />
+        <result column="case_entrepreneurial_journey" jdbcType="VARCHAR" property="caseEntrepreneurialJourney" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    case_identifier,
+    case_title,
+    case_pic_url,
+    case_role_name,
+    case_gra_school_major,
+    case_entrepreneurial_journey
+  </sql>
+
+    <insert id="addCase" parameterType="com.tangtang.manager.pojo.BaseSuccessfulCase">
+        INSERT  INTO base_successful_case
+        (case_identifier,
+        case_title,
+        case_pic_url,
+        case_role_name,
+        case_gra_school_major,
+        case_entrepreneurial_journey)
+        VALUES
+        (#{caseIdentifier},
+        #{caseTitle},
+        #{casePicUrl},
+        #{caseRoleName},
+        #{caseGraSchoolMajor},
+        #{caseEntrepreneurialJourney})
+   </insert>
+
+    <select id="getCaseList" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_successful_case
+    </select>
+
+    <delete id="xxx">
+
+    </delete>
+
+
+</mapper>
