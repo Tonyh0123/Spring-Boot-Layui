@@ -11,4 +11,9 @@ public class ManagerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ManagerApplication.class, args);
 	}
+
+	public void trr(){
+		System.out.println("nishishabi");
+	}
+	//tyrtyrtyrtyrtyrtyrtyrtyr
 }
