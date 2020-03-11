@@ -15,4 +15,8 @@ public class ManagerApplication {
 	public void ssss(){
 		System.out.println("nishidashabi");
 	}
+	
+	public void nishidashabi(){
+		System.out.println("nishidashabi");
+	}
 }
