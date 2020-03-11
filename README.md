@@ -1,4 +1,4 @@
-# SpringBoot+Layui后台管理系统
+# 大学生创业服务平台
 ## 后端：
 SpringBoot  2.1.0  
 tk.mybatis  2.0.2  
