@@ -71,7 +71,7 @@
 <script src="/static/js/verifyCode.js"></script>
 <script>
     var MainVerifyCode; //邮件验证码
-    layui.use(['form', 'layedit', 'laydate'], function(){
+    layui.use(['form', 'layedit', 'laydate','layer'], function(){
         var form = layui.form
             ,layer = layui.layer
 
@@ -112,14 +112,22 @@
 
     //创建验证码，四位数字
     function createVerifyCode() {
-        var verifyCode = "";
-        for (var i=0; i<4; i++){
-            var randomNum = Math.floor(Math.random()*10);
-            verifyCode = verifyCode + randomNum;
-
-        }
         var email = document.getElementById("schoolManagerEmail").value;
-        sendCode(verifyCode,email);
+        if(null != email && email!=""){
+            console.log(email);
+            var verifyCode = "";
+            for (var i=0; i<4; i++){
+                var randomNum = Math.floor(Math.random()*10);
+                verifyCode = verifyCode + randomNum;
+
+            }
+            sendCode(verifyCode,email);
+        }else {
+            layer.msg('请输入邮箱', {
+                time: 3000, //3s后自动关闭
+            });
+        }
+
     }
 
     //ajax请求后端发送邮件
