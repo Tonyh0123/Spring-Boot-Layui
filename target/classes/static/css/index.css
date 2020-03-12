@@ -246,7 +246,7 @@ body{background: #FFF;}
 @media screen and (min-width: 1300px) {
   .layui-container{width: 1200px; padding: 0;}
   .main-about .tabJob .content:last-child{margin-bottom: 180px;}
-  .nav .nav-logo{position: absolute; top: 0; left: 0;}
+  .nav .nav-logo{position: absolute; top: 0; left: -100px;}
   .layui-col-space80{margin: -40px;}
   .layui-col-space80>*{padding: 40px;}
 }
