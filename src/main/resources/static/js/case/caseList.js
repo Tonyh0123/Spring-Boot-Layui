@@ -57,11 +57,12 @@ $(function() {
         });
 
         //监听工具条
-        table.on('tool(userTable)', function(obj){
+        table.on('tool(caseTable)', function(obj){
             var data = obj.data;
-            if(obj.event === 'previewPic'){
-                //图片预览
-                delUser(data,data.id,data.sysUserName);
+            console.log(obj.event);
+            if(obj.event === 'del'){
+                //删除
+                del(data,data.id);
             } else if(obj.event === 'edit'){
                 //编辑
                 openUser(data,"编辑");
@@ -169,6 +170,37 @@ function previewPhotos(picUrl) {
 
 function caseShow() {
     window.location.href="/case/caseShow"
+}
+
+function load(obj){
+    tableIns.reload({
+        where: obj.field
+        , page: {
+            curr: pageCurr //从当前页码开始
+        }
+    });
+}
+
+//删除
+function del(obj,id) {
+    if(null!=id){
+        layer.confirm('您确定要删除吗？', {
+            btn: ['确认','返回'] //按钮
+        }, function(){
+            $.post("/case/del",{"id":id},function(data){
+                if (data.code == 1) {
+                    layer.alert(data.msg,function(){
+                        layer.closeAll();
+                        load(obj);
+                    });
+                } else {
+                    layer.alert(data.msg);
+                }
+            });
+        }, function(){
+            layer.closeAll();
+        });
+    }
 }
 
 

@@ -20,6 +20,11 @@ spring:
     username: sexytlh@163.com
     password: 215fg78910dj
     default-encoding: UTF-8
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 #  thymeleaf:
 #      cache: false
 #      mode: HTML5

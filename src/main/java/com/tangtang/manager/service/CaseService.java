@@ -14,4 +14,6 @@ public interface CaseService {
     PageDataResult getCaseList(BaseSuccessfulCase successfulCase, Integer pageNum, Integer pageSize);
 
     List<BaseSuccessfulCase> getCaseShowData();
+
+    Map<String, Object> del(long id);
 }

@@ -105,5 +105,20 @@ public class NoticeController {
         return baseNotices;
     }
 
+    /**
+     * 删除通知公告
+     * @Author tangtang
+     * @param id
+     * @return
+     */
+    @PostMapping("del")
+    @ResponseBody
+    public Map<String, Object> del(@RequestParam("id") Long id) {
+        logger.info("删除通知公告！id:" + id);
+        Map<String, Object> data = new HashMap<>();
+        data = noticeService.del(id);
+        return data;
+    }
+
 
 }

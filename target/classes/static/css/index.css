@@ -121,14 +121,7 @@ body{background: #FFF;}
 
 /** 案例 */
 
-.banner.case{position: absolute; background: url(../img/nav_img2.jpg); background-size: cover; }
-.banner:after{
-    content: "";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
+.banner.case{background: url(../img/nav_img2.jpg); background-size: cover; }
 .main-case{padding: 30px 0 75px;}
 .main-case .content{width: 48%; text-align: center; padding-top: 120px; padding-bottom: 20px; border-bottom: 2px solid #c9c9c9;}
 .main-case .content.even{margin-left: 2%;}

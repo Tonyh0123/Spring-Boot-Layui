@@ -46,12 +46,11 @@
         <button class="layui-btn layui-btn-normal" onclick="caseShow()">案例展示</button>
 <!--        <button class="layui-btn layui-btn-normal" onclick="registration()">注册</button>-->
 
-        <table id="caseList" lay-filter="userTable"></table>
+        <table id="caseList" lay-filter="caseTable"></table>
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="previewPic">图片预览</a>
-
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
         </script>
     </div>
 

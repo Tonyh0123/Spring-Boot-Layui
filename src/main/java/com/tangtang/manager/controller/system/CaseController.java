@@ -141,6 +141,22 @@ public class CaseController {
     }
 
 
+    /**
+     * 删除成功案例
+     * @Author tangtang
+     * @param id
+     * @return
+     */
+    @PostMapping("del")
+    @ResponseBody
+    public Map<String, Object> del(@RequestParam("id") Long id) {
+        logger.info("删除成功案例！id:" + id);
+        Map<String, Object> data = new HashMap<>();
+        data = caseService.del(id);
+        return data;
+    }
+
+
 
 
 

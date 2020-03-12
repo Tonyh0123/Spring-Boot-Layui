@@ -8,7 +8,7 @@ import tk.mapper.MyMapper;
 import java.util.List;
 
 @Repository
-public interface BaseNoticeMapper extends MyMapper<BaseSuccessfulCase> {
+public interface BaseNoticeMapper extends MyMapper<BaseNotice> {
 
     boolean addNotice(BaseNotice baseNotice);
 
