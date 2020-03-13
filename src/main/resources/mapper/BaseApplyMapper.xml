@@ -13,63 +13,24 @@
     <result column="school_manager_job" jdbcType="VARCHAR" property="schoolManagerJob" />
     <result column="school_manager_phone" jdbcType="VARCHAR" property="schoolManagerPhone" />
     <result column="school_manager_email" jdbcType="VARCHAR" property="schoolManagerEmail" />
+    <result column="school_job_confirm" jdbcType="VARCHAR" property="jobConfirm" />
+    <result column="school_confirm" jdbcType="VARCHAR" property="schoolConfirm" />
     <result column="apply_status" jdbcType="INTEGER" property="applyStatus" />
   </resultMap>
 
   <sql id="baseColumn">
-    keyid,id,sys_user_name,school_name,school_manager_name,school_manager_job,school_manager_phone,school_manager_email,apply_status
+    keyid,
+    id,
+    sys_user_name,
+    school_name,
+    school_manager_name,
+    school_manager_job,
+    school_manager_phone,
+    school_manager_email,
+    school_job_confirm,
+    school_confirm,
+    apply_status
   </sql>
-
-
-  <update id="updateUser">
-    UPDATE base_admin_user
-    <set>
-      <if test="sysUserName != null">
-        sys_user_name = #{sysUserName},
-      </if>
-      <if test="sysUserPwd != null">
-        sys_user_pwd = #{sysUserPwd},
-      </if>
-      <if test="roleId != null">
-        role_id = #{roleId},
-      </if>
-      <if test="userPhone != null">
-        user_phone = #{userPhone}
-      </if>
-    </set>
-    WHERE id = #{id}
-  </update>
-
-
-  <update id="updatePwd">
-    UPDATE base_admin_user
-    set sys_user_pwd = #{password}
-    where sys_user_name = #{userName}
-  </update>
-
-  <update id="updateUserStatus">
-    UPDATE base_admin_user
-    SET user_status = #{status}
-    WHERE id = #{id}
-  </update>
-
-
-  <select id="getUserByUserName" resultMap="BaseResultMap">
-    SELECT <include refid="baseColumn"/>
-    FROM base_admin_user
-    WHERE sys_user_name = #{sysUserName}
-    and user_status = 1
-    <if test="id != null">
-      and id != #{id}
-    </if>
-  </select>
-
-  <select id="findByUserName" resultMap="BaseResultMap">
-    SELECT <include refid="baseColumn"/>
-    FROM base_admin_user
-    WHERE sys_user_name = #{userName}
-    and user_status = 1
-  </select>
 
   <select id="getSchoolApplyList" resultMap="BaseResultMap">
     SELECT <include refid="baseColumn"/>

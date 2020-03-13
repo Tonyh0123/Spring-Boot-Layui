@@ -16,4 +16,6 @@ public interface CaseService {
     List<BaseSuccessfulCase> getCaseShowData();
 
     Map<String, Object> del(long id);
+
+    Map<String,Object> updateCase(BaseSuccessfulCase successfulCase);
 }

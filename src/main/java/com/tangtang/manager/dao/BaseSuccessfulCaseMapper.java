@@ -16,4 +16,6 @@ public interface BaseSuccessfulCaseMapper extends MyMapper<BaseSuccessfulCase> {
     List<BaseSuccessfulCase> getCaseList(BaseSuccessfulCase successfulCase);
 
     List<BaseSuccessfulCase> getCaseList();
+
+    int updateCase(BaseSuccessfulCase successfulCase);
 }

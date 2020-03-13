@@ -65,7 +65,7 @@ $(function() {
                 del(data,data.id);
             } else if(obj.event === 'edit'){
                 //编辑
-                openUser(data,"编辑");
+                openCaseUpdate(data);
             }
         });
 
@@ -124,7 +124,41 @@ function load(obj){
     });
 }
 
+function openCaseUpdate(data) {
+    $("#id").val(data.id);
+    $("#caseTitle").val(data.caseTitle);
+    $("#caseRoleName").val(data.caseRoleName);
+    $("#caseGraSchoolMajor").val(data.caseGraSchoolMajor);
+    $("#caseEntrepreneurialJourney").val(data.caseEntrepreneurialJourney);
+    $("#casePicUrl").val(data.casePicUrl);
+    document.getElementById("previewButton").style.display='';
 
+    layer.open({
+        type: 1 //此处以iframe举例
+        , title: '编辑成功案例'
+        , area: ['1000px','650px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['auto']
+        , content: $("#addSuccessfulCase")
+        , btn: ['关闭'] //只是为了演示
+        , btn2: function () {
+            layer.closeAll();
+        }
+        ,end: function () {
+            //弹窗关闭后清空原输入框的值
+            $("#caseTitle").val("");
+            $("#caseRoleName").val("");
+            $("#caseGraSchoolMajor").val("");
+            $("#caseEntrepreneurialJourney").val("");
+            $("#casePicUrl").val("");
+            $("#id").val("");
+            //弹窗关闭后隐藏【预览图片】按钮
+            document.getElementById("previewButton").style.display='none';
+
+        }
+    });
+}
 
 function openCaseInsert() {
     layer.open({
@@ -146,6 +180,7 @@ function openCaseInsert() {
             $("#caseGraSchoolMajor").val("");
             $("#caseEntrepreneurialJourney").val("");
             $("#casePicUrl").val("");
+            $("#id").val("");
             //弹窗关闭后隐藏【预览图片】按钮
             document.getElementById("previewButton").style.display='none';
 

@@ -29,8 +29,30 @@ public class BaseSchoolApply {
     @Column(name = "school_manager_email")
     private String schoolManagerEmail;
 
+    @Column(name = "school_job_confirm")
+    private String jobConfirm;
+
+    @Column(name = "school_confirm")
+    private String schoolConfirm;
+
     @Column(name = "apply_status")
     private Integer applyStatus;
+
+    public String getJobConfirm() {
+        return jobConfirm;
+    }
+
+    public void setJobConfirm(String jobConfirm) {
+        this.jobConfirm = jobConfirm;
+    }
+
+    public String getSchoolConfirm() {
+        return schoolConfirm;
+    }
+
+    public void setSchoolConfirm(String schoolConfirm) {
+        this.schoolConfirm = schoolConfirm;
+    }
 
     public Integer getApplyStatus() {
         return applyStatus;

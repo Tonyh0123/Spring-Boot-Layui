@@ -44,9 +44,31 @@
         FROM base_successful_case
     </select>
 
-    <delete id="xxx">
+    <update id="updateCase">
+        UPDATE base_successful_case
+        <set>
+            <if test="caseTitle != null">
+                case_title = #{caseTitle},
+            </if>
 
-    </delete>
+            <if test="casePicUrl != null">
+                case_pic_url = #{casePicUrl},
+            </if>
+
+            <if test="caseRoleName != null">
+                case_role_name = #{caseRoleName},
+            </if>
+
+            <if test="caseGraSchoolMajor != null">
+                case_gra_school_major = #{caseGraSchoolMajor},
+            </if>
+            <if test="caseEntrepreneurialJourney != null">
+                case_entrepreneurial_journey = #{caseEntrepreneurialJourney}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
 
 
 </mapper>

@@ -31,6 +31,26 @@ public class SchoolRegistrationDTO {
 
     private Integer applyStatus;
 
+    private String jobConfirm;
+
+    private String schoolConfirm;
+
+    public String getJobConfirm() {
+        return jobConfirm;
+    }
+
+    public void setJobConfirm(String jobConfirm) {
+        this.jobConfirm = jobConfirm;
+    }
+
+    public String getSchoolConfirm() {
+        return schoolConfirm;
+    }
+
+    public void setSchoolConfirm(String schoolConfirm) {
+        this.schoolConfirm = schoolConfirm;
+    }
+
     public Integer getKeyid() {
         return keyid;
     }

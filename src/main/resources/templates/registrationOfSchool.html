@@ -29,6 +29,44 @@
             </div>
         </div>
 
+        <div class="layui-row layui-form-item">
+            <div class=" layui-col-xs6" >
+                <label class="layui-form-label">工作证明</label>
+                <div class="layui-input-block">
+                    <input type="text" id="jobConfirm" name="jobConfirm" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class=" layui-col-xs6" >
+                <button type="button" class="layui-btn" id="uploadButton1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <button type="button" class="layui-btn" id="previewButton1" style="display: none" onclick="picPreview1()">
+                    <i class="layui-icon">&#xe67c;</i>预览图片
+                </button>
+            </div>
+        </div>
+
+        <div class="layui-row layui-form-item">
+            <div class=" layui-col-xs6" >
+                <label class="layui-form-label">身份证明</label>
+                <div class="layui-input-block">
+                    <input type="text" id="schoolConfirm" name="schoolConfirm" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class=" layui-col-xs6" >
+                <button type="button" class="layui-btn" id="uploadButton2">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <button type="button" class="layui-btn" id="previewButton2" style="display: none" onclick="picPreview2()">
+                    <i class="layui-icon">&#xe67c;</i>预览图片
+                </button>
+            </div>
+        </div>
+
         <div class="layui-form-item" >
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
@@ -70,6 +108,8 @@
 <script src="/static/js/sysUser/userList.js"></script>
 <script src="/static/js/verifyCode.js"></script>
 <script>
+    var sended = false;
+    var verifyed = false;
     var MainVerifyCode; //邮件验证码
     layui.use(['form', 'layedit', 'laydate','layer'], function(){
         var form = layui.form
@@ -77,20 +117,24 @@
 
         //监听提交整体表单
         form.on('submit(mysubmit)', function(data){
-            $.ajax({
-                type: "POST",
-                data: $("#userForm").serialize(),
-                url: "/user/regSchoolUser",
-                success: function (data) {
-                    if (data.code == 1) {
-                        layer.alert(data.msg,function(){
-                            window.location.href="/login";
-                        });
-                    } else {
-                        layer.alert(data.msg);
+            if(sended == true && verifyed == true){
+                $.ajax({
+                    type: "POST",
+                    data: $("#userForm").serialize(),
+                    url: "/user/regSchoolUser",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.alert(data.msg,function(){
+                                window.location.href="/login";
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
                     }
-                }
-            });
+                });
+            }else{
+
+            }
 
             return false;
         });
@@ -103,8 +147,17 @@
                 }
             }
             ,verifyCode:function(){
-                if(document.getElementById("verifyCode").value != MainVerifyCode)
+                if(document.getElementById("verifyCode").value == MainVerifyCode){
+                    verifyed = true;
+
+                }else if(document.getElementById("verifyCode").value == ""){
+                    layer.msg('请验证邮箱！', {
+                        time: 3000, //3s后自动关闭
+                    });
+                }
+                else {
                     return '验证码不正确！';
+                }
             }
         });
 
@@ -122,6 +175,7 @@
 
             }
             sendCode(verifyCode,email);
+            sended = true;
         }else {
             layer.msg('请输入邮箱', {
                 time: 3000, //3s后自动关闭
@@ -146,6 +200,78 @@
                 }
             }
         })
+    }
+</script>
+<script>
+
+    var pdf1 = "";
+    var pdf2 = "";
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        upload.render({
+            elem: '#uploadButton1' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton1").style.display='';
+                pdf1 = res.fileUrl;
+                $("#jobConfirm").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+
+        upload.render({
+            elem: '#uploadButton2' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton2").style.display='';
+                pdf2 = res.fileUrl;
+                $("#schoolConfirm").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+    });
+    function picPreview1() {
+        var uul = pdf1;
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '工作证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+                //
+            });
+        });
+    }
+    function picPreview2() {
+        var uul = pdf2;
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '学校证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+                //
+            });
+        });
     }
 </script>
 </body>

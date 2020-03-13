@@ -89,4 +89,21 @@ public class CaseServiceImpl implements CaseService {
         }
         return data;
     }
+
+    @Override
+    public Map<String, Object> updateCase(BaseSuccessfulCase successfulCase) {
+        Map<String,Object> data = new HashMap();
+        Integer id = successfulCase.getId();
+        int result = successfulCaseMapper.updateCase(successfulCase);
+        if(result == 0){
+            data.put("code",0);
+            data.put("msg","更新失败！");
+            logger.error("案例[更新]，结果=更新失败！");
+            return data;
+        }
+        data.put("code",1);
+        data.put("msg","更新成功！");
+        logger.info("案例[更新]，结果=更新成功！");
+        return data;
+    }
 }

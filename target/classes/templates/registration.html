@@ -113,6 +113,9 @@
 <script src="/static/js/dateUtils.js"></script>
 <script src="/static/js/sysUser/userList.js"></script>
 <script>
+    var sended = false;
+    var verifyed = false;
+    var MainVerifyCode; //邮件验证码
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form
             ,layer = layui.layer
@@ -132,44 +135,54 @@
                 if($('input[name=sysUserPwd]').val() !== value)
                     return '两次密码输入不一致！';
             }
+            ,verifyCode:function(){
+                if(document.getElementById("verifyCode").value == MainVerifyCode){
+                    verifyed = true;
+
+                }else if(document.getElementById("verifyCode").value == ""){
+                    layer.msg('请验证邮箱！', {
+                        time: 3000, //3s后自动关闭
+                    });
+                }
+                else {
+                    return '验证码不正确！';
+                }
+            }
 
         });
 
         //监听提交
         form.on('submit(mysubmit)', function(data){
-            // layer.alert(JSON.stringify(data.field), {
-            //     title: '最终的提交信息'
-            // })
-
-            $.ajax({
-                type: "POST",
-                data: $("#userForm").serialize(),
-                url: "/user/regUser",
-                success: function (data) {
-                    if (data.code == 1) {
-                        layer.alert(data.msg,function(){
-                            window.location.href="/login";
+            if(sended == true && verifyed == true){
+                $.ajax({
+                    type: "POST",
+                    data: $("#userForm").serialize(),
+                    url: "/user/regUser",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.alert(data.msg,function(){
+                                window.location.href="/login";
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    },
+                    error: function () {
+                        layer.alert("操作请求错误，请您稍后再试",function(){
+                            layer.closeAll();
+                            //加载load方法
+                            load(obj);//自定义
                         });
-                    } else {
-                        layer.alert(data.msg);
                     }
-                },
-                error: function () {
-                    layer.alert("操作请求错误，请您稍后再试",function(){
-                        layer.closeAll();
-                        //加载load方法
-                        load(obj);//自定义
-                    });
-                }
-            });
-
+                });
+            }
             return false;
         });
 
     });
 </script>
 <script>
-    var MainVerifyCode; //邮件验证码
+
     var pdf = "";
     layui.use('upload', function(){
         var upload = layui.upload;
@@ -220,6 +233,7 @@
 
             }
             sendCode(verifyCode,email);
+            sended = true;
         }else {
             layer.msg('请输入邮箱', {
                 time: 3000, //3s后自动关闭
