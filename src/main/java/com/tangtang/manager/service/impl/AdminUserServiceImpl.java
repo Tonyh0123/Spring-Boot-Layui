@@ -63,7 +63,7 @@ public class AdminUserServiceImpl implements AdminUserService{
         try {
 
             String username = studentRegistrationDTO.getSysUserName();
-            if(studentRegistrationDTO.getSysUserPwd() == null){
+            if(studentRegistrationDTO.getSysUserPwd() == null || studentRegistrationDTO.getSysUserPwd() == ""){
                 String password = DigestUtils.Md5(username,"123456");
                 studentRegistrationDTO.setSysUserPwd(password);
             }else{
@@ -73,8 +73,8 @@ public class AdminUserServiceImpl implements AdminUserService{
             studentRegistrationDTO.setRegTime(DateUtils.getCurrentDate());
             studentRegistrationDTO.setUserStatus(1);
             boolean result1 = baseRegistrationMapper.registration(studentRegistrationDTO);
-            int iddd = studentRegistrationDTO.getId();
-            System.out.println("看过来看过来   iddd---->"+iddd);
+//            int iddd = studentRegistrationDTO.getId();
+//            System.out.println("看过来看过来   iddd---->"+iddd);
             boolean result2 = baseRegistrationMapper.regStudentInfo(studentRegistrationDTO);
             if(!result1 && !result2){
                 data.put("code",0);

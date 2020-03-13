@@ -15,6 +15,7 @@ public class MyWebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**").addResourceLocations("file:F:/caseImages/");
         registry.addResourceHandler("/noticeFile/**").addResourceLocations("file:F:/noticeFile/");
+        registry.addResourceHandler("/identifyConfirmFile/**").addResourceLocations("file:F:/identifyConfirmFile/");
 
 
     }

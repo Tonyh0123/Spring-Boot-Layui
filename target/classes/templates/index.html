@@ -147,6 +147,7 @@
   </div>
   <script src="/js/firm.js"></script>
 </body>
+
 <script>
   window.onload=function(){
     $.ajax({
@@ -190,5 +191,30 @@
       });
     });
   };
+</script>
+
+<script>
+  layui.use(['form', 'layedit', 'laydate','layer'], function(){
+    var form = layui.form
+            ,layer = layui.layer
+
+  });
+  function chooseRegi(){
+    console.log("tanchu");
+    layer.msg('<center><b>请选择注册类型</b></center>', {
+      offset: '100px',
+      time: 20000,
+      // title: '注册类型',
+      btn: ['学生注册', '院校申请', '企业申请'],
+      // skin: 'demo-class',
+      yes: function () {
+        window.location.href="/registration";
+      },
+      btn2: function () {
+        window.location.href="/registrationOfSchool";
+      }
+    });
+  }
+
 </script>
 </html>

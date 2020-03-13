@@ -37,6 +37,25 @@
                     </div>
                 </div>
 
+                <div class="layui-row layui-form-item">
+                    <div class=" layui-col-xs6" >
+                        <label class="layui-form-label">身份证明</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="identifyConfirmFile" name="identifyConfirmFile" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class=" layui-col-xs6" >
+                        <button type="button" class="layui-btn" id="uploadButton">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+
+                        <button type="button" class="layui-btn" id="previewButton" style="display: none" onclick="picPreview()">
+                            <i class="layui-icon">&#xe67c;</i>预览图片
+                        </button>
+                    </div>
+                </div>
+
                 <div class="layui-form-item" >
                     <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
@@ -51,10 +70,19 @@
                     </div>
                 </div>
 
-                <div class="layui-form-item" >
-                    <label class="layui-form-label">邮箱</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="studentEmail" name="studentEmail" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-xs6" >
+                        <label class="layui-form-label">邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="studentEmail" name="studentEmail" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs6" >
+                        <label class="layui-form-label"><button type="button" class="layui-btn-xs layui-btn layui-btn-primary" onclick="createVerifyCode()"><b>获取验证码</b></button></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="verifyCode" name="" lay-verify="verifyCode"  placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
                 </div>
 
@@ -104,32 +132,8 @@
                 if($('input[name=sysUserPwd]').val() !== value)
                     return '两次密码输入不一致！';
             }
-            // ,confirmUserName:function(value){
-            //     var datas={sysUserName: value};
-            //     var message = '';
-            //     $.ajax({
-            //         type:"POST",
-            //         url:user/userIsExist,
-            //         async: false, //改为同步请求
-            //         contentType:'application/json;charset=UTF-8',
-            //         data:JSON.stringify(datas),
-            //         dataType:'json',
-            //         success:function(data){
-            //             if(data){
-            //             }else{
-            //                 message ="用户名已存在，请重新输入！"
-            //             }
-            //         }
-            //     });
-            //     console.log("here's before alert-----------=======>>>>>");
-            //     //需要注意  需要将返回信息写在ajax方法外
-            //     if (message !== '')
-            //         return message;
-            // }
 
         });
-
-
 
         //监听提交
         form.on('submit(mysubmit)', function(data){
@@ -163,6 +167,83 @@
         });
 
     });
+</script>
+<script>
+    var MainVerifyCode; //邮件验证码
+    var pdf = "";
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        upload.render({
+            elem: '#uploadButton' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton").style.display='';
+                pdf = res.fileUrl;
+                $("#identifyConfirmFile").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+    });
+    function picPreview() {
+        var uul = pdf;
+        console.log(pdf);
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '身份证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+            });
+        });
+    }
+
+    //创建验证码，四位数字
+    function createVerifyCode() {
+        var email = document.getElementById("studentEmail").value;
+        if(null != email && email!=""){
+            console.log(email);
+            var verifyCode = "";
+            for (var i=0; i<4; i++){
+                var randomNum = Math.floor(Math.random()*10);
+                verifyCode = verifyCode + randomNum;
+
+            }
+            sendCode(verifyCode,email);
+        }else {
+            layer.msg('请输入邮箱', {
+                time: 3000, //3s后自动关闭
+            });
+        }
+
+    }
+
+    //ajax请求后端发送邮件
+    function sendCode(verifyCode,email) {
+        $.ajax({
+            type: "POST",
+            dataType : 'json',
+            data: {"verifyCode": verifyCode, "email": email},
+            url: "/verifyCode/checkVerifyCode",
+            success: function (data) {
+                if (data.code == 1) {
+                    MainVerifyCode = verifyCode; //发送成功进行验证
+                    layer.alert(data.msg);
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
 </script>
 </body>
 </html>

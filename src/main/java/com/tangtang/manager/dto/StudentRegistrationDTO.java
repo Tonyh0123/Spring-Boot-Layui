@@ -30,6 +30,16 @@ public class StudentRegistrationDTO {
 
     private String studentEmail;
 
+    private String identifyConfirmFile;
+
+    public String getIdentifyConfirmFile() {
+        return identifyConfirmFile;
+    }
+
+    public void setIdentifyConfirmFile(String identifyConfirmFile) {
+        this.identifyConfirmFile = identifyConfirmFile;
+    }
+
     public Integer getId() {
         return id;
     }
