@@ -9,18 +9,37 @@
     <div th:include="nav :: copyNav"></div>
 </div>
 <div class="layui-container" style="top: 200px">
-<div class="layui-row"  style="position:absolute; top:40%; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
+<div class="layui-row"  style="position:absolute; top:30%; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
     <h1 style="text-align: center">院校申请使用</h1>
 </div>
 <div class="layui-row"  > <!--  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;"  -->
     <form id="userForm" class="layui-form layui-form-pane" method="post" action="" >
 
-        <div id="school" class="layui-form-item" >
-            <label class="layui-form-label">学校</label>
-            <div class="layui-input-block">
-                <input type="text" id="schoolName" name="schoolName" lay-verify="required" lay-reqtext="学校名是必填项，岂能为空？" placeholder="请输入学校名" autocomplete="off" class="layui-input">
+
+        <div id="school" class="layui-row layui-form-item" >
+            <div class="layui-col-xs6">
+                <label class="layui-form-label">城市</label>
+                <div class="layui-input-block " >
+                    <select name="" id="cityName" lay-filter="mymymy" lay-verify="required" lay-search>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-col-xs6">
+                <label class="layui-form-label">学校</label>
+                <div class="layui-input-block" >
+                    <select name="schoolName" id="schoolName" lay-verify="required" lay-search>
+                    </select>
+                </div>
             </div>
         </div>
+<!--        -->
+<!--        <div id="school" class="layui-form-item" >-->
+<!--            <label class="layui-form-label">学校</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" id="schoolName" name="schoolName" lay-verify="required" lay-reqtext="学校名是必填项，岂能为空？" placeholder="请输入学校名" autocomplete="off" class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="layui-form-item" >
             <label class="layui-form-label">职务</label>
@@ -203,6 +222,82 @@
     }
 </script>
 <script>
+    var city = ["福州","厦门","莆田","漳州"];
+
+    var fuzhou = ["福建师范大学","福州大学","福建工程学院","闽江学院","福建农林大学"];
+    var xiamen = ["厦门大学","华侨大学"];
+    var putian = ["莆田大学","哈哈哈大学"];
+    var zhangzhou = ["漳州大学"];
+
+    $(function () {
+        layui.use('form', function () {
+            form = layui.form;
+
+            //各种基于事件的操作，下面会有进一步介绍
+            //设置省份数据
+            setMyCity();
+            //监听下拉事件
+            form.on('select(mymymy)', function (data) {
+                console.log(data.value);
+                setSchool(data.value);
+
+            });
+        });
+
+    });
+
+    //设置省份数据
+    function setMyCity() {
+        //给省份下拉列表赋值
+
+        var $cityName = $("#cityName");
+
+        var modelVal = "";
+
+        var option = $("<option value=''>" + "请选择城市" + "</option>");
+        $cityName.append(option);
+        //获取对应省份城市
+        for (var i = 0, len = city.length; i < len; i++) {
+            modelVal = city[i];
+            var option = $("<option value='" + city[i] + "'>" + city[i] + "</option>");
+
+            //添加到 select 元素中
+            $cityName.append(option);
+        }
+        form.render('select');
+        // setSchool($($cityName.get(0)).val());
+
+    }
+
+    //根据选中的省份获取对应的城市
+    function setSchool(provinec) {
+        var $school = $("#schoolName");
+        var proCity, option, modelVal;
+        if (provinec === "福州") {
+            proCity = fuzhou;
+        }else if(provinec === "厦门"){
+            proCity = xiamen;
+        }
+        //先清空之前绑定的值
+        $school.empty();
+
+
+        var option = $("<option value=''>" + "请选择学校" + "</option>");
+        $school.append(option);
+        //设置对应省份的城市
+        for (var i = 0, len = proCity.length; i < len; i++) {
+            modelVal = proCity[i];
+            option = "<option value='" + modelVal + "'>" + modelVal + "</option>";
+
+            //添加
+            $school.append(option);
+        }
+        form.render('select');
+    }
+
+
+</script>
+<script>
 
     var pdf1 = "";
     var pdf2 = "";
@@ -274,5 +369,6 @@
         });
     }
 </script>
+
 </body>
 </html>

@@ -51,12 +51,25 @@ body{background: #FFF;}
 .main-product .content img{transition: 2s;}
 .main-product .content img:hover{transform: rotateY(180deg);}
 
+/*!*主体-通知公告*!*/
+/*.main-service{background: #f8f8f8;}*/
+/*.main-service .content{position: relative;}*/
+/*.main-service .content .content-left{width: 50%;}*/
+/*.main-service .content .content-left img{width: 100%;}*/
+/*.main-service .content .content-right{box-sizing: border-box; background: #FFF; padding: 58px 40px 0 48px; width: 50%; height: 100%; position: absolute; top: 0; right: 0; transition: 0.3s; overflow: hidden;}*/
+/*.main-service .content .content-right p{color: #adadad; line-height: 32px; overflow: hidden; text-overflow: ellipsis;}*/
+/*.main-service .content .content-right p.label{font-size: 16px; color: #4a4a4a;}*/
+/*.main-service .content .content-right span{display: block; width: 50px; height: 2px; background: #2cb6a1; margin-bottom: 23px;}*/
+/*.main-service .content .content-right:hover{box-shadow: 2px 2px 2px #EEE; transition: 0.3s;}*/
+/*.main-service .service-more{padding-top: 80px; padding-bottom: 80px; text-align: center;}*/
+/*.main-service .service-more a{padding: 10px 62px; font-size: 23px; line-height: 46px;color: #FFF; background: #7fd3c6; border-radius: 3px;}*/
+
 /*主体-服务*/
 .main-service{background: #f8f8f8;}
 .main-service .content{position: relative;}
 .main-service .content .content-left{width: 50%;}
-.main-service .content .content-left img{width: 100%;}
-.main-service .content .content-right{box-sizing: border-box; background: #FFF; padding: 58px 40px 0 48px; width: 50%; height: 100%; position: absolute; top: 0; right: 0; transition: 0.3s; overflow: hidden;}
+.main-service .content .content-left img{width: 50%;}
+.main-service .content .content-right{box-sizing: border-box; background: #FFF; padding: 58px 40px 0 48px; width: 100%; height: 100%; position: absolute; top: 0; right: 0; transition: 0.3s; overflow: hidden;}
 .main-service .content .content-right p{color: #adadad; line-height: 32px; overflow: hidden; text-overflow: ellipsis;}
 .main-service .content .content-right p.label{font-size: 16px; color: #4a4a4a;}
 .main-service .content .content-right span{display: block; width: 50px; height: 2px; background: #2cb6a1; margin-bottom: 23px;} 
