@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+
+<title></title>
+	<link rel="stylesheet" href="/css/index.css">
+	<link href="/css/test/main.css" rel="stylesheet" type="text/css" />
+	<link href="/css/test/iconfont.css" rel="stylesheet" type="text/css" />
+	<link href="/css/test/test.css" rel="stylesheet" type="text/css" />
+
+<style>
+.hasBeenAnswer {
+	background: #5d9cec;
+	color:#fff;
+}
+
+</style>
+</head>
+
+<body>
+	<div class="main">
+		<!--nr start-->
+		<div class="test_main">
+			<div class="nr_left">
+				<div class="test">
+					<form action="" method="post">
+						<div class="test_title">
+							<p class="test_time">
+								<i class="icon iconfont">&#xe6fb;</i><b>测试用户: <shiro:principal property="sysUserName"></shiro:principal></b>
+							</p>
+							<font><input type="button" name="test_jiaojuan" value="交卷"></font>
+						</div>
+						
+							<div class="test_content">
+								<div class="test_content_title">
+									<h2>大学生创业能力综合测评</h2>
+									<p id="testInformation">
+
+									</p>
+								</div>
+							</div>
+							<div class="test_content_nr">
+								<ul id="test_all_tm">
+									
+								</ul>
+							</div>
+						
+					</form>
+				</div>
+
+			</div>
+			<div class="nr_right">
+				<div class="nr_rt_main">
+					<div class="rt_nr1">
+						<div class="rt_nr1_title">
+							<h1>
+								<i class="icon iconfont">&#xe692;</i>答题卡
+							</h1>
+							<p class="test_time">
+								<i class="icon iconfont">&#xe6fb;</i>测试用户: <shiro:principal property="sysUserName"></shiro:principal>
+							</p>
+						</div>
+						
+							<div class="rt_content">
+								<div class="rt_content_tt">
+									<h2>单选题</h2>
+									<p id="testNumbers">
+
+									</p>
+								</div>
+								<div class="rt_content_nr answerSheet">
+									<ul id="answerSheet">
+
+									</ul>
+								</div>
+							</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--nr end-->
+		<div class="foot"></div>
+	</div>
+
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script src="js/testQuestion/jquery.easy-pie-chart.js"></script>
+	<!--时间js-->
+	<script src="js/testQuestion/jquery.countdown.js"></script>
+	<script>
+		window.onload=function(){
+			$.ajax({
+				url:'/testQuestion/getTestPaper',
+				dataType:'json',
+				async: false,
+				success:function(data) {
+					//填充数据
+					var length = data.length;
+					for (var i=0; i<length; i++){
+						var num = "qu_0_"+i.toString();
+						var answerName = "answer"+(i+1).toString();
+						var answerId1 = "0_answer_" + (i+1).toString() + "_option_1";
+						var answerId2 = "0_answer_" + (i+1).toString() + "_option_2";
+						var answerId3 = "0_answer_" + (i+1).toString() + "_option_3";
+						var answerId4 = "0_answer_" + (i+1).toString() + "_option_4";
+						$('#test_all_tm').append('<li id="' + num + '">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_tt">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t<i>'+ (i+1).toString() +'</i><span></span><font>'+data[i].testQuestion+'</font><b class="icon iconfont">&#xe881;</b>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+								'\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_main">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t<ul>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId1 + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId1 + '">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tA.\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerA+'</p>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId2 + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId2 + '">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tB.\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerB+'</p>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId3 + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId3 + '">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tC.\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerC+'</p>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId4 + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId4 + '">\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tD.\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerD+'</p>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+								'\t\t\t\t\t\t\t\t\t\t</li>');
+						$('#answerSheet').append('<li><a href="#'+ num +'">' + (i+1).toString() + '</a></li>');
+
+
+					}
+					$('#testInformation').append('<span>共</span><i class="content_lit">'+length+'</i><span>题，本测试不设分数，提交考卷后自动分析结果</span>');
+					$('#testNumbers').append('<span>共</span><i class="content_lit">'+length+'</i><span>题</span>');
+					console.log(length);
+				}
+				,error: function (data) {
+					// console.log(data);
+				}
+			});
+
+			$(function() {
+				$('li.option label').click(function() {
+
+					var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+					var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+					console.log(cardLi);
+					// 设置已答题
+					if(!cardLi.hasClass('hasBeenAnswer')){
+						cardLi.addClass('hasBeenAnswer');
+					}
+
+				});
+			});
+		}
+
+		window.jQuery(function($) {
+			"use strict";
+			
+			$('time').countDown({
+				with_separators : false
+			});
+			$('.alt-1').countDown({
+				css_class : 'countdown-alt-1'
+			});
+			$('.alt-2').countDown({
+				css_class : 'countdown-alt-2'
+			});
+
+
+			
+		});
+		
+		
+
+	</script>
+
+
+</body>
+
+</html>

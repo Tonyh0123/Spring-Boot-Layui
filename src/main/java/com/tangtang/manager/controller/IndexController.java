@@ -33,6 +33,12 @@ public class IndexController {
         return "registrationOfSchool";
     }
 
+    @RequestMapping("testPaper")
+    public String toTestPaper(){
+        logger.info("定向测试页");
+        return "testQuestion/testPaper";
+    }
+
     @RequestMapping("login")
     public String tologin(){
         logger.info("定向登陆页");

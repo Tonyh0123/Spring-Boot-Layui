@@ -86,6 +86,21 @@ public class TestQuestionController {
     }
 
     /**
+     *
+     * 功能描述: 获取测试题目数据
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/03/18 16:28
+     */
+    @GetMapping("getTestPaper")
+    public @ResponseBody List<BaseTestQuestion> getCaseShowData(){
+        logger.info("获取测试题目数据");
+        return testQuestionService.getTestQuestionList();
+    }
+
+    /**
      * 新增测试题目
      * @param testQuestion
      * @return
