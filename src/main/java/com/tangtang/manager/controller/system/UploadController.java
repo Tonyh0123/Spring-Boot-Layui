@@ -128,4 +128,41 @@ public class UploadController {
 //
         return res;
     }
+
+    @RequestMapping(value = "/identifyConfirmFileUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public String identifyConfirmFileUpload(@RequestParam(value="file") MultipartFile file,
+                                   HttpServletRequest request, HttpServletResponse response)throws Exception {
+        Map<String,Object> data = new HashMap();
+        if (file!=null){
+            logger.info("【身份证明文件上传】-->开始上传文件" + String.format(new Date().toString(), "yy-mm-dd hh:mm:ss"));
+            String path = "F:/identifyConfirmFile";
+            String[] fileNameArray = file.getOriginalFilename().split("\\.");
+            String webShowName = fileNameArray[0];
+            String fileSuffix = fileNameArray[1];
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS" );
+            SimpleDateFormat sdf1 =new SimpleDateFormat("yyyy-MM-dd" );
+            String date = sdf.format(new Date()).replace(" ","-").replace(":","-");
+            String fileDate = sdf1.format(new Date()).replace(" ","-").replace(":","-");
+            String uuid = UUID.randomUUID().toString().replace("-","");
+            String newFileName = webShowName + "_" + date + "_" + uuid + "." + fileSuffix;
+            System.out.println(newFileName);
+            String url = path + "/" +  newFileName;
+            InputStream inputStream = file.getInputStream();
+            FileOutputStream fileOutputStream = new FileOutputStream(url);
+            while( inputStream.available()!= 0){
+                fileOutputStream.write(inputStream.read());
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+            data.put("code",0);
+            data.put("fileName",webShowName);
+            data.put("fileDate",fileDate);
+            data.put("fileUrl","/identifyConfirmFile/"+newFileName);
+            logger.info("【身份证明文件上传】-->上传文件完毕" + String.format(new Date().toString(), "yy-mm-dd hh:mm:ss"));
+        }
+        String res = JSON.toJSONString(data);
+        return res;
+    }
 }

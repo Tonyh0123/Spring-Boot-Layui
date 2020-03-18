@@ -1,25 +1,88 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台 注册'"></head>
-
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+    <link rel="stylesheet" href="/css/index.css"></link>
 <body>
-<div class="layui-row"  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;">
-    <h1>院校申请使用</h1>
+<!-- nav部分 -->
+<div class="nav index">
+    <div th:include="nav :: copyNav"></div>
 </div>
-<div class="layui-row"  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;">
+<div class="layui-container" style="top: 200px">
+<div class="layui-row"  style="position:absolute; top:30%; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
+    <h1 style="text-align: center">院校申请使用</h1>
+</div>
+<div class="layui-row"  > <!--  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;"  -->
     <form id="userForm" class="layui-form layui-form-pane" method="post" action="" >
 
-        <div id="school" class="layui-form-item" >
-            <label class="layui-form-label">学校</label>
-            <div class="layui-input-block">
-                <input type="text" id="schoolName" name="schoolName" lay-verify="required" lay-reqtext="学校名是必填项，岂能为空？" placeholder="请输入学校名" autocomplete="off" class="layui-input">
+
+        <div id="school" class="layui-row layui-form-item" >
+            <div class="layui-col-xs6">
+                <label class="layui-form-label">城市</label>
+                <div class="layui-input-block " >
+                    <select name="" id="cityName" lay-filter="mymymy" lay-verify="required" lay-search>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-col-xs6">
+                <label class="layui-form-label">学校</label>
+                <div class="layui-input-block" >
+                    <select name="schoolName" id="schoolName" lay-verify="required" lay-search>
+                    </select>
+                </div>
             </div>
         </div>
+<!--        -->
+<!--        <div id="school" class="layui-form-item" >-->
+<!--            <label class="layui-form-label">学校</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" id="schoolName" name="schoolName" lay-verify="required" lay-reqtext="学校名是必填项，岂能为空？" placeholder="请输入学校名" autocomplete="off" class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="layui-form-item" >
             <label class="layui-form-label">职务</label>
             <div class="layui-input-block">
                 <input type="text" id="schoolManagerJob" name="schoolManagerJob" lay-verify="required" lay-reqtext="职务是必填项，岂能为空？" placeholder="请输入职务" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-row layui-form-item">
+            <div class=" layui-col-xs6" >
+                <label class="layui-form-label">工作证明</label>
+                <div class="layui-input-block">
+                    <input type="text" id="jobConfirm" name="jobConfirm" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class=" layui-col-xs6" >
+                <button type="button" class="layui-btn" id="uploadButton1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <button type="button" class="layui-btn" id="previewButton1" style="display: none" onclick="picPreview1()">
+                    <i class="layui-icon">&#xe67c;</i>预览图片
+                </button>
+            </div>
+        </div>
+
+        <div class="layui-row layui-form-item">
+            <div class=" layui-col-xs6" >
+                <label class="layui-form-label">身份证明</label>
+                <div class="layui-input-block">
+                    <input type="text" id="schoolConfirm" name="schoolConfirm" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class=" layui-col-xs6" >
+                <button type="button" class="layui-btn" id="uploadButton2">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <button type="button" class="layui-btn" id="previewButton2" style="display: none" onclick="picPreview2()">
+                    <i class="layui-icon">&#xe67c;</i>预览图片
+                </button>
             </div>
         </div>
 
@@ -36,21 +99,21 @@
                 <input type="text" id="schoolManagerPhone" name="schoolManagerPhone" lay-verify="phone"  placeholder="请输入手机号" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-row layui-form-item">
+            <div class="layui-col-xs6" >
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" id="schoolManagerEmail" name="schoolManagerEmail" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                </div>
+            </div>
 
-        <div class="layui-form-item" >
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" id="schoolManagerEmail" name="schoolManagerEmail" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+            <div class="layui-col-xs6" >
+                <label class="layui-form-label"><button type="button" class="layui-btn-xs layui-btn layui-btn-primary" onclick="createVerifyCode()"><b>获取验证码</b></button></label>
+                <div class="layui-input-block">
+                    <input type="text" id="verifyCode" name="" lay-verify="verifyCode"  placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                </div>
             </div>
         </div>
-
-        <div class="layui-form-item" >
-            <label class="layui-form-label"><button type="button" class="layui-btn-xs layui-btn layui-btn-primary" onclick="createVerifyCode()"><b>获取验证码</b></button></label>
-            <div class="layui-input-block">
-                <input type="text" id="verifyCode" name="" lay-verify="verifyCode"  placeholder="请输入验证码" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-
         <div class="layui-form-item" style="text-align: center;">
             <div class="layui-input-block" style="margin: 0 auto;">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="mysubmit">立即提交</button>
@@ -59,32 +122,38 @@
         </div>
     </form>
 </div>
-
+</div>
 <script src="/static/js/dateUtils.js"></script>
 <script src="/static/js/sysUser/userList.js"></script>
 <script src="/static/js/verifyCode.js"></script>
 <script>
+    var sended = false;
+    var verifyed = false;
     var MainVerifyCode; //邮件验证码
-    layui.use(['form', 'layedit', 'laydate'], function(){
+    layui.use(['form', 'layedit', 'laydate','layer'], function(){
         var form = layui.form
             ,layer = layui.layer
 
         //监听提交整体表单
         form.on('submit(mysubmit)', function(data){
-            $.ajax({
-                type: "POST",
-                data: $("#userForm").serialize(),
-                url: "/user/regSchoolUser",
-                success: function (data) {
-                    if (data.code == 1) {
-                        layer.alert(data.msg,function(){
-                            window.location.href="/login";
-                        });
-                    } else {
-                        layer.alert(data.msg);
+            if(sended == true && verifyed == true){
+                $.ajax({
+                    type: "POST",
+                    data: $("#userForm").serialize(),
+                    url: "/user/regSchoolUser",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.alert(data.msg,function(){
+                                window.location.href="/login";
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
                     }
-                }
-            });
+                });
+            }else{
+
+            }
 
             return false;
         });
@@ -97,8 +166,17 @@
                 }
             }
             ,verifyCode:function(){
-                if(document.getElementById("verifyCode").value != MainVerifyCode)
+                if(document.getElementById("verifyCode").value == MainVerifyCode){
+                    verifyed = true;
+
+                }else if(document.getElementById("verifyCode").value == ""){
+                    layer.msg('请验证邮箱！', {
+                        time: 3000, //3s后自动关闭
+                    });
+                }
+                else {
                     return '验证码不正确！';
+                }
             }
         });
 
@@ -106,14 +184,23 @@
 
     //创建验证码，四位数字
     function createVerifyCode() {
-        var verifyCode = "";
-        for (var i=0; i<4; i++){
-            var randomNum = Math.floor(Math.random()*10);
-            verifyCode = verifyCode + randomNum;
-
-        }
         var email = document.getElementById("schoolManagerEmail").value;
-        sendCode(verifyCode,email);
+        if(null != email && email!=""){
+            console.log(email);
+            var verifyCode = "";
+            for (var i=0; i<4; i++){
+                var randomNum = Math.floor(Math.random()*10);
+                verifyCode = verifyCode + randomNum;
+
+            }
+            sendCode(verifyCode,email);
+            sended = true;
+        }else {
+            layer.msg('请输入邮箱', {
+                time: 3000, //3s后自动关闭
+            });
+        }
+
     }
 
     //ajax请求后端发送邮件
@@ -134,5 +221,154 @@
         })
     }
 </script>
+<script>
+    var city = ["福州","厦门","莆田","漳州"];
+
+    var fuzhou = ["福建师范大学","福州大学","福建工程学院","闽江学院","福建农林大学"];
+    var xiamen = ["厦门大学","华侨大学"];
+    var putian = ["莆田大学","哈哈哈大学"];
+    var zhangzhou = ["漳州大学"];
+
+    $(function () {
+        layui.use('form', function () {
+            form = layui.form;
+
+            //各种基于事件的操作，下面会有进一步介绍
+            //设置省份数据
+            setMyCity();
+            //监听下拉事件
+            form.on('select(mymymy)', function (data) {
+                console.log(data.value);
+                setSchool(data.value);
+
+            });
+        });
+
+    });
+
+    //设置省份数据
+    function setMyCity() {
+        //给省份下拉列表赋值
+
+        var $cityName = $("#cityName");
+
+        var modelVal = "";
+
+        var option = $("<option value=''>" + "请选择城市" + "</option>");
+        $cityName.append(option);
+        //获取对应省份城市
+        for (var i = 0, len = city.length; i < len; i++) {
+            modelVal = city[i];
+            var option = $("<option value='" + city[i] + "'>" + city[i] + "</option>");
+
+            //添加到 select 元素中
+            $cityName.append(option);
+        }
+        form.render('select');
+        // setSchool($($cityName.get(0)).val());
+
+    }
+
+    //根据选中的省份获取对应的城市
+    function setSchool(provinec) {
+        var $school = $("#schoolName");
+        var proCity, option, modelVal;
+        if (provinec === "福州") {
+            proCity = fuzhou;
+        }else if(provinec === "厦门"){
+            proCity = xiamen;
+        }
+        //先清空之前绑定的值
+        $school.empty();
+
+
+        var option = $("<option value=''>" + "请选择学校" + "</option>");
+        $school.append(option);
+        //设置对应省份的城市
+        for (var i = 0, len = proCity.length; i < len; i++) {
+            modelVal = proCity[i];
+            option = "<option value='" + modelVal + "'>" + modelVal + "</option>";
+
+            //添加
+            $school.append(option);
+        }
+        form.render('select');
+    }
+
+
+</script>
+<script>
+
+    var pdf1 = "";
+    var pdf2 = "";
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        upload.render({
+            elem: '#uploadButton1' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton1").style.display='';
+                pdf1 = res.fileUrl;
+                $("#jobConfirm").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+
+        upload.render({
+            elem: '#uploadButton2' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton2").style.display='';
+                pdf2 = res.fileUrl;
+                $("#schoolConfirm").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+    });
+    function picPreview1() {
+        var uul = pdf1;
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '工作证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+                //
+            });
+        });
+    }
+    function picPreview2() {
+        var uul = pdf2;
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '学校证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+                //
+            });
+        });
+    }
+</script>
+
 </body>
 </html>

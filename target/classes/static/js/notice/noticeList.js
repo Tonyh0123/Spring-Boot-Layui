@@ -50,9 +50,9 @@ $(function() {
             if(obj.event === 'previewFile'){
                 //图片预览
                 pdfView(data, data.noticeUrl);
-            } else if(obj.event === 'edit'){
-                //编辑
-                openUser(data,"编辑");
+            } else if(obj.event === 'del'){
+                //删除
+                del(data,data.id);
             }
         });
 
@@ -130,6 +130,7 @@ function openNoticeInsert() {
             //弹窗关闭后清空原输入框的值
             $("#noticeTitle").val("");
             $("#noticeDate").val("");
+            $("#noticeUrl").val("");
             document.getElementById("previewButton").style.display='none';
         }
     });
@@ -150,24 +151,26 @@ function pdfView(data) {
         });
     });
 };
-//
-// function previewPhotos(picUrl) {
-//     var element = document.getElementById('hhhhh');
-//     element.src = picUrl;
-//     layer.open({
-//         type: 1,
-//         title: false,
-//         closeBtn: 1,
-//         area: ['auto'],
-//         skin: 'layui-layer-nobg', //没有背景色
-//         shadeClose: true,
-//         content: $('#photottt')
-//     });
-// }
-//
-//
-// function caseShow() {
-//     window.location.href="/case/caseShow"
-// }
+
+function del(obj,id) {
+    if(null!=id){
+        layer.confirm('您确定要删除吗？', {
+            btn: ['确认','返回'] //按钮
+        }, function(){
+            $.post("/notice/del",{"id":id},function(data){
+                if (data.code == 1) {
+                    layer.alert(data.msg,function(){
+                        layer.closeAll();
+                        load(obj);
+                    });
+                } else {
+                    layer.alert(data.msg);
+                }
+            });
+        }, function(){
+            layer.closeAll();
+        });
+    }
+}
 
 

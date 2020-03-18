@@ -8,8 +8,22 @@
    </insert>
 
     <insert id="regStudentInfo" parameterType="com.tangtang.manager.dto.StudentRegistrationDTO">
-        INSERT  INTO base_student (id, sys_user_name,school_name, school_student_id, school_student_name, school_student_email)
-        VALUES (#{id}, #{sysUserName}, #{schoolName}, #{studentId}, #{realName}, #{studentEmail})
+        INSERT  INTO base_student (
+        id,
+        sys_user_name,
+        school_name,
+        school_student_id,
+        school_student_name,
+        school_student_email,
+        school_student_confirm_url)
+        VALUES (
+        #{id},
+        #{sysUserName},
+        #{schoolName},
+        #{studentId},
+        #{realName},
+        #{studentEmail},
+        #{identifyConfirmFile})
    </insert>
 
     <insert id="regSchoolUser" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO">
@@ -19,6 +33,8 @@
         school_manager_job,
         school_manager_phone,
         school_manager_email,
+        school_job_confirm,
+        school_confirm,
         apply_status)
         VALUES
         (#{schoolName},
@@ -26,6 +42,8 @@
         #{schoolManagerJob},
         #{schoolManagerPhone},
         #{schoolManagerEmail},
+        #{jobConfirm},
+        #{schoolConfirm},
         #{applyStatus})
    </insert>
 

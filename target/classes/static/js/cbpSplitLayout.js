@@ -155,7 +155,11 @@ function getData() {
 		async: false,
 		success:function(data) {
 			//填充数据
-			for(var i=1; i<7; i++){
+			var length = data.length;
+			if(length>6){
+				length=7;
+			}
+			for(var i=1; i<length+1; i++){
 				document.getElementById("roleName" + i.toString()).innerHTML =  data[i-1].caseRoleName;
 				document.getElementById('img' + i.toString()).src = data[i-1].casePicUrl;
 			}

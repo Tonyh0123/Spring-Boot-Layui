@@ -82,6 +82,7 @@ public class ShiroConfig {
         filterMap.put("/images/*/**", "anon");
         filterMap.put("/img/*/**", "anon");
         filterMap.put("/noticeFile/*/**", "anon");
+        filterMap.put("/identifyConfirmFile/*/**", "anon");
         filterMap.put("/layui/*", "anon");
         filterMap.put("/layui/*/**", "anon");
         filterMap.put("/treegrid/*", "anon");
@@ -97,6 +98,8 @@ public class ShiroConfig {
         filterMap.put("/case/caseShowData", "anon");
         filterMap.put("/notice/noticeShowData", "anon");
         filterMap.put("/verifyCode/checkVerifyCode", "anon");
+        filterMap.put("/upload/identifyConfirmFileUpload", "anon");
+        filterMap.put("/testQuestion/testPaper", "anon");
 
         filterMap.put("/case", "anon");
         filterMap.put("/index", "anon");

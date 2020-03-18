@@ -29,6 +29,12 @@ $(function() {
                 ,{field:'schoolName', title:'学校',align:'center'}
                 ,{field:'schoolManagerName', title:'联系人姓名',align:'center'}
                 ,{field:'schoolManagerJob', title:'职位',align:'center'}
+                ,{field:'jobConfirm', title:'工作证明',align:'center', templet: '<div>' +
+                        '<img src="..{{ d.jobConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.jobConfirm }}\',\'工作证明信息\')">' +
+                        '</div>'}
+                ,{field:'schoolConfirm', title:'学校证明',align:'center', templet: '<div>' +
+                        '<img src="..{{ d.schoolConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.schoolConfirm }}\',\'学校证明信息\')">' +
+                        '</div>'}
                 ,{field:'schoolManagerPhone', title: '手机号',align:'center'}
                 ,{field:'schoolManagerEmail', title: '邮箱',align:'center'}
                 ,{title:'操作',align:'center', toolbar:'#optBar'}

@@ -134,9 +134,32 @@ public class CaseController {
     @RequestMapping(value = "/addCase", method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> addCase(BaseSuccessfulCase successfulCase) {
-        logger.info("新增成功案例 ------> successfulCase:" + successfulCase);
+
         Map<String,Object> data = new HashMap();
-        data = caseService.addCase(successfulCase);
+        if(successfulCase.getId() == null){
+            logger.info("新增成功案例 ------> successfulCase:" + successfulCase);
+            data = caseService.addCase(successfulCase);
+        }else{
+            logger.info("编辑成功案例 ------> successfulCase:" + successfulCase);
+            data = caseService.updateCase(successfulCase);
+        }
+
+        return data;
+    }
+
+
+    /**
+     * 删除成功案例
+     * @Author tangtang
+     * @param id
+     * @return
+     */
+    @PostMapping("del")
+    @ResponseBody
+    public Map<String, Object> del(@RequestParam("id") Long id) {
+        logger.info("删除成功案例！id:" + id);
+        Map<String, Object> data = new HashMap<>();
+        data = caseService.del(id);
         return data;
     }
 

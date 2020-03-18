@@ -12,8 +12,19 @@ public class ManagerApplication {
 		SpringApplication.run(ManagerApplication.class, args);
 	}
 
+<<<<<<< HEAD
 	public void trr(){
 		System.out.println("nishishabi");
 	}
 	//tyrtyrtyrtyrtyrtyrtyrtyr
+=======
+	public void ssss(){
+		System.out.println("nishidashabi");
+	}
+	
+	public void nishidashabi(){
+		System.out.println("nishidashabi");
+	}
+	//I just try.
+>>>>>>> mymymy
 }

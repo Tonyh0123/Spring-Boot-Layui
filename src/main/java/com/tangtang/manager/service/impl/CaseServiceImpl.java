@@ -67,4 +67,43 @@ public class CaseServiceImpl implements CaseService {
     public List<BaseSuccessfulCase> getCaseShowData() {
         return successfulCaseMapper.getCaseList();
     }
+
+    @Override
+    public Map<String, Object> del(long id) {
+        Map<String, Object> data = new HashMap<>();
+        try {
+            // 删除权限菜单
+            int result = successfulCaseMapper.deleteByPrimaryKey(id);
+            if(result == 0){
+                data.put("code",0);
+                data.put("msg","删除失败");
+                logger.error("删除失败");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","删除成功");
+            logger.info("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("删除成功案例异常！", e);
+        }
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> updateCase(BaseSuccessfulCase successfulCase) {
+        Map<String,Object> data = new HashMap();
+        Integer id = successfulCase.getId();
+        int result = successfulCaseMapper.updateCase(successfulCase);
+        if(result == 0){
+            data.put("code",0);
+            data.put("msg","更新失败！");
+            logger.error("案例[更新]，结果=更新失败！");
+            return data;
+        }
+        data.put("code",1);
+        data.put("msg","更新成功！");
+        logger.info("案例[更新]，结果=更新成功！");
+        return data;
+    }
 }

@@ -14,4 +14,6 @@ public interface NoticeService {
     Map<String,Object> addNotice(BaseNotice baseNotice);
 
     List<BaseNotice> getNoticeList();
+
+    Map<String, Object> del(long id);
 }

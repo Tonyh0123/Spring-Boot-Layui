@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='成功案例管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div id="caseListFather" class="layui-body" style="margin: 1%">
+
+        <hr class="layui-bg-green"/>
+
+        <button class="layui-btn" onclick="openTestQuestionInsert()">新增测试题目</button>
+
+        <table id="testQuestionList" lay-filter="testQuestionTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+        </script>
+    </div>
+
+
+    <!--添加或编辑测试题目-->
+    <div id="addTestQuestion" class="" style="display:none;">
+        <form id="testQuestionForm" class="layui-form layui-form-pane " method="post" action="" style="margin-top: auto; margin-left: auto;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+
+            <input id="id" type="hidden" name="id"/>
+
+            <div class="layui-form-item layui-form-text"  >
+                <label class="layui-form-label "><b>题目内容</b></label>
+                <div class="layui-input-block">
+                    <textarea id="testQuestion" name="testQuestion" required lay-verify="required" placeholder="请输入[题目内容]" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>答案A</b></label>
+                <div class="layui-input-block">
+                    <input id="testAnswerA" name="testAnswerA" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案A]" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" ><b>答案B</b></label>
+                <div class="layui-input-block">
+                    <input id="testAnswerB" name="testAnswerB" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案B]" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>答案C</b></label>
+                <div class="layui-input-block">
+                    <input id="testAnswerC" name="testAnswerC" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案C]" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>答案D</b></label>
+                <div class="layui-input-block">
+                    <input id="testAnswerD" name="testAnswerD" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案D]" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>正确答案</b></label>
+                <div class="layui-input-block">
+                    <select name="testCorrectAnswer" id="testCorrectAnswer" lay-verify="required" lay-search>
+                        <option value="">请选择正确答案</option>
+                        <option value="A" id="A">A</option>
+                        <option value="B" id="B">B</option>
+                        <option value="C" id="C">C</option>
+                        <option value="D" id="D">D</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>题目类型</b></label>
+                <div class="layui-input-block">
+                    <select name="testType" id="testType" lay-verify="required" lay-search>
+                        <option value="">请选择题目类型</option>
+                        <option value="能力">能力</option>
+                        <option value="态度">态度</option>
+                        <option value="上进心">上进心</option>
+                        <option value="为人处世">为人处世</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 80px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="userSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/testQuestion/testQuestionList.js"></script>
+
+</div>
+
+</body>
+</html>
