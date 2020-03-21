@@ -23,12 +23,20 @@ public class BaseTestQuestion {
     @Column(name = "test_answerD")
     private String testAnswerD;
 
-    @Column(name = "test_correct_answer")
-    private String testCorrectAnswer;
+    @Column(name = "test_answerA_score")
+    private String testAnswerA_score;
+
+    @Column(name = "test_answerB_score")
+    private String testAnswerB_score;
+
+    @Column(name = "test_answerC_score")
+    private String testAnswerC_score;
+
+    @Column(name = "test_answerD_score")
+    private String testAnswerD_score;
 
     @Column(name = "test_type")
     private String testType;
-
 
 
     public Integer getId() {
@@ -79,12 +87,36 @@ public class BaseTestQuestion {
         this.testAnswerD = testAnswerD;
     }
 
-    public String getTestCorrectAnswer() {
-        return testCorrectAnswer;
+    public String getTestAnswerA_score() {
+        return testAnswerA_score;
     }
 
-    public void setTestCorrectAnswer(String testCorrectAnswer) {
-        this.testCorrectAnswer = testCorrectAnswer;
+    public void setTestAnswerA_score(String testAnswerA_score) {
+        this.testAnswerA_score = testAnswerA_score;
+    }
+
+    public String getTestAnswerB_score() {
+        return testAnswerB_score;
+    }
+
+    public void setTestAnswerB_score(String testAnswerB_score) {
+        this.testAnswerB_score = testAnswerB_score;
+    }
+
+    public String getTestAnswerC_score() {
+        return testAnswerC_score;
+    }
+
+    public void setTestAnswerC_score(String testAnswerC_score) {
+        this.testAnswerC_score = testAnswerC_score;
+    }
+
+    public String getTestAnswerD_score() {
+        return testAnswerD_score;
+    }
+
+    public void setTestAnswerD_score(String testAnswerD_score) {
+        this.testAnswerD_score = testAnswerD_score;
     }
 
     public String getTestType() {

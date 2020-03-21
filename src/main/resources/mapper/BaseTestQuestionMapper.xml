@@ -9,7 +9,10 @@
         <result column="test_answerB" jdbcType="VARCHAR" property="testAnswerB" />
         <result column="test_answerC" jdbcType="VARCHAR" property="testAnswerC" />
         <result column="test_answerD" jdbcType="VARCHAR" property="testAnswerD" />
-        <result column="test_correct_answer" jdbcType="VARCHAR" property="testCorrectAnswer" />
+        <result column="test_answerA_score" jdbcType="VARCHAR" property="testAnswerA_score" />
+        <result column="test_answerB_score" jdbcType="VARCHAR" property="testAnswerB_score" />
+        <result column="test_answerC_score" jdbcType="VARCHAR" property="testAnswerC_score" />
+        <result column="test_answerD_score" jdbcType="VARCHAR" property="testAnswerD_score" />
         <result column="test_type" jdbcType="VARCHAR" property="testType" />
     </resultMap>
 
@@ -20,7 +23,10 @@
     test_answerB,
     test_answerC,
     test_answerD,
-    test_correct_answer,
+    test_answerA_score,
+    test_answerB_score,
+    test_answerC_score,
+    test_answerD_score,
     test_type
   </sql>
 
@@ -32,7 +38,10 @@
             test_answerB,
             test_answerC,
             test_answerD,
-            test_correct_answer,
+            test_answerA_score,
+            test_answerB_score,
+            test_answerC_score,
+            test_answerD_score,
             test_type
         )
         VALUES
@@ -42,7 +51,10 @@
             #{testAnswerB},
             #{testAnswerC},
             #{testAnswerD},
-            #{testCorrectAnswer},
+            #{testAnswerA_score},
+            #{testAnswerB_score},
+            #{testAnswerC_score},
+            #{testAnswerD_score},
             #{testType}
         )
    </insert>
@@ -50,6 +62,7 @@
     <select id="getTestQuestionList" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_test_question
+        order by test_type
     </select>
 
     <update id="updateTestQuestion">
@@ -73,9 +86,22 @@
             <if test="testAnswerD != null">
                 test_answerD = #{testAnswerD},
             </if>
-            <if test="testCorrectAnswer != null">
-                test_correct_answer = #{testCorrectAnswer},
+
+            <if test="testAnswerA_score != null">
+                test_answerA_score = #{testAnswerA_score},
             </if>
+
+            <if test="testAnswerB_score != null">
+                test_answerB_score = #{testAnswerB_score},
+            </if>
+
+            <if test="testAnswerC_score != null">
+                test_answerC_score = #{testAnswerC_score},
+            </if>
+            <if test="testAnswerD_score != null">
+                test_answerD_score = #{testAnswerD_score},
+            </if>
+
             <if test="testType != null">
                 test_type = #{testType},
             </if>

@@ -36,42 +36,105 @@
                 </div>
             </div>
 
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item ">
                 <label class="layui-form-label "><b>答案A</b></label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline" style="width: 550px">
                     <input id="testAnswerA" name="testAnswerA" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案A]" type="text"/>
                 </div>
+                <label class="layui-form-label "><b>答案A分值</b></label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="testAnswerA_score" id="testAnswerA_score" lay-verify="required" lay-search>
+                                <option value="">请选择确答案A分值</option>
+                                <option value="0" >0</option>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                                <option value="6" >6</option>
+                                <option value="7" >7</option>
+                                <option value="8" >8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item ">
                 <label class="layui-form-label" ><b>答案B</b></label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline" style="width: 550px">
                     <input id="testAnswerB" name="testAnswerB" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案B]" type="text"/>
                 </div>
+                <label class="layui-form-label "><b>答案B分值</b></label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="testAnswerB_score" id="testAnswerB_score" lay-verify="required" lay-search>
+                                <option value="">请选择确答案B分值</option>
+                                <option value="0" >0</option>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                                <option value="6" >6</option>
+                                <option value="7" >7</option>
+                                <option value="8" >8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item ">
                 <label class="layui-form-label "><b>答案C</b></label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline" style="width: 550px">
                     <input id="testAnswerC" name="testAnswerC" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案C]" type="text"/>
                 </div>
+                <label class="layui-form-label "><b>答案C分值</b></label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline">
+                        <div class="layui-input-inline">
+                            <select name="testAnswerC_score" id="testAnswerC_score" lay-verify="required" lay-search>
+                                <option value="">请选择确答案C分值</option>
+                                <option value="0" >0</option>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                                <option value="6" >6</option>
+                                <option value="7" >7</option>
+                                <option value="8" >8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item text">
                 <label class="layui-form-label "><b>答案D</b></label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline" style="width: 550px">
                     <input id="testAnswerD" name="testAnswerD" lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入[答案D]" type="text"/>
                 </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label"><b>正确答案</b></label>
-                <div class="layui-input-block">
-                    <select name="testCorrectAnswer" id="testCorrectAnswer" lay-verify="required" lay-search>
-                        <option value="">请选择正确答案</option>
-                        <option value="A" id="A">A</option>
-                        <option value="B" id="B">B</option>
-                        <option value="C" id="C">C</option>
-                        <option value="D" id="D">D</option>
-                    </select>
+                <label class="layui-form-label "><b>答案D分值</b></label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline">
+                        <select name="testAnswerD_score" id="testAnswerD_score" lay-verify="required" lay-search>
+                            <option value="">请选择确答案D分值</option>
+                            <option value="0" >0</option>
+                            <option value="1" >1</option>
+                            <option value="2" >2</option>
+                            <option value="3" >3</option>
+                            <option value="4" >4</option>
+                            <option value="5" >5</option>
+                            <option value="6" >6</option>
+                            <option value="7" >7</option>
+                            <option value="8" >8</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label"><b>题目类型</b></label>
                 <div class="layui-input-block">

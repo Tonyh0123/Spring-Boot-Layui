@@ -29,10 +29,13 @@ $(function() {
                 {type:'numbers'}
                 ,{field:'testQuestion', title:'题目内容',align:'center'}
                 ,{field:'testAnswerA', title:'答案A',align:'center'}
+                ,{field:'testAnswerA_score', title:'答案A分值',align:'center'}
                 ,{field:'testAnswerB', title:'答案B',align:'center'}
+                ,{field:'testAnswerB_score', title:'答案B分值',align:'center'}
                 ,{field:'testAnswerC', title:'答案C',align:'center'}
+                ,{field:'testAnswerC_score', title:'答案C分值',align:'center'}
                 ,{field:'testAnswerD', title:'答案D',align:'center'}
-                ,{field:'testCorrectAnswer', title: '正确答案',align:'center'}
+                ,{field:'testAnswerD_score', title:'答案D分值',align:'center'}
                 ,{field:'testType', title: '题目类型',align:'center'}
                 ,{title:'操作',align:'center', toolbar:'#optBar'}
             ]],
@@ -115,10 +118,12 @@ function openTestQuestionUpdate(data) {
     $("#testAnswerB").val(data.testAnswerB);
     $("#testAnswerC").val(data.testAnswerC);
     $("#testAnswerD").val(data.testAnswerD);
-    $("#testCorrectAnswer").val(data.testCorrectAnswer);
+    $("#testAnswerA_score").val(data.testAnswerA_score);
+    $("#testAnswerB_score").val(data.testAnswerB_score);
+    $("#testAnswerC_score").val(data.testAnswerC_score);
+    $("#testAnswerD_score").val(data.testAnswerD_score);
     $("#testType").val(data.testType);
 
-    console.log(data.testCorrectAnswer);
     console.log(data.testType);
     form.render('select');
     layer.open({
@@ -147,7 +152,10 @@ function openTestQuestionUpdate(data) {
 }
 
 function openTestQuestionInsert() {
-    $("#testCorrectAnswer").val('');
+    $("#testAnswerA_score").val('');
+    $("#testAnswerB_score").val('');
+    $("#testAnswerC_score").val('');
+    $("#testAnswerD_score").val('');
     $("#testType").val('');
     form.render('select');
     layer.open({

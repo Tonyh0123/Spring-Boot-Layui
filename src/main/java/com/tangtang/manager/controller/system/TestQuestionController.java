@@ -1,5 +1,6 @@
 package com.tangtang.manager.controller.system;
 
+import com.alibaba.druid.sql.visitor.functions.Char;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +136,61 @@ public class TestQuestionController {
         logger.info("删除测试题目！id:" + id);
         Map<String, Object> data = new HashMap<>();
         data = testQuestionService.del(id);
+        return data;
+    }
+
+    /**
+     * 比对测试答案
+     * @Author tangtang
+     * @param answer
+     * @return
+     */
+    @PostMapping("checkAnswers")
+    @ResponseBody
+    public Map<String, Object> checkAnswers(String answer, String userId, String userName) {
+        logger.info("比对测试答案！answerArray:" + answer);
+        Integer WORK_SCORE = 0, SKILL_SCORE =0, LIFE_SCORE = 0;
+        String WORK_RESULT = null, SKILL_RESULT = null, LIFU_RESULT = null;
+        String[] answerArray = answer.split(",");
+        for(int i=0; i<answerArray.length; i++){
+            String[] midAnswer = answerArray[i].split("=");
+            String[] answerParam = midAnswer[1].split("_");
+            String answerScore = answerParam[1];
+            String testType = answerParam[2];
+            if(testType.equals("WORK")){
+                WORK_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("SKILL")){
+                SKILL_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("LIFE")){
+                LIFE_SCORE += Integer.valueOf(answerScore);
+            }
+        }
+        if(WORK_SCORE<=6){
+            WORK_RESULT = "你的工作能力也太差了！";
+        }else if(WORK_SCORE>6 && WORK_SCORE<=8){
+            WORK_RESULT = "你的工作能力已经足以支持你创业！";
+        }else if(WORK_SCORE>8 && WORK_SCORE<=20){
+            WORK_RESULT = "你的工作能力简直强到爆炸！";
+        }
+        if(SKILL_SCORE<=6){
+            SKILL_RESULT = "你的技能也太差了！";
+        }else if(SKILL_SCORE>6 && SKILL_SCORE<=8){
+            SKILL_RESULT = "你的技能已经足以支持你创业！";
+        }else if(SKILL_SCORE>8 && SKILL_SCORE<=20){
+            SKILL_RESULT = "你的技能简直强到爆炸！";
+        }
+        if(LIFE_SCORE<=6){
+            LIFU_RESULT = "你的生活能力也太差了！";
+        }else if(LIFE_SCORE>6 && LIFE_SCORE<=8){
+            LIFU_RESULT = "你的生活能力已经足以支持你创业！";
+        }else if(LIFE_SCORE>8 && LIFE_SCORE<=20){
+            LIFU_RESULT = "你的生活能力简直强到爆炸！";
+        }
+        System.out.println(answer);
+        System.out.println(userId);
+        System.out.println(userName);
+        Map<String, Object> data = new HashMap<>();
+        data.put("msg",WORK_RESULT+"\n"+SKILL_RESULT+"\n"+LIFU_RESULT);
         return data;
     }
 

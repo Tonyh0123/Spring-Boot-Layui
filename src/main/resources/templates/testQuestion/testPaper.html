@@ -24,12 +24,14 @@
 		<div class="test_main">
 			<div class="nr_left">
 				<div class="test">
-					<form action="" method="post">
+					<p id="userId" style="display: none"><shiro:principal property="id"></shiro:principal> </p>
+					<p id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal> </p>
+					<form id="testForm" action="" method="post">
 						<div class="test_title">
 							<p class="test_time">
 								<i class="icon iconfont">&#xe6fb;</i><b>测试用户: <shiro:principal property="sysUserName"></shiro:principal></b>
 							</p>
-							<font><input type="button" name="test_jiaojuan" value="交卷"></font>
+							<font><input type="submit" lay-submit="" lay-filter="testSubmit" value="交卷"></font>
 						</div>
 						
 							<div class="test_content">
@@ -89,8 +91,11 @@
 	<script src="js/testQuestion/jquery.easy-pie-chart.js"></script>
 	<!--时间js-->
 	<script src="js/testQuestion/jquery.countdown.js"></script>
+	<script src="layui/layui.js"></script>
 	<script>
+
 		window.onload=function(){
+
 			$.ajax({
 				url:'/testQuestion/getTestPaper',
 				dataType:'json',
@@ -105,6 +110,10 @@
 						var answerId2 = "0_answer_" + (i+1).toString() + "_option_2";
 						var answerId3 = "0_answer_" + (i+1).toString() + "_option_3";
 						var answerId4 = "0_answer_" + (i+1).toString() + "_option_4";
+						var answerA = "A_"+data[i].testAnswerA_score+"_"+data[i].testType;
+						var answerB = "B_"+data[i].testAnswerB_score+"_"+data[i].testType;
+						var answerC = "C_"+data[i].testAnswerC_score+"_"+data[i].testType;
+						var answerD = "D_"+data[i].testAnswerD_score+"_"+data[i].testType;
 						$('#test_all_tm').append('<li id="' + num + '">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_tt">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t<i>'+ (i+1).toString() +'</i><span></span><font>'+data[i].testQuestion+'</font><b class="icon iconfont">&#xe881;</b>\n' +
@@ -115,7 +124,7 @@
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerA +'" name="' + answerName + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId1 + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
@@ -128,7 +137,7 @@
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerB +'" name="' + answerName + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId2 + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
@@ -141,7 +150,7 @@
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerC +'" name="' + answerName + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId3 + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
@@ -154,7 +163,7 @@
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" name="' + answerName + '"\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerD +'" name="' + answerName + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId4 + '"\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
 								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
@@ -215,6 +224,33 @@
 		
 		
 
+	</script>
+	<script type="text/javascript" defer=true>
+		layui.use(['form'], function(){
+			var form = layui.form;
+
+			//监听提交
+			form.on('submit(testSubmit)', function(data){
+				var answerArray = $("#testForm").serialize().split('&').toString();
+				var userId = document.getElementById("userId").innerText;
+				var userName = document.getElementById("userName").innerText;
+				console.log(userName);
+				console.log(answerArray);
+				$.ajax({
+					type: "POST",
+					data: {"answer":answerArray, "userId":userId, "userName":userName},
+					url: "/testQuestion/checkAnswers",
+					success: function (data) {
+						alert(data.msg);
+					},
+					error: function () {
+						alert("error");
+					}
+				});
+			return false;
+			});
+
+		});
 	</script>
 
 
