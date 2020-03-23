@@ -8,73 +8,78 @@ $(function() {
     layui.use('table', function(){
         var table = layui.table;
         form = layui.form;
+        var checkRolePermission = document.getElementById("checkThat").innerText;
+        if(checkRolePermission!='1'){
+            window.location.href="/myError"
+        }else {
+            tableIns=table.render({
+                elem: '#caseList',
+                url:'/case/getCaseList',
+                method: 'post', //默认：get请求
+                cellMinWidth: 80,
+                page: true,
+                request: {
+                    pageName: 'pageNum', //页码的参数名称，默认：pageNum
+                    limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
+                },
+                response:{
+                    statusName: 'code', //数据状态的字段名称，默认：code
+                    statusCode: 200, //成功的状态码，默认：0
+                    countName: 'totals', //数据总数的字段名称，默认：count
+                    dataName: 'list' //数据列表的字段名称，默认：data
+                },
+                cols: [[
+                    {type:'numbers'}
+                    ,{field:'caseIdentifier', title:'案例编号',align:'center'}
+                    ,{field:'caseTitle', title:'案例标题',align:'center'}
+                    ,{field:'casePicUrl', title:'图片url',align:'center', templet: '<div>' +
+                            '<img src="..{{ d.casePicUrl }}" style="width:30px; height:30px;" onclick="previewPhotos(\'{{ d.casePicUrl }}\')">' +
+                            '</div>'}
+                    ,{field:'caseRoleName', title: '案例姓名',align:'center'}
+                    ,{field:'caseGraSchoolMajor', title: '毕业院校/专业',align:'center'}
+                    ,{field:'caseEntrepreneurialJourney', title: '创业历程',align:'center'}
+                    ,{title:'操作',align:'center', toolbar:'#optBar'}
+                ]],
+                done: function(res, curr, count){
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    //得到当前页码
+                    console.log(curr);
+                    $("[data-field='userStatus']").children().each(function(){
+                        if($(this).text()=='1'){
+                            $(this).text("有效")
+                        }else if($(this).text()=='0'){
+                            $(this).text("失效")
+                        }
+                    });
+                    //得到数据总量
+                    //console.log(count);
+                    pageCurr=curr;
+                }
+            });
 
-        tableIns=table.render({
-            elem: '#caseList',
-            url:'/case/getCaseList',
-            method: 'post', //默认：get请求
-            cellMinWidth: 80,
-            page: true,
-            request: {
-                pageName: 'pageNum', //页码的参数名称，默认：pageNum
-                limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
-            },
-            response:{
-                statusName: 'code', //数据状态的字段名称，默认：code
-                statusCode: 200, //成功的状态码，默认：0
-                countName: 'totals', //数据总数的字段名称，默认：count
-                dataName: 'list' //数据列表的字段名称，默认：data
-            },
-            cols: [[
-                {type:'numbers'}
-                ,{field:'caseIdentifier', title:'案例编号',align:'center'}
-                ,{field:'caseTitle', title:'案例标题',align:'center'}
-                ,{field:'casePicUrl', title:'图片url',align:'center', templet: '<div>' +
-                        '<img src="..{{ d.casePicUrl }}" style="width:30px; height:30px;" onclick="previewPhotos(\'{{ d.casePicUrl }}\')">' +
-                        '</div>'}
-                ,{field:'caseRoleName', title: '案例姓名',align:'center'}
-                ,{field:'caseGraSchoolMajor', title: '毕业院校/专业',align:'center'}
-                ,{field:'caseEntrepreneurialJourney', title: '创业历程',align:'center'}
-                ,{title:'操作',align:'center', toolbar:'#optBar'}
-            ]],
-            done: function(res, curr, count){
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                //console.log(res);
-                //得到当前页码
-                console.log(curr);
-                $("[data-field='userStatus']").children().each(function(){
-                    if($(this).text()=='1'){
-                        $(this).text("有效")
-                    }else if($(this).text()=='0'){
-                        $(this).text("失效")
-                    }
-                });
-                //得到数据总量
-                //console.log(count);
-                pageCurr=curr;
-            }
-        });
+            //监听工具条
+            table.on('tool(caseTable)', function(obj){
+                var data = obj.data;
+                console.log(obj.event);
+                if(obj.event === 'del'){
+                    //删除
+                    del(data,data.id);
+                } else if(obj.event === 'edit'){
+                    //编辑
+                    openCaseUpdate(data);
+                }
+            });
 
-        //监听工具条
-        table.on('tool(caseTable)', function(obj){
-            var data = obj.data;
-            console.log(obj.event);
-            if(obj.event === 'del'){
-                //删除
-                del(data,data.id);
-            } else if(obj.event === 'edit'){
-                //编辑
-                openCaseUpdate(data);
-            }
-        });
+            //监听提交
+            form.on('submit(userSubmit)', function(data){
+                // TODO 校验
+                formSubmit(data);
+                return false;
+            });
+        }
 
-        //监听提交
-        form.on('submit(userSubmit)', function(data){
-            // TODO 校验
-            formSubmit(data);
-            return false;
-        });
 
 
     });

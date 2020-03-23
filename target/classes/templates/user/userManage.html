@@ -3,9 +3,17 @@
        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:include="layout :: htmlhead" th:with="title='用户管理'"></head>
 <body class="layui-layout-body">
+<script>
+    window.onload=function(){
+
+
+    }
+</script>
 <div class="layui-layout layui-layout-admin">
     <!--头-->
     <div th:replace="fragments/head :: header"></div>
+
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
 
     <div class="layui-body" style="margin: 1%">
 
@@ -104,6 +112,7 @@
     <div th:replace="fragments/footer :: footer"></div>
     <script src="/js/dateUtils.js"></script>
     <script src="/js/sysUser/userList.js"></script>
+
 
 </div>
 </body>

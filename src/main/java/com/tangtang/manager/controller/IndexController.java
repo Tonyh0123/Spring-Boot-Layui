@@ -71,6 +71,12 @@ public class IndexController {
         return "case";
     }
 
+    @RequestMapping("myError")
+    public String toError(){
+        logger.info("定向成功案例界面");
+        return "error";
+    }
+
     /**
      * 测试提交[Branch--->mymymy]
      */

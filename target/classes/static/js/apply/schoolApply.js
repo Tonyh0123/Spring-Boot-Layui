@@ -7,121 +7,88 @@ $(function() {
     layui.use('table', function(){
         var table = layui.table;
         form = layui.form;
+        var checkRolePermission = document.getElementById("checkThat").innerText;
+        if(checkRolePermission!='1'){
+            window.location.href="/myError"
+        }else {
+            tableIns=table.render({
+                elem: '#schoolApplyList',
+                url:'/apply/getSchoolApplyList',
+                method: 'post', //默认：get请求
+                cellMinWidth: 80,
+                page: true,
+                request: {
+                    pageName: 'pageNum', //页码的参数名称，默认：pageNum
+                    limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
+                },
+                response:{
+                    statusName: 'code', //数据状态的字段名称，默认：code
+                    statusCode: 200, //成功的状态码，默认：0
+                    countName: 'totals', //数据总数的字段名称，默认：count
+                    dataName: 'list' //数据列表的字段名称，默认：data
+                },
+                cols: [[
+                    {type:'numbers'}
+                    ,{field:'schoolName', title:'学校',align:'center'}
+                    ,{field:'schoolManagerName', title:'联系人姓名',align:'center'}
+                    ,{field:'schoolManagerJob', title:'职位',align:'center'}
+                    ,{field:'jobConfirm', title:'工作证明',align:'center', templet: '<div>' +
+                            '<img src="..{{ d.jobConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.jobConfirm }}\',\'工作证明信息\')">' +
+                            '</div>'}
+                    ,{field:'schoolConfirm', title:'学校证明',align:'center', templet: '<div>' +
+                            '<img src="..{{ d.schoolConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.schoolConfirm }}\',\'学校证明信息\')">' +
+                            '</div>'}
+                    ,{field:'schoolManagerPhone', title: '手机号',align:'center'}
+                    ,{field:'schoolManagerEmail', title: '邮箱',align:'center'}
+                    ,{title:'操作',align:'center', toolbar:'#optBar'}
+                ]],
+                done: function(res, curr, count){
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    //console.log(res);
+                    //得到当前页码
+                    console.log(curr);
+                    // $("[data-field='userStatus']").children().each(function(){
+                    //     if($(this).text()=='1'){
+                    //         $(this).text("有效")
+                    //     }else if($(this).text()=='0'){
+                    //         $(this).text("失效")
+                    //     }
+                    // });
+                    //得到数据总量
+                    //console.log(count);
+                    pageCurr=curr;
+                }
+            });
 
-        tableIns=table.render({
-            elem: '#schoolApplyList',
-            url:'/apply/getSchoolApplyList',
-            method: 'post', //默认：get请求
-            cellMinWidth: 80,
-            page: true,
-            request: {
-                pageName: 'pageNum', //页码的参数名称，默认：pageNum
-                limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
-            },
-            response:{
-                statusName: 'code', //数据状态的字段名称，默认：code
-                statusCode: 200, //成功的状态码，默认：0
-                countName: 'totals', //数据总数的字段名称，默认：count
-                dataName: 'list' //数据列表的字段名称，默认：data
-            },
-            cols: [[
-                {type:'numbers'}
-                ,{field:'schoolName', title:'学校',align:'center'}
-                ,{field:'schoolManagerName', title:'联系人姓名',align:'center'}
-                ,{field:'schoolManagerJob', title:'职位',align:'center'}
-                ,{field:'jobConfirm', title:'工作证明',align:'center', templet: '<div>' +
-                        '<img src="..{{ d.jobConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.jobConfirm }}\',\'工作证明信息\')">' +
-                        '</div>'}
-                ,{field:'schoolConfirm', title:'学校证明',align:'center', templet: '<div>' +
-                        '<img src="..{{ d.schoolConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.schoolConfirm }}\',\'学校证明信息\')">' +
-                        '</div>'}
-                ,{field:'schoolManagerPhone', title: '手机号',align:'center'}
-                ,{field:'schoolManagerEmail', title: '邮箱',align:'center'}
-                ,{title:'操作',align:'center', toolbar:'#optBar'}
-            ]],
-            done: function(res, curr, count){
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                //console.log(res);
-                //得到当前页码
-                console.log(curr);
-                // $("[data-field='userStatus']").children().each(function(){
-                //     if($(this).text()=='1'){
-                //         $(this).text("有效")
-                //     }else if($(this).text()=='0'){
-                //         $(this).text("失效")
-                //     }
-                // });
-                //得到数据总量
-                //console.log(count);
-                pageCurr=curr;
-            }
-        });
+            //监听工具条
+            table.on('tool(applyTable)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'del'){
+                    //删除
+                    delUser(data,data.id,data.sysUserName);
+                } else if(obj.event === 'accessConfirm'){
+                    openUser(data,"同意申请并为该高校开通账户");
+                } else if(obj.event === 'edit'){
+                    //编辑
+                    openUser(data,"编辑");
+                }else if(obj.event === 'recover'){
+                    //恢复
+                    recoverUser(data,data.id);
+                }
+            });
 
-        //监听工具条
-        table.on('tool(applyTable)', function(obj){
-            var data = obj.data;
-            if(obj.event === 'del'){
-                //删除
-                delUser(data,data.id,data.sysUserName);
-            } else if(obj.event === 'accessConfirm'){
-                openUser(data,"同意申请并为该高校开通账户");
-            } else if(obj.event === 'edit'){
-                //编辑
-                openUser(data,"编辑");
-            }else if(obj.event === 'recover'){
-                //恢复
-                recoverUser(data,data.id);
-            }
-        });
+            //监听提交
+            form.on('submit(userSubmit)', function(data){
+                // TODO 校验
+                formSubmit(data);
+                return false;
+            });
+        }
 
-        //监听提交
-        form.on('submit(userSubmit)', function(data){
-            // TODO 校验
-            formSubmit(data);
-            return false;
-        });
-        form.on('select(roleId)', function(data){
-            var selectID=data.value;
-            console.log(selectID);
-            if(selectID==3 || selectID==2){
-                schoolMenu = document.getElementById("school");
-                schoolMenu.style.display='';
-                companyMenu = document.getElementById("company");
-                companyMenu.style.display='none';
-            }else if(selectID==4){
-                schoolMenu = document.getElementById("school");
-                schoolMenu.style.display='none';
-                companyMenu = document.getElementById("company");
-                companyMenu.style.display='';
-            }else{
-                schoolMenu = document.getElementById("school");
-                schoolMenu.style.display='none';
-                companyMenu = document.getElementById("company");
-                companyMenu.style.display='none';
-            }
-        })
     });
 
-    //搜索框
-    layui.use(['form','laydate'], function(){
-        var form = layui.form ,layer = layui.layer
-            ,laydate = layui.laydate;
-        //日期
-        laydate.render({
-            elem: '#startTime'
-        });
-        laydate.render({
-            elem: '#endTime'
-        });
-        //TODO 数据校验
-        //监听搜索框
-        form.on('submit(searchSubmit)', function(data){
-            //重新加载table
-            load(data);
-            return false;
-        });
-    });
+
 });
 
 //提交表单

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <link rel="stylesheet" type="text/css" href="/css/formSelects-v4.css"/>
 <head th:include="layout :: htmlhead" th:with="title='角色管理'"></head>
 <script type="text/javascript" src="/js/dateUtils.js"></script>
@@ -7,6 +8,8 @@
 <div class="layui-layout layui-layout-admin">
     <!--头-->
     <div th:replace="fragments/head :: header"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+
 
     <div class="layui-body" style="margin: 1%">
         <table id="roleList" lay-filter="roleTable"></table>
