@@ -14,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,48 +42,13 @@ public class UploadController {
             System.out.println(newFileName);
             String url = path + "/" +  newFileName;
             InputStream inputStream = file.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(url);
-            while( inputStream.available()!= 0){
-                fileOutputStream.write(inputStream.read());
-            }
-
-            fileOutputStream.close();
-            inputStream.close();
+            pubUpload(inputStream,url);
             data.put("code",0);
             data.put("fileUrl","/image/"+newFileName);
             logger.info("【图片上传】-->上传文件完毕" + String.format(new Date().toString(), "yy-mm-dd hh:mm:ss"));
-//            InputStream in = file.getInputStream();
-//            StringBuffer sb = new StringBuffer();
-//            byte[] tempbytes = new byte[1024];
-//            int byteread = 0;
-//            while ((byteread = in.read(tempbytes)) != -1) {
-//                String str = new String(tempbytes, 0, byteread);
-//                sb.append(str);
-//            }
-//
-//            String path = "D:/file/";
-//            String fileName = "test.jpg";
-//            if(null != sb){
-//                try {
-//                    File image = new File(path+fileName);//文件路径（路径+文件名）
-//                    if (!image.exists()) {   //文件不存在则创建文件，先创建目录
-//                        File dir = new File(path);
-//                        dir.mkdirs();
-//                        image.createNewFile();
-//                    }
-//                    FileOutputStream outStream = new FileOutputStream(image); //文件输出流将数据写入文件
-//                    outStream.write();
-//                    outStream.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    // do something
-//                } finally {
-//                    // do something
-//                }
             }
         String res = JSON.toJSONString(data);
 
-//
         return res;
     }
 
@@ -110,24 +72,23 @@ public class UploadController {
             System.out.println(newFileName);
             String url = path + "/" +  newFileName;
             InputStream inputStream = file.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(url);
-            while( inputStream.available()!= 0){
-                fileOutputStream.write(inputStream.read());
-            }
 
-            fileOutputStream.close();
-            inputStream.close();
+            pubUpload(inputStream,url);
+
+
             data.put("code",0);
             data.put("fileName",webShowName);
             data.put("fileDate",fileDate);
             data.put("fileUrl","/noticeFile/"+newFileName);
-            logger.info("【图片上传】-->上传文件完毕" + String.format(new Date().toString(), "yy-mm-dd hh:mm:ss"));
+            logger.info("【公告文件上传】-->上传文件完毕" + String.format(new Date().toString(), "yy-mm-dd hh:mm:ss"));
         }
         String res = JSON.toJSONString(data);
 
 //
         return res;
     }
+
+
 
     @RequestMapping(value = "/identifyConfirmFileUpload", method = RequestMethod.POST)
     @ResponseBody
@@ -149,13 +110,10 @@ public class UploadController {
             System.out.println(newFileName);
             String url = path + "/" +  newFileName;
             InputStream inputStream = file.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(url);
-            while( inputStream.available()!= 0){
-                fileOutputStream.write(inputStream.read());
-            }
 
-            fileOutputStream.close();
-            inputStream.close();
+            pubUpload(inputStream,url);
+
+
             data.put("code",0);
             data.put("fileName",webShowName);
             data.put("fileDate",fileDate);
@@ -164,5 +122,25 @@ public class UploadController {
         }
         String res = JSON.toJSONString(data);
         return res;
+    }
+
+
+    /**
+     * 抽取公共上传模块
+     * @param inputStream
+     * @param url
+     * @throws IOException
+     */
+    public void pubUpload(InputStream inputStream, String url) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(url);
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inputStream.read(buffer)) > 0) {
+            // 使用FileOutputStream输出流将缓冲区的数据写入到指定的目录当中
+            fileOutputStream.write(buffer, 0, len);
+        }
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        inputStream.close();
     }
 }
