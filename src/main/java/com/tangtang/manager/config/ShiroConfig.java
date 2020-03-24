@@ -62,7 +62,7 @@ public class ShiroConfig {
         // 登录成功后要跳转的链接
         bean.setSuccessUrl("/index");
         // 未授权时跳转的界面;
-        bean.setUnauthorizedUrl("/error");
+        bean.setUnauthorizedUrl("/404");
 
         // filterChainDefinitions拦截器map必须用：LinkedHashMap，因为它必须保证有序
         Map<String, String> filterMap = new LinkedHashMap<>();

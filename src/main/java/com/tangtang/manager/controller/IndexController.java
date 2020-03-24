@@ -73,8 +73,8 @@ public class IndexController {
 
     @RequestMapping("myError")
     public String toError(){
-        logger.info("定向成功案例界面");
-        return "error";
+        logger.info("定向拒绝访问界面");
+        return "404";
     }
 
     /**
