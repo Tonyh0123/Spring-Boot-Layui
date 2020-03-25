@@ -18,43 +18,61 @@
   </div>
   <!-- main部分 -->
   <div class="main-product">
-    <div class="layui-container">
-      <p class="title"><span>通知公告</span></p>
-      <div style="padding: 33px; background-color: #f8f8f8; border-radius: 2px 2px 2px 2px">
-        <div class="layui-row layui-col-space15">
-          <div class="layui-col-md12">
-            <div class="layui-card">
-              <div class="layui-card-header"  ><a id="notice1" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice2" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice3" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice4" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice5" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice6" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice7" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="notice8" href="javascript:;"></a></div>
-
-            </div>
-          </div>
+  <div class="layui-container">
+    <p class="title"><span>通知公告</span></p>
+    <div class="table_card">
+      <ul class="tab">
+        <li class="activ">通知公告</li>
+      </ul>
+      <div class="tabCon">
+        <div class="on">
+          <ul class="newslist01">
+            <li><a href="javascript:;" id="notice1"></a><span class="time" id="time1"></span></li>
+            <li><a href="javascript:;" id="notice2"></a><span class="time" id="time2"></span></li>
+            <li><a href="javascript:;" id="notice3"></a><span class="time" id="time3"></span></li>
+            <li><a href="javascript:;" id="notice4"></a><span class="time" id="time4"></span></li>
+            <li><a href="javascript:;" id="notice5"></a><span class="time" id="time5"></span></li>
+            <li><a href="javascript:;" id="notice6"></a><span class="time" id="time6"></span></li>
+            <li><a href="javascript:;" id="notice7"></a><span class="time" id="time7"></span></li>
+            <li><a href="javascript:;" id="notice8"></a><span class="time" id="time8"></span></li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
+  </div>
   <div class="main-product">
     <div class="layui-container">
       <p class="title"><span>创业政策</span></p>
-      <div style="padding: 33px; background-color: #f8f8f8;">
-        <div class="layui-row layui-col-space15">
-          <div class="layui-col-md12">
-            <div class="layui-card">
-              <div class="layui-card-header"  ><a id="policy1" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy2" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy3" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy4" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy5" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy6" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy7" href="javascript:;"></a></div>
-              <div class="layui-card-header"  ><a id="policy8" href="javascript:;"></a></div>
-            </div>
+      <div class="table_card">
+        <ul class="tab">
+          <li class="activ">全国创业政策</li>
+          <li >福建创业政策</li>
+        </ul>
+        <div class="tabCon">
+          <div class="on">
+            <ul class="newslist01">
+              <li><a href="javascript:;" id="policy1"></a><span class="time" id="policyTime1"></span></li>
+              <li><a href="javascript:;" id="policy2"></a><span class="time" id="policyTime2"></span></li>
+              <li><a href="javascript:;" id="policy3"></a><span class="time" id="policyTime3"></span></li>
+              <li><a href="javascript:;" id="policy4"></a><span class="time" id="policyTime4"></span></li>
+              <li><a href="javascript:;" id="policy5"></a><span class="time" id="policyTime5"></span></li>
+              <li><a href="javascript:;" id="policy6"></a><span class="time" id="policyTime6"></span></li>
+              <li><a href="javascript:;" id="policy7"></a><span class="time" id="policyTime7"></span></li>
+              <li><a href="javascript:;" id="policy8"></a><span class="time" id="policyTime8"></span></li>
+            </ul>
+          </div>
+          <div>
+            <ul class="newslist01">
+              <li><a href="javascript:;" id="fujianPolicy1"></a><span class="time" id="fujianPolicyTime1"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy2"></a><span class="time" id="fujianPolicyTime2"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy3"></a><span class="time" id="fujianPolicyTime3"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy4"></a><span class="time" id="fujianPolicyTime4"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy5"></a><span class="time" id="fujianPolicyTime5"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy6"></a><span class="time" id="fujianPolicyTime6"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy7"></a><span class="time" id="fujianPolicyTime7"></span></li>
+              <li><a href="javascript:;" id="fujianPolicy8"></a><span class="time" id="fujianPolicyTime8"></span></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -138,6 +156,23 @@
 
 <script>
   window.onload=function(){
+    $.ajax({
+      url:'/banner/bannerShowData',
+      dataType:'json',
+      async: false,
+      success:function(data) {
+        //填充数据
+        var length = data.length;
+        console.log("111"+length);
+        for (var i=0; i<length; i++){
+          $('#banner').children('div').append('<a href="'+data[i].hrefLink+'"><img src="'+data[i].imgUrl+'" title="'+data[i].imgTitle+'"></a>');
+        }
+
+      }
+      ,error: function (data) {
+        // console.log(data);
+      }
+    });
     layui.use('carousel', function(){
       var carousel = layui.carousel;
       var ins = carousel.render({
@@ -145,31 +180,15 @@
         width: "100%",
         height: "100%",
         arrow: 'always'
-      });
-
-      $.ajax({
-        url:'/banner/bannerShowData',
-        dataType:'json',
-        async: false,
-        success:function(data) {
-          //填充数据
-          var length = data.length;
-          console.log("111"+length);
-          for (var i=0; i<length; i++){
-            $('#banner').children('div').append('<a href="'+data[i].hrefLink+'"><img src="'+data[i].imgUrl+'" title="'+data[i].imgTitle+'"></a>');
-          }
-
-        }
-        ,error: function (data) {
-          // console.log(data);
-        }
+        ,anim: 'fade'
       });
 
     ins.reload({
       elem: '#banner'
       ,width: '100%'
       ,height: '898px'
-      ,arrow: 'always'
+      ,arrow: 'hover'
+      ,anim: 'fade'
     });
     });
 
@@ -181,7 +200,8 @@
         //填充数据
         var url = new Array();
         for(var i=1; i<9; i++){
-          document.getElementById("notice"+i.toString()).innerHTML =  data[i-1].noticeTitle;
+          document.getElementById("notice"+i.toString()).innerHTML =  data[i-1].noticeTitle + "<span class=\"ding\">【置顶】</span>";
+          document.getElementById("time"+i.toString()).innerHTML =  data[i-1].noticeDate;
           url[i-1] = data[i-1].noticeUrl;
           document.getElementById("notice"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].noticeUrl+'\",\"'+data[i-1].noticeTitle+'\")')
 
@@ -198,11 +218,20 @@
       async: true,
       success:function(data) {
         //填充数据
-        var url = new Array();
+        // var url = new Array();
         for(var i=1; i<9; i++){
-          document.getElementById("policy"+i.toString()).innerHTML =  data[i-1].policyTitle;
-          url[i-1] = data[i-1].policyUrl;
-          document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          if(data[i-1].policyLocated=="全国"){
+            document.getElementById("policy"+i.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("policyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
+            // url[i-1] = data[i-1].policyUrl;
+            document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          }else{
+            document.getElementById("fujianPolicy"+i.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("fujianPolicyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
+            // url[i-1] = data[i-1].policyUrl;
+            document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          }
+
 
         }
 
@@ -213,6 +242,12 @@
     });
 
   }
+  $(document).ready(function(e) {
+    $(".tab li").click(function(){
+      $(this).parent(".tab").children("li").eq($(this).index()).addClass("activ").siblings().removeClass("activ");
+      $(this).parent(".tab").next(".tabCon").children("div").hide().eq($(this).index()).show();
+    })
+  });
 
   function pdfsee(uul,title) {
     console.log(uul);
