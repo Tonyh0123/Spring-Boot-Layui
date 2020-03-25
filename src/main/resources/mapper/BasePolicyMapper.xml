@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BasePolicyMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BasePolicy">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="policy_title" jdbcType="VARCHAR" property="policyTitle" />
+        <result column="policy_date" jdbcType="VARCHAR" property="policyDate" />
+        <result column="policy_url" jdbcType="VARCHAR" property="policyUrl" />
+        <result column="policy_located" jdbcType="VARCHAR" property="policyLocated" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    policy_title,
+    policy_date,
+    policy_url,
+    policy_located
+  </sql>
+
+    <insert id="addPolicy" parameterType="com.tangtang.manager.pojo.BasePolicy">
+        INSERT  INTO base_policy
+        (policy_title,
+        policy_date,
+        policy_url,
+        policy_located)
+        VALUES
+        (#{policyTitle},
+        #{policyDate},
+        #{policyUrl},
+        #{policyLocated})
+   </insert>
+
+    <select id="getPolicyList" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_policy
+    </select>
+
+
+</mapper>

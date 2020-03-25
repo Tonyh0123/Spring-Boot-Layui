@@ -13,12 +13,13 @@ layui.define(['jquery', 'element', 'carousel', 'laypage'], function(exports){
   ,laypage = layui.laypage;
 
   //轮播渲染
-  carousel.render({
+  var ins =carousel.render({
     elem: '#banner'
     ,width: '100%'
     ,height: '898px'
     ,arrow: 'always'
   });
+
 
   //滚动监听
   $(window).scroll(function() {
@@ -26,10 +27,10 @@ layui.define(['jquery', 'element', 'carousel', 'laypage'], function(exports){
     scr > 0 ? $(".nav").addClass('scroll') : $(".nav").removeClass('scroll');
   });
 
-  //轮播文字
-  $(function(){
-    $('.banner').children('.title').addClass('active');
-  })
+  // //轮播文字
+  // $(function(){
+  //   $('.banner').children('.title').addClass('active');
+  // })
 
   //导航切换
   var btn = $('.nav').find('.nav-list').children('button')

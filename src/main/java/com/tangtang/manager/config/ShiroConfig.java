@@ -97,6 +97,8 @@ public class ShiroConfig {
         filterMap.put("/case/caseShow", "anon");
         filterMap.put("/case/caseShowData", "anon");
         filterMap.put("/notice/noticeShowData", "anon");
+        filterMap.put("/policy/policyShowData", "anon");
+        filterMap.put("/banner/bannerShowData", "anon");
         filterMap.put("/verifyCode/checkVerifyCode", "anon");
         filterMap.put("/upload/identifyConfirmFileUpload", "anon");
         filterMap.put("/testQuestion/testPaper", "anon");

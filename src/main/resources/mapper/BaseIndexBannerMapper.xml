@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseIndexBannerMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseIndexBanner">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="banner_href_link" jdbcType="VARCHAR" property="hrefLink" />
+        <result column="banner_img_url" jdbcType="VARCHAR" property="imgUrl" />
+        <result column="banner_img_title" jdbcType="VARCHAR" property="imgTitle" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    banner_href_link,
+    banner_img_url,
+    banner_img_title
+  </sql>
+
+    <insert id="addBanner" parameterType="com.tangtang.manager.pojo.BaseIndexBanner">
+        INSERT  INTO base_index_banner
+        (banner_href_link,
+        banner_img_url,
+        banner_img_title)
+        VALUES
+        (#{hrefLink},
+        #{imgUrl},
+        #{imgTitle})
+   </insert>
+
+    <select id="getBannerList" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_index_banner
+    </select>
+
+
+</mapper>
