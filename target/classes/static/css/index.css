@@ -12,8 +12,8 @@ body{background: #FFF;}
 /** 首页 */
 
 /*导航部分*/
-.nav{width: 100%; height: 80px; box-shadow: 0 3px 3px 0 #CCC; background: #FFF; position: fixed; left: 0; top: 0; z-index: 999; overflow: hidden; transition: 0.3s}
-.nav.index{background: rgba(255, 255, 255 ,0.8); box-shadow: 0 0 0 0 rgba(0,0,0,0.05);}
+.nav{width: 100%; height: 80px; box-shadow: 0 3px 3px 0 #6c4e56; background: #FFF; position: fixed; left: 0; top: 0; z-index: 999; overflow: hidden; transition: 0.3s}
+.nav.index{background: rgba(255, 255, 255 ,0.8); box-shadow: 0 0 0 0 #6c4e56;}
 .nav.scroll{ background: #FFF; box-shadow: 0 3px 3px 0 rgba(0,0,0,0.05); transition: 0.3s}
 .nav .layui-container{position: relative; transition: all 400ms ease-out;}
 .nav .nav-logo{height: 100%; position: absolute; top: 0; left: 15px; line-height: 80px;}
@@ -78,13 +78,13 @@ body{background: #FFF;}
 .main-service .service-more a{padding: 10px 62px; font-size: 23px; line-height: 46px;color: #FFF; background: #7fd3c6; border-radius: 3px;}
 
 /*底部*/
-.footer{padding-bottom: 70px; background: #5e6664;}
-.footer .footer-web{padding-top: 50px; padding-bottom: 63px;}
-.footer .footer-web a{color: #a5aaa9; line-height: 22px; margin-right: 20px; transition: 0.3s;}
-.footer .footer-web a:hover{color: #dce1e0; transition: 0.3s;}
+.footer{padding-bottom: 20px; background: #896a45;}
+.footer .footer-web{padding-top: 20px; padding-bottom: 20px;}
+.footer .footer-web a{color: #fff; line-height: 22px; margin-right: 20px; transition: 0.3s;}
+.footer .footer-web a:hover{color: #fff; transition: 0.3s;}
 .footer .footer-contact{color: #FFF;}
-.footer .footer-contact .contact-top{padding-top: 20px; line-height: 30px;}
-.footer .footer-contact .contact-bottom{line-height: 35px;}
+.footer .footer-contact .contact-top{padding-top: 10px; line-height: 55px;}
+.footer .footer-contact .contact-bottom{line-height: 1px;}
 
 
 /** 产品 */

@@ -166,7 +166,7 @@ function openTestQuestionInsert() {
     layer.open({
         type: 1 //此处以iframe举例
         , title: '新增测试题目'
-        , area: ['1000px','650px']
+        , area: ['1000px','950px']
         , shade: 0
         , maxmin: true
         , offset: ['auto']

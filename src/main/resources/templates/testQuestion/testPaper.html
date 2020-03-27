@@ -4,10 +4,11 @@
 <head>
 
 <title></title>
-	<link rel="stylesheet" href="/css/index.css">
+<!--	<link rel="stylesheet" href="/css/index.css">-->
 	<link href="/css/test/main.css" rel="stylesheet" type="text/css" />
 	<link href="/css/test/iconfont.css" rel="stylesheet" type="text/css" />
 	<link href="/css/test/test.css" rel="stylesheet" type="text/css" />
+	<link href="/css/upupup/rocketTop.css" rel="stylesheet" type="text/css"/>
 
 <style>
 .hasBeenAnswer {
@@ -19,6 +20,11 @@
 </head>
 
 <body>
+<div id="shape" >
+	<div class="shapeColor">
+		<div class="shapeFly"></div>
+	</div>
+</div>
 	<div class="main">
 		<!--nr start-->
 		<div class="test_main">
@@ -92,6 +98,7 @@
 	<!--时间js-->
 	<script src="js/testQuestion/jquery.countdown.js"></script>
 	<script src="layui/layui.js"></script>
+	<script src="/js/upupup/rocketTop.js"></script>
 	<script>
 
 		window.onload=function(){
@@ -241,7 +248,7 @@
 					data: {"answer":answerArray, "userId":userId, "userName":userName},
 					url: "/testQuestion/checkAnswers",
 					success: function (data) {
-						alert(data.msg);
+						window.location.href="/testSucceed";
 					},
 					error: function () {
 						alert("error");

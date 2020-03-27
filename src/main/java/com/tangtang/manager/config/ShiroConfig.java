@@ -76,6 +76,8 @@ public class ShiroConfig {
 
         // 配置不会被拦截的链接 从上向下顺序判断
         filterMap.put("/css/*", "anon");
+        filterMap.put("/css/*/*", "anon");
+        filterMap.put("/css/*/*/*", "anon");
         filterMap.put("/js/*", "anon");
         filterMap.put("/js/*/*", "anon");
         filterMap.put("/js/*/*/*", "anon");

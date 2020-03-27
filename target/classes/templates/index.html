@@ -2,9 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
-  <link rel="stylesheet" href="/css/index.css"></link>
+<!--  <link rel="stylesheet" href="/css/index.css">-->
+  <link rel="stylesheet" href="/css/upupup/rocketTop.css" type="text/css"/>
 
-<body>
+</head>
+<body >
+  <div id="shape" >
+    <div class="shapeColor">
+      <div class="shapeFly"></div>
+    </div>
+  </div>
   <!-- nav部分 -->
   <div class="nav index">
     <div th:include="nav :: copyNav"></div>
@@ -151,7 +158,13 @@
   <div class="footer">
     <div th:include="footer :: footer"></div>
   </div>
+  <div class="leftNav-item no-print">
+    <div th:include="navLeft :: navLeft"></div>
+  </div>
+  <script src="/js/upupup/rocketTop.js"></script>
   <script src="/js/firm.js"></script>
+
+
 </body>
 
 <script>

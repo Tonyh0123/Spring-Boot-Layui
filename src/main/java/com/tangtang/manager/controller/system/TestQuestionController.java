@@ -3,9 +3,12 @@ package com.tangtang.manager.controller.system;
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
+import com.tangtang.manager.dto.TestTargetResultDTO;
+import com.tangtang.manager.dto.TestTargetScoreDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
 import com.tangtang.manager.pojo.BaseSuccessfulCase;
 import com.tangtang.manager.pojo.BaseTestQuestion;
+import com.tangtang.manager.pojo.BaseTestResult;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.AdminUserService;
 import com.tangtang.manager.service.CaseService;
@@ -149,49 +152,186 @@ public class TestQuestionController {
     @ResponseBody
     public Map<String, Object> checkAnswers(String answer, String userId, String userName) {
         logger.info("比对测试答案！answerArray:" + answer);
-        Integer WORK_SCORE = 0, SKILL_SCORE =0, LIFE_SCORE = 0;
-        String WORK_RESULT = null, SKILL_RESULT = null, LIFU_RESULT = null;
+        Map<String, Object> data = new HashMap<>();
+        TestTargetScoreDTO scoreDTO = new TestTargetScoreDTO();
+        TestTargetResultDTO resultDTO = new TestTargetResultDTO();
+        BaseTestResult baseTestResult = new BaseTestResult();
+        baseTestResult.setUserId(userId);
+        baseTestResult.setUserName(userName);
+        double  ZYSZ_SCORE = baseTestResult.getZYSZ(),
+                CYSZ_SCORE = baseTestResult.getCYSZ(),
+                GSSFZS_SCORE = baseTestResult.getGSSFZS(),
+                CWYXZS_SCORE = baseTestResult.getCWYXZS(),
+                YYGLZS_SCORE = baseTestResult.getYYGLZS(),
+                CYJBNL_SCORE = baseTestResult.getCYJBNL(),
+                YYGLNL_SCORE = baseTestResult.getYYGLNL(),
+                SCYXNL_SCORE = baseTestResult.getSCYXNL();
+
+//        String  WORK_RESULT = resultDTO.getWORK_RESULT(),
+//                SKILL_RESULT = resultDTO.getSKILL_RESULT(),
+//                LIFU_RESULT = resultDTO.getLIFU_RESULT(),
+//                ZYSZ_RESULT = resultDTO.getZYSZ_RESULT(),
+//                CYSZ_RESULT = resultDTO.getCYSZ_RESULT(),
+//                GSSFZS_RESULT = resultDTO.getGSSFZS_RESULT(),
+//                CWYXZS_RESULT = resultDTO.getCWYXZS_RESULT(),
+//                YYGLZS_RESULT = resultDTO.getYYGLZS_RESULT(),
+//                CYJBNL_RESULT = resultDTO.getCYJBNL_RESULT(),
+//                YYGLNL_RESULT = resultDTO.getYYGLNL_RESULT(),
+//                SCYXNL_RESULT = resultDTO.getSCYXNL_RESULT();
+
+        //开始计算分数
         String[] answerArray = answer.split(",");
         for(int i=0; i<answerArray.length; i++){
             String[] midAnswer = answerArray[i].split("=");
             String[] answerParam = midAnswer[1].split("_");
             String answerScore = answerParam[1];
             String testType = answerParam[2];
-            if(testType.equals("WORK")){
-                WORK_SCORE += Integer.valueOf(answerScore);
-            }else if(testType.equals("SKILL")){
-                SKILL_SCORE += Integer.valueOf(answerScore);
-            }else if(testType.equals("LIFE")){
-                LIFE_SCORE += Integer.valueOf(answerScore);
+            if(testType.equals("ZYSZ")){
+                ZYSZ_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("CYSZ")){
+                CYSZ_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("GSSFZS")){
+                GSSFZS_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("CWYXZS")){
+                CWYXZS_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("YYGLZS")){
+                YYGLZS_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("CYJBNL")){
+                CYJBNL_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("YYGLNL")){
+                YYGLNL_SCORE += Integer.valueOf(answerScore);
+            }else if(testType.equals("SCYXNL")){
+                SCYXNL_SCORE += Integer.valueOf(answerScore);
             }
         }
-        if(WORK_SCORE<=6){
-            WORK_RESULT = "你的工作能力也太差了！";
-        }else if(WORK_SCORE>6 && WORK_SCORE<=8){
-            WORK_RESULT = "你的工作能力已经足以支持你创业！";
-        }else if(WORK_SCORE>8 && WORK_SCORE<=20){
-            WORK_RESULT = "你的工作能力简直强到爆炸！";
+
+        //最终测试得分
+        double FINAL_SCORE = (ZYSZ_SCORE+CYSZ_SCORE+GSSFZS_SCORE+CWYXZS_SCORE+YYGLZS_SCORE+CYJBNL_SCORE+YYGLNL_SCORE+SCYXNL_SCORE)/8;  //总分值
+
+
+
+
+        //收集优势以及缺陷
+        String YS = ""; //优势
+        String QX = ""; //缺陷
+
+        if(ZYSZ_SCORE>=70){
+            YS += "<p class=\"p2\">职业素质："+ZYSZ_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>职业素质："+ZYSZ_SCORE+"分</span></p>";
         }
-        if(SKILL_SCORE<=6){
-            SKILL_RESULT = "你的技能也太差了！";
-        }else if(SKILL_SCORE>6 && SKILL_SCORE<=8){
-            SKILL_RESULT = "你的技能已经足以支持你创业！";
-        }else if(SKILL_SCORE>8 && SKILL_SCORE<=20){
-            SKILL_RESULT = "你的技能简直强到爆炸！";
+
+        if(CYSZ_SCORE>=70){
+            YS += "<p class=\"p2\">创业素质："+CYSZ_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>创业素质："+CYSZ_SCORE+"分</span></p>";
         }
-        if(LIFE_SCORE<=6){
-            LIFU_RESULT = "你的生活能力也太差了！";
-        }else if(LIFE_SCORE>6 && LIFE_SCORE<=8){
-            LIFU_RESULT = "你的生活能力已经足以支持你创业！";
-        }else if(LIFE_SCORE>8 && LIFE_SCORE<=20){
-            LIFU_RESULT = "你的生活能力简直强到爆炸！";
+
+        if(GSSFZS_SCORE>=70){
+            YS += "<p class=\"p2\">公司商法知识："+GSSFZS_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>公司商法知识："+GSSFZS_SCORE+"分</span></p>";
         }
-        System.out.println(answer);
-        System.out.println(userId);
-        System.out.println(userName);
-        Map<String, Object> data = new HashMap<>();
-        data.put("msg",WORK_RESULT+"\n"+SKILL_RESULT+"\n"+LIFU_RESULT);
+
+        if(CWYXZS_SCORE>=70){
+            YS += "<p class=\"p2\">财务营销知识："+CWYXZS_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>财务营销知识："+CWYXZS_SCORE+"分</span></p>";
+        }
+
+        if(YYGLZS_SCORE>=70){
+            YS += "<p class=\"p2\">运营管理知识："+YYGLZS_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>运营管理知识："+YYGLZS_SCORE+"分</span></p>";
+        }
+
+        if(CYJBNL_SCORE>=70){
+            YS += "<p class=\"p2\">创业基本能力："+CYJBNL_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>创业基本能力："+CYJBNL_SCORE+"分</span></p>";
+        }
+
+        if(YYGLNL_SCORE>=70){
+            YS += "<p class=\"p2\">运营管理能力："+YYGLNL_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>运营管理能力："+YYGLNL_SCORE+"分</span></p>";
+        }
+
+        if(SCYXNL_SCORE>=70){
+            YS += "<p class=\"p2\">市场营销能力："+SCYXNL_SCORE+"分</p>";
+        }else {
+            QX += "<p class=\"p2\"><span>市场营销能力："+SCYXNL_SCORE+"分</span></p>";
+        }
+
+
+        //生成测试最终结果
+        String FINAL_RESULT = "<br>\n" +
+                "<div class=\"duanluo\">\n" +
+                "<p class=\"p2\">"+    userName     +"同学您好，您选择了《大学生创业发展能力综合测评》，根据本次测评的目的和要求，测评的内容与要素包括：综合素质（包括职业素质与创业素质）；经营管理知识（包括：公司商法知识、财务营销知识和运营管理知识）；创业胜任能力（包括：创业基本能力、运营管理能力、市场营销能力）共计40个测试题目。根据测评结果，您的测评达标成绩为"+ FINAL_SCORE +"分，本报告向您提交该次测评的综合成绩分析。</p></div>\n" +
+                "\n" +
+                "<br>\n" +
+                "<div class=\"duanluo\">\n" +
+                "<div class=\"bianju\">\n" +
+                "<p class=\"biaoti\">一、各维度组分测评成绩达标值分析</p>\n" +
+                "<canvas id=\"canvas\" height=\"450\" width=\"780\" ></canvas>" +
+                "<p class=\"p2\">"+   userName   +"同学，针对您在《大学生创业发展能力综合测评》的测评结果分析，得出您的各测评维度组分的成绩如下：</p>\n" +
+                "<p class=\"p2\">1、职业素质维度成绩达标值为 <span>"+  ZYSZ_SCORE  +"%</span> ；</p>\n" +
+                "<p class=\"p2\">2、创业素质维度成绩达标值为 <span>"+  CYSZ_SCORE  +"%</span> ；</p>\n" +
+                "<p class=\"p2\">3、公司商法知识维度成绩达标值为 <span>"+  GSSFZS_SCORE  +"%</span>  ；</p>\n" +
+                "<p class=\"p2\">4、财务营销知识维度成绩达标值为 <span>"+  CWYXZS_SCORE  +"%</span>  ；</p>\n" +
+                "<p class=\"p2\">5、运营管理知识维度成绩达标值为 <span>"+  YYGLZS_SCORE  +"%</span>  ；</p>\n" +
+                "<p class=\"p2\">6、创业基本能力维度成绩达标值为 <span>"+  CYJBNL_SCORE  +"%</span>  ；</p>\n" +
+                "<p class=\"p2\">7、运营管理能力维度成绩达标值为 <span>"+  YYGLNL_SCORE  +"%</span>  ；</p>\n" +
+                "<p class=\"p2\">8、市场营销能力维度成绩达标值为 <span>"+  SCYXNL_SCORE  +"%</span>  ；</p>\n" +
+                "\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "<br>\n" +
+                "<div class=\"duanluo\">\n" +
+                "<div class=\"bianju\">\n" +
+                "<p class=\"biaoti\">二、您的创业发展优势</p>\n" +
+                "<p class=\"p2\">根据您的测评成绩综合分析，您在以下方面具备了良好的创业发展优势，希望您继续保持自己的优势，在您的创业发展过程中继续努力学习与创新实践，进一步提高自己的综合素质与创业能力。</p>\n" + YS +
+                "</div>\n" +
+                "</div>\n" +
+                "<br>\n" +
+                "<div class=\"duanluo\">\n" +
+                "<div class=\"bianju\">\n" +
+                "<p class=\"biaoti\">三、有待进一步学习、培训与提高的方面</p>\n" +
+                "<p class=\"p2\">根据您的测评结果，您在以下方面需要进行学习通过学习、培训、提高与完善自己，请您在今后的工作中密切关注。</p>\n" + QX +
+                "</div>\n" +
+                "</div>" +
+                "<br>";
+
+        //数据持久化，测试结果入库
+        //记录分数
+        baseTestResult.setZYSZ(ZYSZ_SCORE);
+        baseTestResult.setCYSZ(CYSZ_SCORE);
+        baseTestResult.setGSSFZS(GSSFZS_SCORE);
+        baseTestResult.setCWYXZS(CWYXZS_SCORE);
+        baseTestResult.setYYGLZS(YYGLZS_SCORE);
+        baseTestResult.setCYJBNL(CYJBNL_SCORE);
+        baseTestResult.setYYGLNL(YYGLNL_SCORE);
+        baseTestResult.setSCYXNL(SCYXNL_SCORE);
+        baseTestResult.setTestResult(FINAL_RESULT);
+        data = testQuestionService.addTestResult(baseTestResult);
+
+        //向前端返回结果
         return data;
+    }
+
+    /**
+     *
+     * 功能描述: 通过ID获取测试结果
+     *
+     * @param: userId
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/03/26 16:28
+     */
+    @RequestMapping(value = "/getTestResult", method = RequestMethod.POST)
+    public @ResponseBody List<BaseTestResult> getTestResultById(String userId){
+        logger.info("通过ID获取测试结果");
+        return testQuestionService.getTestResultById(userId);
     }
 
 

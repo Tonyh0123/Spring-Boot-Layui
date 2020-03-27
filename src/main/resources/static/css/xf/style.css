@@ -1,0 +1,47 @@
+.main {
+	margin-top: 50px;
+}
+.github-buttons {
+	padding-top: 10px;
+}
+h2 .label {
+	vertical-align:4px;
+}
+textarea {
+	height: 425px !important;
+	resize:none;
+	font-family:Menlo,Monaco,"Courier New",monospace;
+	font-size:11px;
+	line-height:15px;
+}
+#input {
+	height: 295px !important;
+	margin-bottom: 13px;
+}
+#variables {
+	height: 75px !important;
+}
+label.control-label {
+	font-weight:bold;
+}
+footer {
+ 
+}
+footer a {
+	margin-top:0;
+}
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 18px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-top: 22px;
+}
+
+.control-group {
+    font-size: 12px;
+}

@@ -16,6 +16,13 @@
         <result column="test_type" jdbcType="VARCHAR" property="testType" />
     </resultMap>
 
+    <resultMap id="TestResultMap" type="com.tangtang.manager.pojo.BaseTestResult">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="test_user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="test_user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="test_result" jdbcType="VARCHAR" property="testResult" />
+    </resultMap>
+
     <sql id="baseColumn">
     id,
     test_question,
@@ -110,5 +117,54 @@
     </update>
 
 
+
+    <insert id="addTestResult" parameterType="com.tangtang.manager.pojo.BaseTestResult">
+        INSERT  INTO base_test_result
+        (
+            test_user_id,
+            test_user_name,
+            test_result,
+            ZYSZ,
+            CYSZ,
+            GSSFZS,
+            CWYXZS,
+            YYGLZS,
+            CYJBNL,
+            YYGLNL,
+            SCYXNL
+        )
+        VALUES
+        (
+            #{userId},
+            #{userName},
+            #{testResult},
+            #{ZYSZ},
+            #{CYSZ},
+            #{GSSFZS},
+            #{CWYXZS},
+            #{YYGLZS},
+            #{CYJBNL},
+            #{YYGLNL},
+            #{SCYXNL}
+        )
+   </insert>
+
+    <select id="getTestResultById" resultMap="TestResultMap">
+        SELECT
+        id,
+        test_user_id,
+            test_user_name,
+            test_result,
+            ZYSZ,
+            CYSZ,
+            GSSFZS,
+            CWYXZS,
+            YYGLZS,
+            CYJBNL,
+            YYGLNL,
+            SCYXNL
+        FROM base_test_result
+        where test_user_id = #{userId}
+    </select>
 
 </mapper>

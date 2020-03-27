@@ -3,7 +3,9 @@ package com.tangtang.manager.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangtang.manager.dao.BaseTestQuestionMapper;
+import com.tangtang.manager.dto.TestTargetScoreDTO;
 import com.tangtang.manager.pojo.BaseTestQuestion;
+import com.tangtang.manager.pojo.BaseTestResult;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.TestQuestionService;
 import org.slf4j.Logger;
@@ -45,6 +47,28 @@ public class TestQuestionServiceImpl implements TestQuestionService {
     }
 
     @Override
+    public Map<String, Object> addTestResult(BaseTestResult baseTestResult) {
+        Map<String,Object> data = new HashMap();
+        try {
+            boolean result = questionMapper.addTestResult(baseTestResult);
+            if(!result){
+                data.put("code",0);
+                data.put("msg","操作失败，请联系管理！");
+                logger.error("新增测试结果，结果=新增失败，数据插入异常！");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","新增成功！");
+            logger.info("新增测试结果，结果=新增成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("新增测试结果异常！", e);
+            return data;
+        }
+        return data;
+    }
+
+    @Override
     public PageDataResult getTestQuestionList(BaseTestQuestion question, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
         List<BaseTestQuestion> baseQuestions = questionMapper.getTestQuestionList(question);
@@ -61,6 +85,11 @@ public class TestQuestionServiceImpl implements TestQuestionService {
     @Override
     public List<BaseTestQuestion> getTestQuestionList() {
         return questionMapper.getTestQuestionList();
+    }
+
+    @Override
+    public List<BaseTestResult> getTestResultById(String userId) {
+        return questionMapper.getTestResultById(userId);
     }
 
     @Override

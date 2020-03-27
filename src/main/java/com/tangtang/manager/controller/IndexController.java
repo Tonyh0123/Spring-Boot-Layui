@@ -77,6 +77,18 @@ public class IndexController {
         return "404";
     }
 
+    @RequestMapping("testSucceed")
+    public String toTestSucceed(){
+        logger.info("定向测试成功界面");
+        return "testQuestion/testSucceed";
+    }
+
+    @RequestMapping("testResult")
+    public String toTestResult(){
+        logger.info("定向测试结果界面");
+        return "testQuestion/testResultById";
+    }
+
     /**
      * 测试提交[Branch--->mymymy]
      */
