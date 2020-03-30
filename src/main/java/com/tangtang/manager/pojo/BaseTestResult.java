@@ -41,6 +41,27 @@ public class BaseTestResult {
     @Column(name = "SCYXNL")
     private double SCYXNL = 0.0;
 
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "end_time")
+    private String endTime;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public double getZYSZ() {
         return ZYSZ;

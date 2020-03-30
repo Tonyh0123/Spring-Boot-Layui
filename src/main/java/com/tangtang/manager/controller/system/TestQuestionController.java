@@ -1,6 +1,7 @@
 package com.tangtang.manager.controller.system;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
+import com.tangtang.manager.common.utils.DateUtils;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.dto.TestTargetResultDTO;
@@ -19,10 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * @Title: CaseController
@@ -332,6 +331,37 @@ public class TestQuestionController {
     public @ResponseBody List<BaseTestResult> getTestResultById(String userId){
         logger.info("通过ID获取测试结果");
         return testQuestionService.getTestResultById(userId);
+    }
+
+    /**
+     * 进入测试前检查之前是否有考试记录，考试记录是否数据完整
+     */
+    @RequestMapping(value = "/checkTestResult", method = RequestMethod.POST)
+    public @ResponseBody Map<String,Object> checkTestResultById(String userId, String userName) throws ParseException {
+        logger.info("检查之前的考试结果记录是否存在");
+        BaseTestResult baseTestResult = new BaseTestResult();
+        baseTestResult.setUserId(userId);
+        baseTestResult.setUserName(userName);
+        Map<String,Object> data = new HashMap();
+        List<BaseTestResult> testResults = testQuestionService.getTestResultById(userId); //获取考试结果记录
+        if(testResults.size()>0){
+            int length = testResults.size()-1;  //集合长度
+            BaseTestResult latelyRecord = testResults.get(length); //最新的一条记录
+            String currentTime = DateUtils.getCurrentDate();
+            String startTime = latelyRecord.getStartTime();
+            String leftTime = DateUtils.getLeftTime(currentTime,startTime);
+
+            String preResult = latelyRecord.getTestResult();
+            if(preResult==null || preResult==""){
+                data.put("recordId",latelyRecord.getId()); //返回上次测试的结果id，用于后面提交考卷时的数据更新
+                data.put("leftTime",leftTime); //返回剩余时间
+            }else {
+                data = testQuestionService.addSomethingToTestResult(baseTestResult);
+            }
+        }else {
+            data = testQuestionService.addSomethingToTestResult(baseTestResult);
+        }
+        return data;
     }
 
 

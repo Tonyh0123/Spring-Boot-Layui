@@ -30,6 +30,7 @@
 		<div class="test_main">
 			<div class="nr_left">
 				<div class="test">
+					<p id="fff"></p>
 					<p id="userId" style="display: none"><shiro:principal property="id"></shiro:principal> </p>
 					<p id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal> </p>
 					<form id="testForm" action="" method="post">
@@ -66,7 +67,7 @@
 								<i class="icon iconfont">&#xe692;</i>答题卡
 							</h1>
 							<p class="test_time">
-								<i class="icon iconfont">&#xe6fb;</i>测试用户: <shiro:principal property="sysUserName"></shiro:principal>
+								<i class="icon iconfont">&#xe6fb;</i><b id="leftTime" class="alt-1"></b>
 							</p>
 						</div>
 						
@@ -96,13 +97,13 @@
 	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 	<script src="js/testQuestion/jquery.easy-pie-chart.js"></script>
 	<!--时间js-->
-	<script src="js/testQuestion/jquery.countdown.js"></script>
+
 	<script src="layui/layui.js"></script>
-	<script src="/js/upupup/rocketTop.js"></script>
+	<script src="/js/daojishi.js"></script>
+<script src="/js/upupup/rocketTop.js"></script>
 	<script>
-
+		var timeeee = "";
 		window.onload=function(){
-
 			$.ajax({
 				url:'/testQuestion/getTestPaper',
 				dataType:'json',
@@ -210,23 +211,23 @@
 
 				});
 			});
-		}
+		};
+
+		setInterval(function () {
+			var timer = document.getElementById("leftTime").innerText;
+			var timerArray = timer.split(":");
+			if(timerArray[1]==0 && timerArray[2]==0){
+				//计时器归零的时候，自动提交考卷
+				window.location.href="/index";
+			}
+		},1000);
+
+
 
 		window.jQuery(function($) {
-			"use strict";
-			
-			$('time').countDown({
-				with_separators : false
-			});
-			$('.alt-1').countDown({
-				css_class : 'countdown-alt-1'
-			});
-			$('.alt-2').countDown({
-				css_class : 'countdown-alt-2'
-			});
 
+			$('#leftTime').countDown();
 
-			
 		});
 		
 		
@@ -260,7 +261,7 @@
 		});
 	</script>
 
-
+<script src="js/testQuestion/jquery.countdown.js"></script>
 </body>
 
 </html>

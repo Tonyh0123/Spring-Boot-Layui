@@ -2,6 +2,7 @@ package com.tangtang.manager.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tangtang.manager.common.utils.DateUtils;
 import com.tangtang.manager.dao.BaseTestQuestionMapper;
 import com.tangtang.manager.dto.TestTargetScoreDTO;
 import com.tangtang.manager.pojo.BaseTestQuestion;
@@ -128,6 +129,32 @@ public class TestQuestionServiceImpl implements TestQuestionService {
         data.put("code",1);
         data.put("msg","更新成功！");
         logger.info("题目[更新]，结果=更新成功！");
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> addSomethingToTestResult(BaseTestResult baseTestResult) {
+        Map<String,Object> data = new HashMap();
+        try {
+            baseTestResult.setStartTime(DateUtils.getCurrentDate());
+            boolean result = questionMapper.addSomethingToTestResult(baseTestResult);
+            if(!result){
+                data.put("msg","操作失败，请联系管理！");
+                logger.error("测试结果数据插入，结果=失败！");
+                return data;
+            }
+            String currentTime = DateUtils.getCurrentDate();
+            String startTime = baseTestResult.getStartTime();
+            String leftTime = DateUtils.getLeftTime(currentTime,startTime);
+            int recordId = baseTestResult.getId();
+            data.put("recordId",recordId); //测试结果的id
+            data.put("leftTime",leftTime);
+            logger.info("测试结果数据插入，结果=成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("测试结果数据插入异常！", e);
+            return data;
+        }
         return data;
     }
 }

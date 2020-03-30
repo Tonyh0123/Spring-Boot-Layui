@@ -137,4 +137,27 @@ public class DateUtils {
     public static void main(String[] args) {
         System.out.println(getCurrentAddDay(2));
     }
+
+    /**
+     * 获取时间差
+     */
+    public static String getLeftTime(String startTime, String endTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date start = format.parse(startTime);
+        Date end = format.parse(endTime);
+        long between = start.getTime() - end.getTime();
+        long day = between / (24 * 60 * 60 * 1000);
+        long hour = (between / (60 * 60 * 1000) - day * 24);
+        long min = ((between / (60 * 1000)) - day * 24 * 60 - hour * 60);
+        long s = (between / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+        if(hour>0){
+            return "0:0:0";
+        }else if(min>40){
+            return "0:0:0";
+        }else {
+            String leftTime = hour + ":" + (39-min) + ":" + (60-s);
+            return leftTime;
+        }
+
+    }
 }

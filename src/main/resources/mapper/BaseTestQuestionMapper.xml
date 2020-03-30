@@ -21,6 +21,10 @@
         <result column="test_user_id" jdbcType="VARCHAR" property="userId" />
         <result column="test_user_name" jdbcType="VARCHAR" property="userName" />
         <result column="test_result" jdbcType="VARCHAR" property="testResult" />
+        <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+        <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+
+
     </resultMap>
 
     <sql id="baseColumn">
@@ -131,7 +135,9 @@
             YYGLZS,
             CYJBNL,
             YYGLNL,
-            SCYXNL
+            SCYXNL,
+            start_time,
+            end_time
         )
         VALUES
         (
@@ -145,7 +151,9 @@
             #{YYGLZS},
             #{CYJBNL},
             #{YYGLNL},
-            #{SCYXNL}
+            #{SCYXNL},
+            #{startTime},
+            #{endTime}
         )
    </insert>
 
@@ -153,18 +161,36 @@
         SELECT
         id,
         test_user_id,
-            test_user_name,
-            test_result,
-            ZYSZ,
-            CYSZ,
-            GSSFZS,
-            CWYXZS,
-            YYGLZS,
-            CYJBNL,
-            YYGLNL,
-            SCYXNL
+        test_user_name,
+        test_result,
+        ZYSZ,
+        CYSZ,
+        GSSFZS,
+        CWYXZS,
+        YYGLZS,
+        CYJBNL,
+        YYGLNL,
+        SCYXNL,
+        start_time,
+        end_time
         FROM base_test_result
         where test_user_id = #{userId}
     </select>
+
+
+    <insert id="addSomethingToTestResult" parameterType="com.tangtang.manager.pojo.BaseTestResult" keyProperty="id" useGeneratedKeys="true">
+        INSERT  INTO base_test_result
+        (
+            test_user_id,
+            test_user_name,
+            start_time
+        )
+        VALUES
+        (
+            #{userId},
+            #{userName},
+            #{startTime}
+        )
+   </insert>
 
 </mapper>

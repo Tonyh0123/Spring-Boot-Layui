@@ -23,4 +23,6 @@ public interface TestQuestionService {
     Map<String, Object> del(long id);
 
     Map<String,Object> updateTestQuestion(BaseTestQuestion question);
+
+    Map<String,Object> addSomethingToTestResult(BaseTestResult result);
 }
