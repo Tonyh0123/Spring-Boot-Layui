@@ -1,5 +1,6 @@
 package com.tangtang.manager.service;
 
+import com.tangtang.manager.dto.PolicySerachDTO;
 import com.tangtang.manager.pojo.BasePolicy;
 import com.tangtang.manager.response.PageDataResult;
 
@@ -12,7 +13,7 @@ public interface PolicyService {
 
     Map<String,Object> addPolicy(BasePolicy basePolicy);
 
-    List<BasePolicy> getPolicyList();
+    List<BasePolicy> getPolicyList(PolicySerachDTO serachDTO);
 
     Map<String, Object> del(long id);
 }

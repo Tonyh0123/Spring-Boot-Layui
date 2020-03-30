@@ -1,5 +1,6 @@
 package com.tangtang.manager.controller.system;
 
+import com.tangtang.manager.dto.PolicySerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BasePolicy;
 import com.tangtang.manager.response.PageDataResult;
@@ -94,10 +95,11 @@ public class PolicyController {
         return data;
     }
 
-    @GetMapping("policyShowData")
-    public @ResponseBody List<BasePolicy> getNoticeShowData(){
+
+    @RequestMapping(value = "/policyShowData", method = RequestMethod.POST)
+    public @ResponseBody List<BasePolicy> getNoticeShowData(PolicySerachDTO serachDTO){
         logger.info("获取政策展示数据");
-        List<BasePolicy> basePolicies = policyService.getPolicyList();
+        List<BasePolicy> basePolicies = policyService.getPolicyList(serachDTO);
         return basePolicies;
     }
 

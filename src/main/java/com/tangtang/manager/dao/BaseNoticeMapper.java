@@ -1,5 +1,6 @@
 package com.tangtang.manager.dao;
 
+import com.tangtang.manager.dto.NoticeSerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BaseSuccessfulCase;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,5 @@ public interface BaseNoticeMapper extends MyMapper<BaseNotice> {
 
     List<BaseNotice> getNoticeList(BaseNotice notice);
 
-    List<BaseNotice> getNoticeList();
+    List<BaseNotice> getNoticeList(NoticeSerachDTO serachDTO);
 }

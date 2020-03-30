@@ -34,6 +34,14 @@
     <select id="getPolicyList" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_policy
+        <where>
+            <if test="policyName != null and policyName != '' ">
+                and policy_title LIKE '%' #{policyName} '%'
+            </if>
+            <if test="policyDate != null and policyDate != '' ">
+                and policy_date  LIKE '%' #{policyDate} '%'
+            </if>
+        </where>
     </select>
 
 

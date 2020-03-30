@@ -1,5 +1,6 @@
 package com.tangtang.manager.dao;
 
+import com.tangtang.manager.dto.PolicySerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BasePolicy;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,5 @@ public interface BasePolicyMapper extends MyMapper<BasePolicy> {
 
     List<BasePolicy> getPolicyList(BasePolicy policy);
 
-    List<BasePolicy> getPolicyList();
+    List<BasePolicy> getPolicyList(PolicySerachDTO serachDTO);
 }

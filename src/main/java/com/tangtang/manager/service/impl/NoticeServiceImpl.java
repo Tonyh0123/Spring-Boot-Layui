@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangtang.manager.dao.BaseNoticeMapper;
 import com.tangtang.manager.dao.BaseSuccessfulCaseMapper;
+import com.tangtang.manager.dto.NoticeSerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BaseSuccessfulCase;
 import com.tangtang.manager.response.PageDataResult;
@@ -64,8 +65,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<BaseNotice> getNoticeList() {
-        return noticeMapper.getNoticeList();
+    public List<BaseNotice> getNoticeList(NoticeSerachDTO serachDTO) {
+        return noticeMapper.getNoticeList(serachDTO);
     }
 
     @Override

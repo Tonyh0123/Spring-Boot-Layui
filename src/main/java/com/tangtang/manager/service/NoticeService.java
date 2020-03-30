@@ -1,5 +1,6 @@
 package com.tangtang.manager.service;
 
+import com.tangtang.manager.dto.NoticeSerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BaseSuccessfulCase;
 import com.tangtang.manager.response.PageDataResult;
@@ -13,7 +14,7 @@ public interface NoticeService {
 
     Map<String,Object> addNotice(BaseNotice baseNotice);
 
-    List<BaseNotice> getNoticeList();
+    List<BaseNotice> getNoticeList(NoticeSerachDTO serachDTO);
 
     Map<String, Object> del(long id);
 }

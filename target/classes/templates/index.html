@@ -3,8 +3,6 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
 <!--  <link rel="stylesheet" href="/css/index.css">-->
-  <link rel="stylesheet" href="/css/upupup/rocketTop.css" type="text/css"/>
-
 </head>
 <body >
   <div id="shape" >
@@ -28,6 +26,24 @@
   <div class="layui-container">
     <p class="title"><span>通知公告</span></p>
     <div class="table_card">
+      <form id="noticeSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 0px;">
+        <div class="layui-form-item">
+          <label class="layui-form-label">通知标题</label>
+          <div class="layui-input-inline" style="width: 227px;">
+            <input id="noticeName" name="noticeName" placeholder="根据标题查询" autocomplete="off" class="layui-input" type="text"/>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">发布日期</label>
+            <div class="layui-input-inline" style="width: 271px;">
+              <input  name="noticeDate" id="noticeDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">查询</button>
+          </div>
+        </div>
+        <div class="layui-form-item">
+        </div>
+      </form>
       <ul class="tab">
         <li class="activ">通知公告</li>
       </ul>
@@ -52,11 +68,31 @@
     <div class="layui-container">
       <p class="title"><span>创业政策</span></p>
       <div class="table_card">
+        <form id="policySearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+          <div class="layui-form-item">
+            <label class="layui-form-label">政策标题</label>
+            <div class="layui-input-inline" style="width: 227px;">
+              <input id="policyName" name="policyName" placeholder="根据标题查询" autocomplete="off" class="layui-input" type="text"/>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">发布日期</label>
+              <div class="layui-input-inline" style="width: 271px;">
+                <input  name="policyDate" id="policyDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+              </div>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              <button class="layui-btn"  lay-submit="" lay-filter="policySearchSubmit">查询</button>
+            </div>
+          </div>
+          <div class="layui-form-item">
+
+          </div>
+        </form>
         <ul class="tab">
           <li class="activ">全国创业政策</li>
           <li >福建创业政策</li>
         </ul>
         <div class="tabCon">
+
           <div class="on">
             <ul class="newslist01">
               <li><a href="javascript:;" id="policy1"></a><span class="time" id="policyTime1"></span></li>
@@ -163,12 +199,94 @@
   </div>
   <script src="/js/upupup/rocketTop.js"></script>
   <script src="/js/firm.js"></script>
+  <script src="/js/indexInfoSearch.js"></script>
 
 
 </body>
 
 <script>
   window.onload=function(){
+    loadBanner();
+    loadNotice();
+    loadPolicy();
+  }
+  $(document).ready(function(e) {
+    $(".tab li").click(function(){
+      $(this).parent(".tab").children("li").eq($(this).index()).addClass("activ").siblings().removeClass("activ");
+      $(this).parent(".tab").next(".tabCon").children("div").hide().eq($(this).index()).show();
+    })
+  });
+
+  function pdfsee(uul,title) {
+    console.log(uul);
+    layui.use('layer', function () {
+      var layer = layui.layer;
+      layer.open({
+        title: title,
+        type: 2,
+        area: ['1000px', '950px'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: uul
+      });
+    });
+  };
+
+  function loadNotice() {
+    $.ajax({
+      url:'/notice/noticeShowData',
+      data: $("#noticeSearch").serialize(),
+      dataType:'json',
+      method: 'post',
+      async: true,
+      success:function(data) {
+        //填充数据
+        var url = new Array();
+        for(var i=1; i<9; i++){
+          document.getElementById("notice"+i.toString()).innerHTML =  data[i-1].noticeTitle + "<span class=\"ding\">【置顶】</span>";
+          document.getElementById("time"+i.toString()).innerHTML =  data[i-1].noticeDate;
+          url[i-1] = data[i-1].noticeUrl;
+          document.getElementById("notice"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].noticeUrl+'\",\"'+data[i-1].noticeTitle+'\")')
+
+        }
+
+      }
+      ,error: function (data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function loadPolicy() {
+    $.ajax({
+      url:'/policy/policyShowData',
+      dataType:'json',
+      method: 'post',
+      async: true,
+      success:function(data) {
+        //填充数据
+        for(var i=1; i<9; i++){
+          if(data[i-1].policyLocated=="全国"){
+            document.getElementById("policy"+i.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("policyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
+            document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          }else{
+            document.getElementById("fujianPolicy"+i.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("fujianPolicyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
+            document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          }
+
+
+        }
+
+      }
+      ,error: function (data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function loadBanner() {
     $.ajax({
       url:'/banner/bannerShowData',
       dataType:'json',
@@ -196,22 +314,32 @@
         ,anim: 'fade'
       });
 
-    ins.reload({
-      elem: '#banner'
-      ,width: '100%'
-      ,height: '898px'
-      ,arrow: 'hover'
-      ,anim: 'fade'
+      ins.reload({
+        elem: '#banner'
+        ,width: '100%'
+        ,height: '898px'
+        ,arrow: 'hover'
+        ,anim: 'fade'
+      });
     });
-    });
+  }
 
+  function reloadNotice() {
     $.ajax({
       url:'/notice/noticeShowData',
+      data: $("#noticeSearch").serialize(),
       dataType:'json',
+      method: 'post',
       async: true,
       success:function(data) {
         //填充数据
         var url = new Array();
+        for(var i=1; i<9; i++){
+          document.getElementById("notice"+i.toString()).innerHTML =  "";
+          document.getElementById("time"+i.toString()).innerHTML =  "";
+          document.getElementById("notice"+i.toString()).setAttribute("onclick", '')
+
+        }
         for(var i=1; i<9; i++){
           document.getElementById("notice"+i.toString()).innerHTML =  data[i-1].noticeTitle + "<span class=\"ding\">【置顶】</span>";
           document.getElementById("time"+i.toString()).innerHTML =  data[i-1].noticeDate;
@@ -225,27 +353,37 @@
         console.log(data);
       }
     });
+  }
+
+  function reloadPolicy() {
     $.ajax({
       url:'/policy/policyShowData',
+      data: $("#policySearch").serialize(),
       dataType:'json',
+      method: 'post',
       async: true,
       success:function(data) {
         //填充数据
         // var url = new Array();
         for(var i=1; i<9; i++){
+          document.getElementById("policy"+i.toString()).innerHTML =  "";
+          document.getElementById("policyTime"+i.toString()).innerHTML =  "";
+          document.getElementById("policy"+i.toString()).setAttribute("onclick", '');
+          document.getElementById("fujianPolicy"+i.toString()).innerHTML =  "";
+          document.getElementById("fujianPolicyTime"+i.toString()).innerHTML =  "";
+          document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", '');
+        }
+
+        for(var i=1; i<9; i++){
           if(data[i-1].policyLocated=="全国"){
             document.getElementById("policy"+i.toString()).innerHTML =  data[i-1].policyTitle;
             document.getElementById("policyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
-            // url[i-1] = data[i-1].policyUrl;
-            document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+            document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")');
           }else{
             document.getElementById("fujianPolicy"+i.toString()).innerHTML =  data[i-1].policyTitle;
             document.getElementById("fujianPolicyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
-            // url[i-1] = data[i-1].policyUrl;
-            document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+            document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")');
           }
-
-
         }
 
       }
@@ -253,29 +391,7 @@
         console.log(data);
       }
     });
-
   }
-  $(document).ready(function(e) {
-    $(".tab li").click(function(){
-      $(this).parent(".tab").children("li").eq($(this).index()).addClass("activ").siblings().removeClass("activ");
-      $(this).parent(".tab").next(".tabCon").children("div").hide().eq($(this).index()).show();
-    })
-  });
-
-  function pdfsee(uul,title) {
-    console.log(uul);
-    layui.use('layer', function () {
-      var layer = layui.layer;
-      layer.open({
-        title: title,
-        type: 2,
-        area: ['1000px', '950px'],
-        fixed: false, //不固定
-        maxmin: true,
-        content: uul
-      });
-    });
-  };
 </script>
 
 <script>
@@ -302,4 +418,5 @@
   }
 
 </script>
+
 </html>

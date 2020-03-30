@@ -30,7 +30,14 @@
     <select id="getNoticeList" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_notice
+        <where>
+            <if test="noticeName != null and noticeName != '' ">
+                and notice_title LIKE '%' #{noticeName} '%'
+            </if>
+            <if test="noticeDate != null and noticeDate != '' ">
+                and notice_date  LIKE '%' #{noticeDate} '%'
+            </if>
+        </where>
     </select>
-
 
 </mapper>

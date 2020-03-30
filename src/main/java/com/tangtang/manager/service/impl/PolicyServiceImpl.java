@@ -3,6 +3,7 @@ package com.tangtang.manager.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangtang.manager.dao.BasePolicyMapper;
+import com.tangtang.manager.dto.PolicySerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
 import com.tangtang.manager.pojo.BasePolicy;
 import com.tangtang.manager.response.PageDataResult;
@@ -61,8 +62,8 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public List<BasePolicy> getPolicyList() {
-        return policyMapper.getPolicyList();
+    public List<BasePolicy> getPolicyList(PolicySerachDTO serachDTO) {
+        return policyMapper.getPolicyList(serachDTO);
     }
 
     @Override

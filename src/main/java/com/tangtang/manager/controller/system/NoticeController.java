@@ -1,5 +1,6 @@
 package com.tangtang.manager.controller.system;
 
+import com.tangtang.manager.dto.NoticeSerachDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
@@ -98,10 +99,10 @@ public class NoticeController {
         return data;
     }
 
-    @GetMapping("noticeShowData")
-    public @ResponseBody List<BaseNotice> getNoticeShowData(){
+    @RequestMapping(value = "/noticeShowData", method = RequestMethod.POST)
+    public @ResponseBody List<BaseNotice> getNoticeShowData(NoticeSerachDTO searchDTO){
         logger.info("获取案例展示数据");
-        List<BaseNotice> baseNotices = noticeService.getNoticeList();
+        List<BaseNotice> baseNotices = noticeService.getNoticeList(searchDTO);
         return baseNotices;
     }
 
