@@ -20,17 +20,13 @@
 </head>
 
 <body>
-<div id="shape" >
-	<div class="shapeColor">
-		<div class="shapeFly"></div>
-	</div>
-</div>
 	<div class="main">
 		<!--nr start-->
 		<div class="test_main">
 			<div class="nr_left">
 				<div class="test">
 					<p id="fff"></p>
+					<a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
 					<p id="userId" style="display: none"><shiro:principal property="id"></shiro:principal> </p>
 					<p id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal> </p>
 					<form id="testForm" action="" method="post">
@@ -102,101 +98,106 @@
 	<script src="/js/daojishi.js"></script>
 <script src="/js/upupup/rocketTop.js"></script>
 	<script>
-		var timeeee = "";
+
 		window.onload=function(){
-			$.ajax({
-				url:'/testQuestion/getTestPaper',
-				dataType:'json',
-				async: false,
-				success:function(data) {
-					//填充数据
-					var length = data.length;
-					for (var i=0; i<length; i++){
-						var num = "qu_0_"+i.toString();
-						var answerName = "answer"+(i+1).toString();
-						var answerId1 = "0_answer_" + (i+1).toString() + "_option_1";
-						var answerId2 = "0_answer_" + (i+1).toString() + "_option_2";
-						var answerId3 = "0_answer_" + (i+1).toString() + "_option_3";
-						var answerId4 = "0_answer_" + (i+1).toString() + "_option_4";
-						var answerA = "A_"+data[i].testAnswerA_score+"_"+data[i].testType;
-						var answerB = "B_"+data[i].testAnswerB_score+"_"+data[i].testType;
-						var answerC = "C_"+data[i].testAnswerC_score+"_"+data[i].testType;
-						var answerD = "D_"+data[i].testAnswerD_score+"_"+data[i].testType;
-						$('#test_all_tm').append('<li id="' + num + '">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_tt">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t<i>'+ (i+1).toString() +'</i><span></span><font>'+data[i].testQuestion+'</font><b class="icon iconfont">&#xe881;</b>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
-								'\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_main">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t<ul>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerA +'" name="' + answerName + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId1 + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId1 + '">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tA.\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerA+'</p>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerB +'" name="' + answerName + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId2 + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId2 + '">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tB.\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerB+'</p>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerC +'" name="' + answerName + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId3 + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId3 + '">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tC.\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerC+'</p>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="'+ answerD +'" name="' + answerName + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId4 + '"\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId4 + '">\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tD.\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">'+data[i].testAnswerD+'</p>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n' +
-								'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
-								'\t\t\t\t\t\t\t\t\t\t</li>');
-						$('#answerSheet').append('<li><a href="#'+ num +'">' + (i+1).toString() + '</a></li>');
+			var checkRolePermission = document.getElementById("checkThat").innerText;
+			if(checkRolePermission!='2'){
+				window.location.href="/myError"
+			}else {
+				$.ajax({
+					url: '/testQuestion/getTestPaper',
+					dataType: 'json',
+					async: false,
+					success: function (data) {
+						//填充数据
+						var length = data.length;
+						for (var i = 0; i < length; i++) {
+							var num = "qu_0_" + i.toString();
+							var answerName = "answer" + (i + 1).toString();
+							var answerId1 = "0_answer_" + (i + 1).toString() + "_option_1";
+							var answerId2 = "0_answer_" + (i + 1).toString() + "_option_2";
+							var answerId3 = "0_answer_" + (i + 1).toString() + "_option_3";
+							var answerId4 = "0_answer_" + (i + 1).toString() + "_option_4";
+							var answerA = "A_" + data[i].testAnswerA_score + "_" + data[i].testType;
+							var answerB = "B_" + data[i].testAnswerB_score + "_" + data[i].testType;
+							var answerC = "C_" + data[i].testAnswerC_score + "_" + data[i].testType;
+							var answerD = "D_" + data[i].testAnswerD_score + "_" + data[i].testType;
+							$('#test_all_tm').append('<li id="' + num + '">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_tt">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t<i>' + (i + 1).toString() + '</i><span></span><font>' + data[i].testQuestion + '</font><b class="icon iconfont">&#xe881;</b>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<div class="test_content_nr_main">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t<ul>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="' + answerA + '" name="' + answerName + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId1 + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId1 + '">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tA.\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">' + data[i].testAnswerA + '</p>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="' + answerB + '" name="' + answerName + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId2 + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId2 + '">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tB.\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">' + data[i].testAnswerB + '</p>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="' + answerC + '" name="' + answerName + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId3 + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId3 + '">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tC.\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">' + data[i].testAnswerC + '</p>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li class="option">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="radio" class="radioOrCheck" value="' + answerD + '" name="' + answerName + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tid="' + answerId4 + '"\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t/>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for="' + answerId4 + '">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tD.\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<p class="ue" style="display: inline;">' + data[i].testAnswerD + '</p>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t\t\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t</li>');
+							$('#answerSheet').append('<li><a href="#' + num + '">' + (i + 1).toString() + '</a></li>');
 
 
+						}
+						$('#testInformation').append('<span>共</span><i class="content_lit">' + length + '</i><span>题，本测试不设分数，提交考卷后自动分析结果</span>');
+						$('#testNumbers').append('<span>共</span><i class="content_lit">' + length + '</i><span>题</span>');
+						console.log(length);
 					}
-					$('#testInformation').append('<span>共</span><i class="content_lit">'+length+'</i><span>题，本测试不设分数，提交考卷后自动分析结果</span>');
-					$('#testNumbers').append('<span>共</span><i class="content_lit">'+length+'</i><span>题</span>');
-					console.log(length);
-				}
-				,error: function (data) {
-					// console.log(data);
-				}
-			});
+					, error: function (data) {
+						// console.log(data);
+					}
+				});
+			}
 
 			$(function() {
 				$('li.option label').click(function() {
@@ -218,7 +219,7 @@
 			var timerArray = timer.split(":");
 			if(timerArray[1]==0 && timerArray[2]==0){
 				//计时器归零的时候，自动提交考卷
-				window.location.href="/index";
+				submitTest();
 			}
 		},1000);
 
@@ -239,26 +240,28 @@
 
 			//监听提交
 			form.on('submit(testSubmit)', function(data){
-				var answerArray = $("#testForm").serialize().split('&').toString();
-				var userId = document.getElementById("userId").innerText;
-				var userName = document.getElementById("userName").innerText;
-				console.log(userName);
-				console.log(answerArray);
-				$.ajax({
-					type: "POST",
-					data: {"answer":answerArray, "userId":userId, "userName":userName},
-					url: "/testQuestion/checkAnswers",
-					success: function (data) {
-						window.location.href="/testSucceed";
-					},
-					error: function () {
-						alert("error");
-					}
-				});
-			return false;
+				submitTest();
+				return false;
 			});
 
 		});
+
+		function submitTest() {
+			var answerArray = $("#testForm").serialize().split('&').toString();
+			var userName = document.getElementById("userName").innerText;
+			$.ajax({
+				type: "POST",
+				data: {"answer":answerArray, "recordId":recordId, "userName":userName},
+				url: "/testQuestion/checkAnswers",
+				success: function (data) {
+					window.location.href="/testSucceed";
+				},
+				error: function () {
+					alert("error");
+				}
+			});
+
+		}
 	</script>
 
 <script src="js/testQuestion/jquery.countdown.js"></script>

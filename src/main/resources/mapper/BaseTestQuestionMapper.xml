@@ -122,40 +122,69 @@
 
 
 
-    <insert id="addTestResult" parameterType="com.tangtang.manager.pojo.BaseTestResult">
-        INSERT  INTO base_test_result
-        (
-            test_user_id,
-            test_user_name,
-            test_result,
-            ZYSZ,
-            CYSZ,
-            GSSFZS,
-            CWYXZS,
-            YYGLZS,
-            CYJBNL,
-            YYGLNL,
-            SCYXNL,
-            start_time,
-            end_time
-        )
-        VALUES
-        (
-            #{userId},
-            #{userName},
-            #{testResult},
-            #{ZYSZ},
-            #{CYSZ},
-            #{GSSFZS},
-            #{CWYXZS},
-            #{YYGLZS},
-            #{CYJBNL},
-            #{YYGLNL},
-            #{SCYXNL},
-            #{startTime},
-            #{endTime}
-        )
+    <insert id="updateTestResult" parameterType="com.tangtang.manager.pojo.BaseTestResult">
+        UPDATE base_test_result
+        <set>
+            <if test="testResult != null">
+                test_result = #{testResult},
+            </if>
+
+            <if test="ZYSZ != null">
+                ZYSZ = #{ZYSZ},
+            </if>
+
+            <if test="CYSZ != null">
+                CYSZ = #{CYSZ},
+            </if>
+
+            <if test="GSSFZS != null">
+                GSSFZS = #{GSSFZS},
+            </if>
+            <if test="CWYXZS != null">
+                CWYXZS = #{CWYXZS},
+            </if>
+
+            <if test="YYGLZS != null">
+                YYGLZS = #{YYGLZS},
+            </if>
+
+            <if test="CYJBNL != null">
+                CYJBNL = #{CYJBNL},
+            </if>
+
+            <if test="YYGLNL != null">
+                YYGLNL = #{YYGLNL},
+            </if>
+            <if test="SCYXNL != null">
+                SCYXNL = #{SCYXNL},
+            </if>
+
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+        </set>
+        WHERE id = #{id}
    </insert>
+
+    <select id="getTestResultByUserId" resultMap="TestResultMap">
+        SELECT
+        id,
+        test_user_id,
+        test_user_name,
+        test_result,
+        ZYSZ,
+        CYSZ,
+        GSSFZS,
+        CWYXZS,
+        YYGLZS,
+        CYJBNL,
+        YYGLNL,
+        SCYXNL,
+        start_time,
+        end_time
+        FROM base_test_result
+        where test_user_id = #{userId}
+    </select>
 
     <select id="getTestResultById" resultMap="TestResultMap">
         SELECT
@@ -174,7 +203,26 @@
         start_time,
         end_time
         FROM base_test_result
-        where test_user_id = #{userId}
+        where id = #{recordId}
+    </select>
+
+    <select id="getTestResult" resultMap="TestResultMap">
+        SELECT
+        id,
+        test_user_id,
+        test_user_name,
+        test_result,
+        ZYSZ,
+        CYSZ,
+        GSSFZS,
+        CWYXZS,
+        YYGLZS,
+        CYJBNL,
+        YYGLNL,
+        SCYXNL,
+        start_time,
+        end_time
+        FROM base_test_result
     </select>
 
 

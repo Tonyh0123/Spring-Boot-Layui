@@ -54,6 +54,20 @@ public class TestQuestionController {
         return "/testQuestion/testQuestionManage";
     }
 
+    /**
+     *
+     * 功能描述: 跳到个人测试结果列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/03/31 11：58
+     */
+    @RequestMapping("/testResultManage")
+    public String testResultManage() {
+        return "/testQuestion/testResultManage";
+    }
+
 
     /**
      *
@@ -85,6 +99,39 @@ public class TestQuestionController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("题目列表查询异常！", e);
+        }
+        return pdr;
+    }
+
+    /**
+     *
+     * 功能描述: 分页查询个人测试结果列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/03/31 11：59
+     */
+    @RequestMapping(value = "/getTestResultListByUserId", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getTestResultListByUserId(@RequestParam("pageNum") Integer pageNum,
+                                      @RequestParam("pageSize") Integer pageSize, BaseTestResult testResult, @RequestParam("userId") String userId) {
+        testResult.setUserId(userId);
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取结果列表
+            pdr = testQuestionService.getTestResultListByUserId(testResult, pageNum ,pageSize);
+            logger.info("测试结果列表查询=pdr:" + pdr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("测试结果列表查询异常！", e);
         }
         return pdr;
     }
@@ -149,14 +196,13 @@ public class TestQuestionController {
      */
     @PostMapping("checkAnswers")
     @ResponseBody
-    public Map<String, Object> checkAnswers(String answer, String userId, String userName) {
+    public Map<String, Object> checkAnswers(String answer, String recordId, String userName) {
         logger.info("比对测试答案！answerArray:" + answer);
         Map<String, Object> data = new HashMap<>();
         TestTargetScoreDTO scoreDTO = new TestTargetScoreDTO();
         TestTargetResultDTO resultDTO = new TestTargetResultDTO();
         BaseTestResult baseTestResult = new BaseTestResult();
-        baseTestResult.setUserId(userId);
-        baseTestResult.setUserName(userName);
+        baseTestResult.setId(Integer.parseInt(recordId));
         double  ZYSZ_SCORE = baseTestResult.getZYSZ(),
                 CYSZ_SCORE = baseTestResult.getCYSZ(),
                 GSSFZS_SCORE = baseTestResult.getGSSFZS(),
@@ -272,6 +318,7 @@ public class TestQuestionController {
                 "<div class=\"duanluo\">\n" +
                 "<div class=\"bianju\">\n" +
                 "<p class=\"biaoti\">一、各维度组分测评成绩达标值分析</p>\n" +
+                "<img id='iii' />" +
                 "<canvas id=\"canvas\" height=\"450\" width=\"780\" ></canvas>" +
                 "<p class=\"p2\">"+   userName   +"同学，针对您在《大学生创业发展能力综合测评》的测评结果分析，得出您的各测评维度组分的成绩如下：</p>\n" +
                 "<p class=\"p2\">1、职业素质维度成绩达标值为 <span>"+  ZYSZ_SCORE  +"%</span> ；</p>\n" +
@@ -312,10 +359,27 @@ public class TestQuestionController {
         baseTestResult.setYYGLNL(YYGLNL_SCORE);
         baseTestResult.setSCYXNL(SCYXNL_SCORE);
         baseTestResult.setTestResult(FINAL_RESULT);
-        data = testQuestionService.addTestResult(baseTestResult);
+        baseTestResult.setEndTime(DateUtils.getCurrentDate());
+
+        data = testQuestionService.updateTestResult(baseTestResult);
 
         //向前端返回结果
         return data;
+    }
+
+    /**
+     *
+     * 功能描述: 通过UserID获取测试结果
+     *
+     * @param: userId
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/03/26 16:28
+     */
+    @RequestMapping(value = "/getTestResult", method = RequestMethod.POST)
+    public @ResponseBody List<BaseTestResult> getTestResultByUserId(String userId){
+        logger.info("通过UserID获取测试结果");
+        return testQuestionService.getTestResultByUserId(userId);
     }
 
     /**
@@ -325,12 +389,12 @@ public class TestQuestionController {
      * @param: userId
      * @return:
      * @auther: tangtang
-     * @date: 2020/03/26 16:28
+     * @date: 2020/03/31 16:28
      */
-    @RequestMapping(value = "/getTestResult", method = RequestMethod.POST)
-    public @ResponseBody List<BaseTestResult> getTestResultById(String userId){
+    @RequestMapping(value = "/getTestResultById", method = RequestMethod.POST)
+    public @ResponseBody List<BaseTestResult> getTestResultById(String recordId){
         logger.info("通过ID获取测试结果");
-        return testQuestionService.getTestResultById(userId);
+        return testQuestionService.getTestResultById(recordId);
     }
 
     /**
@@ -343,7 +407,7 @@ public class TestQuestionController {
         baseTestResult.setUserId(userId);
         baseTestResult.setUserName(userName);
         Map<String,Object> data = new HashMap();
-        List<BaseTestResult> testResults = testQuestionService.getTestResultById(userId); //获取考试结果记录
+        List<BaseTestResult> testResults = testQuestionService.getTestResultByUserId(userId); //获取考试结果记录
         if(testResults.size()>0){
             int length = testResults.size()-1;  //集合长度
             BaseTestResult latelyRecord = testResults.get(length); //最新的一条记录

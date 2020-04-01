@@ -1,5 +1,6 @@
 var userId = document.getElementById("userId").innerText;
 var userName = document.getElementById("userName").innerText;
+var recordId = "";
 $.ajax({
     type: "POST",
     url:'/testQuestion/checkTestResult',
@@ -8,6 +9,6 @@ $.ajax({
     async: false,
     success:function(data) {
         document.getElementById("leftTime").innerHTML = data.leftTime;
-        // timeeee = data.leftTime;
+        recordId = data.recordId;
     }
 });

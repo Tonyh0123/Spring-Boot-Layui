@@ -48,22 +48,22 @@ public class TestQuestionServiceImpl implements TestQuestionService {
     }
 
     @Override
-    public Map<String, Object> addTestResult(BaseTestResult baseTestResult) {
+    public Map<String, Object> updateTestResult(BaseTestResult baseTestResult) {
         Map<String,Object> data = new HashMap();
         try {
-            boolean result = questionMapper.addTestResult(baseTestResult);
+            boolean result = questionMapper.updateTestResult(baseTestResult);
             if(!result){
                 data.put("code",0);
                 data.put("msg","操作失败，请联系管理！");
-                logger.error("新增测试结果，结果=新增失败，数据插入异常！");
+                logger.error("更新测试结果，结果=失败，数据插入异常！");
                 return data;
             }
             data.put("code",1);
-            data.put("msg","新增成功！");
-            logger.info("新增测试结果，结果=新增成功！");
+            data.put("msg","更新成功！");
+            logger.info("更新测试结果，结果=成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("新增测试结果异常！", e);
+            logger.error("更新测试结果异常！", e);
             return data;
         }
         return data;
@@ -84,13 +84,31 @@ public class TestQuestionServiceImpl implements TestQuestionService {
     }
 
     @Override
+    public PageDataResult getTestResultListByUserId(BaseTestResult result, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        List<BaseTestResult> baseTestResults = questionMapper.getTestResultByUserId(result);
+        PageHelper.startPage(pageNum, pageSize);
+        if(baseTestResults.size() != 0){
+            PageInfo<BaseTestResult> pageInfo = new PageInfo<>(baseTestResults);
+            pageDataResult.setList(baseTestResults);
+            pageDataResult.setTotals((int) pageInfo.getTotal());
+        }
+        return pageDataResult;
+    }
+
+    @Override
     public List<BaseTestQuestion> getTestQuestionList() {
         return questionMapper.getTestQuestionList();
     }
 
     @Override
-    public List<BaseTestResult> getTestResultById(String userId) {
-        return questionMapper.getTestResultById(userId);
+    public List<BaseTestResult> getTestResultByUserId(String userId) {
+        return questionMapper.getTestResultByUserId(userId);
+    }
+
+    @Override
+    public List<BaseTestResult> getTestResultById(String recordId) {
+        return questionMapper.getTestResultById(recordId);
     }
 
     @Override

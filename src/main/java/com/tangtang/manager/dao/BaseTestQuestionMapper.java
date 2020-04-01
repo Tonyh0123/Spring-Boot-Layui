@@ -14,7 +14,7 @@ import java.util.List;
 public interface BaseTestQuestionMapper extends MyMapper<BaseTestQuestion> {
     boolean addTestQuestion(BaseTestQuestion question);
 
-    boolean addTestResult(BaseTestResult baseTestResult);
+    boolean updateTestResult(BaseTestResult baseTestResult);
 
     boolean addSomethingToTestResult(BaseTestResult baseTestResult);
 
@@ -22,7 +22,11 @@ public interface BaseTestQuestionMapper extends MyMapper<BaseTestQuestion> {
 
     List<BaseTestQuestion> getTestQuestionList();
 
-    List<BaseTestResult> getTestResultById(@Param("userId") String userId);
+    List<BaseTestResult> getTestResultByUserId(@Param("userId") String userId);
+
+    List<BaseTestResult> getTestResultByUserId(BaseTestResult testResult);
+
+    List<BaseTestResult> getTestResultById(@Param("recordId") String recordId);
 
     int updateTestQuestion(BaseTestQuestion question);
 }

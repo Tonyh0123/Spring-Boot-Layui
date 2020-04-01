@@ -12,13 +12,17 @@ import java.util.Map;
 public interface TestQuestionService {
     Map<String,Object> addTestQuestion(BaseTestQuestion question);
 
-    Map<String,Object> addTestResult(BaseTestResult baseTestResult);
+    Map<String,Object> updateTestResult(BaseTestResult baseTestResult);
 
     PageDataResult getTestQuestionList(BaseTestQuestion question, Integer pageNum, Integer pageSize);
 
+    PageDataResult getTestResultListByUserId(BaseTestResult result, Integer pageNum, Integer pageSize);
+
     List<BaseTestQuestion> getTestQuestionList();
 
-    List<BaseTestResult> getTestResultById(String userId);
+    List<BaseTestResult> getTestResultByUserId(String userId);
+
+    List<BaseTestResult> getTestResultById(String recordId);
 
     Map<String, Object> del(long id);
 
