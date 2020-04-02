@@ -218,9 +218,8 @@ public class UserController {
     @RequestMapping(value = "/regUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> regUser(StudentRegistrationDTO user) {
-        logger.info("设置用户[注册用户]！user:" + user);
+        logger.info("[注册用户]！user:" + user);
         Map<String,Object> data = new HashMap();
-        System.out.println("data"+data);
         data = adminUserService.regUser(user);
         data.put("url","/login");
         return data;

@@ -30,7 +30,47 @@ public class StudentRegistrationDTO {
 
     private String studentEmail;
 
-    private String identifyConfirmFile;
+    private String identifyConfirmFile;  //学生证明文件（学生证）
+
+    private String studentStatus;     //学生身份核验状态
+
+    private String studentID_SFZZM;   //身份证正面
+
+    private String studentID_SFZBM;   //身份证背面
+
+    private String studentMajor;      //专业名称
+
+    public String getStudentMajor() {
+        return studentMajor;
+    }
+
+    public void setStudentMajor(String studentMajor) {
+        this.studentMajor = studentMajor;
+    }
+
+    public String getStudentStatus() {
+        return studentStatus;
+    }
+
+    public void setStudentStatus(String studentStatus) {
+        this.studentStatus = studentStatus;
+    }
+
+    public String getStudentID_SFZZM() {
+        return studentID_SFZZM;
+    }
+
+    public void setStudentID_SFZZM(String studentID_SFZZM) {
+        this.studentID_SFZZM = studentID_SFZZM;
+    }
+
+    public String getStudentID_SFZBM() {
+        return studentID_SFZBM;
+    }
+
+    public void setStudentID_SFZBM(String studentID_SFZBM) {
+        this.studentID_SFZBM = studentID_SFZBM;
+    }
 
     public String getIdentifyConfirmFile() {
         return identifyConfirmFile;

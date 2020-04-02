@@ -22,7 +22,7 @@
 
                 <input id="roleId" type="hidden" name="roleId" value="2"/>     <!--   2======>学生类型   -->
                 <div class="layui-row layui-form-item">
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4" >
+                    <div class="layui-col-xs6" >
                         <label class="layui-form-label">城市</label>
                         <div class="layui-input-block " >
                             <select name="" id="cityName" lay-filter="mymymy" lay-verify="required" lay-search>
@@ -30,11 +30,29 @@
                         </div>
                     </div>
 
-                    <div id="school" class="layui-col-xs6 layui-col-sm6 layui-col-md4" >
+                    <div id="school" class="layui-col-xs6" >
                         <label class="layui-form-label">学校</label>
                         <div class="layui-input-block " >
                             <select name="schoolName" id="schoolName"  lay-verify="required" lay-search>
                             </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4" >
+                        <label class="layui-form-label">专业</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="studentMajor" name="studentMajor" lay-verify="required" lay-reqtext="" placeholder="请输入专业名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4" >
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="realName" name="realName" lay-verify="required" lay-reqtext="姓名是必填项，岂能为空？" placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
@@ -43,32 +61,6 @@
                         <div class="layui-input-block">
                             <input type="text" id="studentId" name="studentId" lay-verify="required" lay-reqtext="学号是必填项，岂能为空？" placeholder="请输入学号" autocomplete="off" class="layui-input">
                         </div>
-                    </div>
-                </div>
-
-                <div class="layui-row layui-form-item">
-                    <div class=" layui-col-xs6" >
-                        <label class="layui-form-label">身份证明</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="identifyConfirmFile" name="identifyConfirmFile" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
-                        </div>
-                    </div>
-
-                    <div class=" layui-col-xs6" >
-                        <button type="button" class="layui-btn" id="uploadButton">
-                            <i class="layui-icon">&#xe67c;</i>上传图片
-                        </button>
-
-                        <button type="button" class="layui-btn" id="previewButton" style="display: none" onclick="picPreview()">
-                            <i class="layui-icon">&#xe67c;</i>预览图片
-                        </button>
-                    </div>
-                </div>
-
-                <div class="layui-form-item" >
-                    <label class="layui-form-label">姓名</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="realName" name="realName" lay-verify="required" lay-reqtext="姓名是必填项，岂能为空？" placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 

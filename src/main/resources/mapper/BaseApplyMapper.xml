@@ -18,6 +18,20 @@
     <result column="apply_status" jdbcType="INTEGER" property="applyStatus" />
   </resultMap>
 
+  <resultMap id="StudentResultMap" type="com.tangtang.manager.pojo.BaseStudent">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sys_user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="school_student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="school_student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="school_student_email" jdbcType="VARCHAR" property="studentEmail" />
+    <result column="school_student_confirm_url" jdbcType="VARCHAR" property="studentConfirm" />
+    <result column="school_student_SFZ_ZM" jdbcType="VARCHAR" property="SFZZM" />
+    <result column="school_student_SFZ_BM" jdbcType="VARCHAR" property="SFZBM" />
+    <result column="school_student_status" jdbcType="VARCHAR" property="studentStatus" />
+    <result column="school_student_major" jdbcType="VARCHAR" property="studentMajor" />
+  </resultMap>
+
   <sql id="baseColumn">
     keyid,
     id,
@@ -32,8 +46,27 @@
     apply_status
   </sql>
 
+  <sql id="studentColumn">
+    id,
+    sys_user_name,
+    school_name,
+    school_student_id,
+    school_student_name,
+    school_student_email,
+    school_student_confirm_url,
+    school_student_SFZ_ZM,
+    school_student_SFZ_BM,
+    school_student_status,
+    school_student_major
+  </sql>
+
   <select id="getSchoolApplyList" resultMap="BaseResultMap">
     SELECT <include refid="baseColumn"/>
+    FROM base_school
+  </select>
+
+  <select id="getStudentApplyList" resultMap="StudentResultMap">
+    SELECT <include refid="studentColumn"/>
     FROM base_school
   </select>
 

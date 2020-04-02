@@ -2,6 +2,7 @@ package com.tangtang.manager.controller.system;
 
 import com.tangtang.manager.dto.*;
 import com.tangtang.manager.pojo.BaseAdminUser;
+import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.AdminUserService;
 import com.tangtang.manager.service.ApplyService;
@@ -36,7 +37,7 @@ public class ApplyController {
 
     /**
      *
-     * 功能描述: 跳到申请列表
+     * 功能描述: 跳到学校申请列表
      *
      * @param:
      * @return:
@@ -46,6 +47,20 @@ public class ApplyController {
     @RequestMapping("/applyManage")
     public String applyManage() {
         return "/apply/schoolApply";
+    }
+
+    /**
+     *
+     * 功能描述: 跳到学生申请列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/02 13:55
+     */
+    @RequestMapping("/studentApplyManage")
+    public String studentApplyManage() {
+        return "/apply/studentApply";
     }
 
     /**
@@ -78,6 +93,39 @@ public class ApplyController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("高校申请列表查询异常！", e);
+        }
+        return pdr;
+    }
+
+
+    /**
+     *
+     * 功能描述: 分页查询学生审核信息
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/02 11:10
+     */
+    @RequestMapping(value = "/getStudentApplyList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getStudentList(@RequestParam("pageNum") Integer pageNum,
+                                      @RequestParam("pageSize") Integer pageSize, BaseStudent student) {
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取学生审核信息列表
+            pdr = applyService.getStudentApplyList(student, pageNum ,pageSize);
+            logger.info("学生审核信息列表查询=pdr:" + pdr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("学生审核信息列表查询异常！", e);
         }
         return pdr;
     }

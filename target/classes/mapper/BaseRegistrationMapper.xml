@@ -15,7 +15,8 @@
         school_student_id,
         school_student_name,
         school_student_email,
-        school_student_confirm_url)
+        school_student_major,
+        school_student_status)
         VALUES (
         #{id},
         #{sysUserName},
@@ -23,7 +24,8 @@
         #{studentId},
         #{realName},
         #{studentEmail},
-        #{identifyConfirmFile})
+        #{studentMajor},
+        #{studentStatus})
    </insert>
 
     <insert id="regSchoolUser" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO">

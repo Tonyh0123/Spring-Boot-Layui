@@ -61,20 +61,26 @@ public class AdminUserServiceImpl implements AdminUserService{
     public Map<String,Object> regUser(StudentRegistrationDTO studentRegistrationDTO) {
         Map<String,Object> data = new HashMap();
         try {
-
+            studentRegistrationDTO.setStudentStatus("0");
             String username = studentRegistrationDTO.getSysUserName();
+            BaseAdminUser old = baseAdminUserMapper.getUserByUserName(username,null);
+            if(old != null){
+                data.put("code",0);
+                data.put("msg","用户名已存在！");
+                logger.error("用户[新增]，结果=用户名已存在！");
+                return data;
+            }
             if(studentRegistrationDTO.getSysUserPwd() == null || studentRegistrationDTO.getSysUserPwd() == ""){
                 String password = DigestUtils.Md5(username,"123456");
                 studentRegistrationDTO.setSysUserPwd(password);
             }else{
-                String password = DigestUtils.Md5(username, studentRegistrationDTO.getSysUserPwd());
-                studentRegistrationDTO.setSysUserPwd(password);
+                String password = DigestUtils.Md5(username, studentRegistrationDTO.getSysUserPwd());  //加密规则
+                studentRegistrationDTO.setSysUserPwd(password);  //设置密码
             }
             studentRegistrationDTO.setRegTime(DateUtils.getCurrentDate());
-            studentRegistrationDTO.setUserStatus(1);
+            studentRegistrationDTO.setUserStatus(1);   //用户状态生效
             boolean result1 = baseRegistrationMapper.registration(studentRegistrationDTO);
-//            int iddd = studentRegistrationDTO.getId();
-//            System.out.println("看过来看过来   iddd---->"+iddd);
+//            int iddd = studentRegistrationDTO.getId();  可以获取insert语句返回的id值
             boolean result2 = baseRegistrationMapper.regStudentInfo(studentRegistrationDTO);
             if(!result1 && !result2){
                 data.put("code",0);

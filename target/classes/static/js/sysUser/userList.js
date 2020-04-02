@@ -256,6 +256,5 @@ function registrationSchool() {
     window.location.href="/registrationOfSchool"
 }
 function caseShow() {
-
     window.location.href="/case/caseShow"
 }

@@ -9,6 +9,7 @@ import com.tangtang.manager.dao.BaseApplyMapper;
 import com.tangtang.manager.dao.BaseRegistrationMapper;
 import com.tangtang.manager.dto.SchoolApplyDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
+import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.ApplyService;
 import com.tangtang.manager.service.MailService;
@@ -48,6 +49,19 @@ public class ApplyServiceImpl implements ApplyService {
             pageDataResult.setTotals((int) pageInfo.getTotal());
         }
 
+        return pageDataResult;
+    }
+
+    @Override
+    public PageDataResult getStudentApplyList(BaseStudent student, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        List<BaseStudent> students = baseApplyMapper.getStudentApplyList(student);
+        PageHelper.startPage(pageNum, pageSize);
+        if(students.size() != 0){
+            PageInfo<BaseStudent> pageInfo = new PageInfo<>(students);
+            pageDataResult.setList(students);
+            pageDataResult.setTotals((int) pageInfo.getTotal());
+        }
         return pageDataResult;
     }
 

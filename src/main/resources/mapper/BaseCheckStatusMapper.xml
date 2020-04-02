@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseCheckStatusMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseStudent">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="sys_user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+        <result column="school_student_id" jdbcType="VARCHAR" property="studentId" />
+        <result column="school_student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="school_student_email" jdbcType="VARCHAR" property="studentEmail" />
+        <result column="school_student_confirm_url" jdbcType="VARCHAR" property="studentConfirm" />
+        <result column="school_student_SFZ_ZM" jdbcType="VARCHAR" property="SFZZM" />
+        <result column="school_student_SFZ_BM" jdbcType="VARCHAR" property="SFZBM" />
+        <result column="school_student_status" jdbcType="VARCHAR" property="studentStatus" />
+        <result column="school_student_major" jdbcType="VARCHAR" property="studentMajor" />
+    </resultMap>
+
+
+    <sql id="baseColumn">
+    id,
+    sys_user_name,
+    school_name,
+    school_student_id,
+    school_student_name,
+    school_student_email,
+    school_student_confirm_url,
+    school_student_SFZ_ZM,
+    school_student_SFZ_BM,
+    school_student_status,
+    school_student_major
+  </sql>
+
+    <select id="getStudentStatus" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_student where id = #{userId}
+    </select>
+
+    <update id="updateBaseStudent" parameterType="com.tangtang.manager.pojo.BaseStudent">
+        UPDATE base_student
+        <set>
+            <if test="studentConfirm != null">
+                school_student_confirm_url = #{studentConfirm},
+            </if>
+
+            <if test="SFZZM != null">
+                school_student_SFZ_ZM = #{SFZZM},
+            </if>
+
+            <if test="SFZBM != null">
+                school_student_SFZ_BM = #{SFZBM},
+            </if>
+
+            <if test="studentStatus != null">
+                school_student_status = #{studentStatus},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>

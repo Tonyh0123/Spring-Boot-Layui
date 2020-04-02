@@ -3,27 +3,107 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <!--head部分-->
 <head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <!--头-->
     <div th:replace="fragments/head :: header"></div>
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+    <a id="roleId" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+
+    <!--身份认证弹窗-->
+    <div id="identityConfirm" style="display: none; ">
+        <form id="studentForm" class="layui-form layui-form-pane" method="post" action="" >
+
+            <div class="layui-row layui-form-item" style="">
+                <input id="id" type="hidden" name="id"/>
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">学生证</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="studentConfirm" name="studentConfirm" lay-verify="required"  placeholder="带学校钢印及个人信息的学生证照片" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="uploadButton1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton1" style="display: none" onclick="picPreview1()">
+                        <i class="layui-icon">&#xe67c;</i>预览图片
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">身份证正面</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="SFZZM" name="SFZZM" lay-verify="required"  placeholder="身份证正面照片" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="uploadButton2">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton2" style="display: none" onclick="picPreview2()">
+                        <i class="layui-icon">&#xe67c;</i>预览图片
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">身份证背面</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="SFZBM" name="SFZBM" lay-verify="required"  placeholder="身份证背面照片" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="uploadButton3">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton3" style="display: none" onclick="picPreview3()">
+                        <i class="layui-icon">&#xe67c;</i>预览图片
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="text-align: center;">
+                <div class="layui-input-block" style="margin: 0 auto;">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="mysubmit">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <!--主体区域-->
     <div class="layui-body">
         <div class="layui-container">
             <div class="layui-row">
-                <div class="layui-col-xs9">
-                    &nbsp;
-                    <h1 style="padding-top:50px;line-height:2.0;"><shiro:principal property="sysUserName"></shiro:principal>，欢迎登录
-                        <span style="font-weight: bold;font-size:28px;">大学生创业服务平台</span></a></h1><br>
-                    <h1>roleId:<shiro:principal property="roleId"></shiro:principal></h1><br>
-                    <h1>userPhone:<shiro:principal property="userPhone"></shiro:principal></h1><br>
-                    <h1>regTime:<shiro:principal property="regTime"></shiro:principal></h1><br>
-                    <h1>userStatus:<shiro:principal property="userStatus"></shiro:principal></h1><br>
-                    <button class="layui-btn layui-btn-normal" onclick="registration()">注册</button>
-                    <button class="layui-btn layui-btn-normal" onclick="registrationSchool()">校方注册申请</button>
-                    <button class="layui-btn layui-btn-normal" onclick="caseShow()">案例展示</button>
+                <div class="layui-container">
+                    <div class="main-product" style="margin-top: -90px">
+                        <p class="title" style="margin-left: -900px">
+                            <shiro:principal property="sysUserName"></shiro:principal>，欢迎登录
+                            <span>大学生创业服务平台</span>
+                        </p>
+
+                        <div class="layui-col-sm6 layui-col-md3" style="margin-top: -50px; margin-left: -155px; display: none" id="checkTab">
+                            <div class="content">
+                                <div><img src="/images/Bat-Man.png"></div>
+                                <div>
+                                    <p style="margin-top: 15px" id="studentStatusInfo"></p>
+                                </div>
+                                <a href="javascript:;" id="statusLink" onclick=openStudentInfoInsert();>认证身份></a>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -31,8 +111,210 @@
     </div>
     <script type="text/javascript" src="/js/error.js"></script>
     <script src="/js/sysUser/userList.js"></script>
+    <script src="/js/getCookies.js"></script>
     <!--底部-->
     <div th:replace="fragments/footer :: footer"></div>
+    <script>
+        window.onload=function () {
+            var userId = document.getElementById("userId").innerText;
+            var roleId = document.getElementById("roleId").innerText;
+            console.log(userId);console.log(roleId);
+            if(roleId == '2') {
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    data: {"userId": userId},
+                    url: "/check/checkStudentStatus",
+                    success: function (data) {
+                        if(getCookie("studentStatus")=="1"){
+                            document.getElementById("checkTab").style.display = '';
+                            document.getElementById("studentStatusInfo").innerText = "您的学生身份已经过验证，您可以使用本系统的创业项目管理功能。";
+                            document.getElementById("statusLink").style.display = 'none';
+                        }else if(getCookie("studentStatus")=="0"){
+                            document.getElementById("checkTab").style.display = '';
+                            document.getElementById("studentStatusInfo").innerText = "您还未进行学生身份认证，点击链接立即认证，解锁系统更多功能。";
+                            document.getElementById("statusLink").style.display = '';
+                        }else {
+                            document.getElementById("checkTab").style.display = '';
+                            document.getElementById("studentStatusInfo").innerText = "您已提交身份审核信息，正在审核中。";
+                            document.getElementById("statusLink").style.display = '';
+                            document.getElementById("statusLink").innerText = "审核中...";
+                            document.getElementById("statusLink").onclick = "";
+                        }
+                    }
+                })
+            }
+        }
+
+    </script>
+    <script>
+        var pdf1 = "";
+        var pdf2 = "";
+        var pdf3 = "";
+        layui.use('upload', function(){
+            var upload = layui.upload;
+
+            //学生证照片上传
+            upload.render({
+                elem: '#uploadButton1' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,done: function(res){
+
+                    document.getElementById("previewButton1").style.display='';
+                    pdf1 = res.fileUrl;
+                    $("#studentConfirm").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+
+            //身份证正面
+            upload.render({
+                elem: '#uploadButton2' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,done: function(res){
+
+                    document.getElementById("previewButton2").style.display='';
+                    pdf2 = res.fileUrl;
+                    $("#SFZZM").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+
+            //身份证背面
+            upload.render({
+                elem: '#uploadButton3' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,done: function(res){
+
+                    document.getElementById("previewButton3").style.display='';
+                    pdf3 = res.fileUrl;
+                    $("#SFZBM").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+        });
+        function picPreview1() {
+            var uul = pdf1;
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '证明信息',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+
+        function picPreview2() {
+            var uul = pdf2;
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '证明信息',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+
+        function picPreview3() {
+            var uul = pdf3;
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '证明信息',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+
+        function openStudentInfoInsert() {
+            layer.open({
+                type: 1 //此处以iframe举例
+                , title: '身份认证'
+                , area: ['750px','350px']
+                , shade: 0
+                , maxmin: false
+                , offset: ['200px']
+                , content: $("#identityConfirm")
+                , btn: ['关闭'] //只是为了演示
+                , btn2: function () {
+                    layer.closeAll();
+                }
+                ,end: function () {
+                    //弹窗关闭后清空原输入框的值
+                    $("#studentConfirm").val("");
+                    $("#SFZZM").val("");
+                    $("#SFZBM").val("");
+                    //弹窗关闭后隐藏【预览图片】按钮
+                    document.getElementById("previewButton1").style.display='none';
+                    document.getElementById("previewButton2").style.display='none';
+                    document.getElementById("previewButton3").style.display='none';
+
+                }
+            });
+        }
+
+
+    </script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form
+                ,layer = layui.layer
+
+            //监听提交
+            form.on('submit(mysubmit)', function(data){
+                var userId = document.getElementById("userId").innerText;
+                document.getElementById("id").value = userId;
+                $.ajax({
+                    type: "POST",
+                    data: $("#studentForm").serialize(),
+                    url: "/check/updateBaseStudent",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.closeAll();
+                            layer.msg("身份信息已提交，等待审核");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    },
+                });
+                return false;
+            });
+
+        });
+    </script>
 </div>
 </body>
 </html>
