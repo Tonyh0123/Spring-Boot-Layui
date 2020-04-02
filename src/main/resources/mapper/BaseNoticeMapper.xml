@@ -40,4 +40,9 @@
         </where>
     </select>
 
+    <select id="getNoticeListForManage" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_notice
+    </select>
+
 </mapper>

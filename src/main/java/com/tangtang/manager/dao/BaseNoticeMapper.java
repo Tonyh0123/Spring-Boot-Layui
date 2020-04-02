@@ -13,7 +13,7 @@ public interface BaseNoticeMapper extends MyMapper<BaseNotice> {
 
     boolean addNotice(BaseNotice baseNotice);
 
-    List<BaseNotice> getNoticeList(BaseNotice notice);
+    List<BaseNotice> getNoticeListForManage(BaseNotice notice);
 
     List<BaseNotice> getNoticeList(NoticeSerachDTO serachDTO);
 }

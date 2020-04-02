@@ -13,7 +13,7 @@ public interface BasePolicyMapper extends MyMapper<BasePolicy> {
 
     boolean addPolicy(BasePolicy policy);
 
-    List<BasePolicy> getPolicyList(BasePolicy policy);
+    List<BasePolicy> getPolicyListForManage(BasePolicy policy);
 
     List<BasePolicy> getPolicyList(PolicySerachDTO serachDTO);
 }

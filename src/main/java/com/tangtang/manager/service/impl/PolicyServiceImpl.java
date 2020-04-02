@@ -28,7 +28,7 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public PageDataResult getPolicyList(BasePolicy policy, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BasePolicy> basePolicies = policyMapper.getPolicyList(policy);
+        List<BasePolicy> basePolicies = policyMapper.getPolicyListForManage(policy);
         PageHelper.startPage(pageNum, pageSize);
         if(basePolicies.size() != 0){
             PageInfo<BasePolicy> pageInfo = new PageInfo<>(basePolicies);

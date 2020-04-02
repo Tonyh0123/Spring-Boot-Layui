@@ -45,4 +45,10 @@
     </select>
 
 
+    <select id="getPolicyListForManage" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_policy
+    </select>
+
+
 </mapper>

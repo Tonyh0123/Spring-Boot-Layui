@@ -31,7 +31,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public PageDataResult getNoticeList(BaseNotice notice, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseNotice> baseNotices = noticeMapper.getNoticeList(notice);
+        List<BaseNotice> baseNotices = noticeMapper.getNoticeListForManage(notice);
         PageHelper.startPage(pageNum, pageSize);
         if(baseNotices.size() != 0){
             PageInfo<BaseNotice> pageInfo = new PageInfo<>(baseNotices);
