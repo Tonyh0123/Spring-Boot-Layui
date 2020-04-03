@@ -13,4 +13,6 @@ public interface ApplyService {
     PageDataResult getStudentApplyList(BaseStudent student, Integer pageNum, Integer pageSize);
 
     Map<String,Object> confirmSchoolsApply(SchoolRegistrationDTO schoolRegistrationDTO);
+
+    Map<String,Object> verifyStudentApply(BaseStudent student);
 }

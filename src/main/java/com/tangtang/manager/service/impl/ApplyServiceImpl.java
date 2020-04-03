@@ -107,4 +107,26 @@ public class ApplyServiceImpl implements ApplyService {
         }
         return data;
     }
+
+    @Override
+    public Map<String, Object> verifyStudentApply(BaseStudent student) {
+        Map<String,Object> data = new HashMap();
+        try {
+            boolean result = baseApplyMapper.verifyStudentApply(student);
+            if(!result){
+                data.put("code",0);
+                data.put("msg","学生信息更新失败！");
+                logger.error("同意/不同意学生申请，结果=更新失败！");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","学生信息更新成功！");
+            logger.info("同意/不同意学生申请，结果=更新成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("学生申请审核异常！", e);
+            return data;
+        }
+        return data;
+    }
 }

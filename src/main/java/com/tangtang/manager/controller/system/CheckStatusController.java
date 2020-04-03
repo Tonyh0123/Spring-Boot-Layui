@@ -68,7 +68,7 @@ public class CheckStatusController {
         Map<String, Object> data = new HashMap<>();
         data.put("msg","cookies添加成功");
         data.put("studentStatus",student.getStudentStatus());
-        data.put("cookies",cookie.toString());
+        data.put("verifyDetail",student.getVerifyDetail());
         return data;
     }
 
@@ -105,7 +105,7 @@ public class CheckStatusController {
         logger.info("学生提交审核文件信息");
         BaseStudent student = new BaseStudent();
         student.setId(Integer.parseInt(userId));
-        student.setStudentStatus(accept);  //学生身份状态--> 0(未审核)  1(审核通过)  2(审核中)
+        student.setStudentStatus(accept);  //学生身份状态--> 0(未审核)  1(审核通过)  2(审核中) 3（不通过）
         Map<String, Object> data = checkStatusService.updateBaseStudent(student);
         return data;
     }

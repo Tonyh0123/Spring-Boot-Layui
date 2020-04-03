@@ -40,6 +40,17 @@ public class BaseStudent {
     @Column(name = "school_student_major")
     private String studentMajor;
 
+    @Column(name= "school_student_verify_detail")
+    private String verifyDetail;
+
+    public String getVerifyDetail() {
+        return verifyDetail;
+    }
+
+    public void setVerifyDetail(String verifyDetail) {
+        this.verifyDetail = verifyDetail;
+    }
+
     public Integer getId() {
         return id;
     }

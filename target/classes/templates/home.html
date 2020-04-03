@@ -134,6 +134,9 @@
                             document.getElementById("checkTab").style.display = '';
                             document.getElementById("studentStatusInfo").innerText = "您还未进行学生身份认证，点击链接立即认证，解锁系统更多功能。";
                             document.getElementById("statusLink").style.display = '';
+                        }else if(getCookie("studentStatus")=="3"){
+                            document.getElementById("checkTab").style.display = '';
+                            document.getElementById("studentStatusInfo").innerText = "您的身份认证审核结果为：不通过。审核意见："+data.verifyDetail+"。您可点击下方链接重新提交审核申请。";
                         }else {
                             document.getElementById("checkTab").style.display = '';
                             document.getElementById("studentStatusInfo").innerText = "您已提交身份审核信息，正在审核中。";

@@ -30,6 +30,7 @@
     <result column="school_student_SFZ_BM" jdbcType="VARCHAR" property="SFZBM" />
     <result column="school_student_status" jdbcType="VARCHAR" property="studentStatus" />
     <result column="school_student_major" jdbcType="VARCHAR" property="studentMajor" />
+    <result column="school_student_verify_detail" jdbcType="VARCHAR" property="verifyDetail" />
   </resultMap>
 
   <sql id="baseColumn">
@@ -57,7 +58,8 @@
     school_student_SFZ_ZM,
     school_student_SFZ_BM,
     school_student_status,
-    school_student_major
+    school_student_major,
+    school_student_verify_detail
   </sql>
 
   <select id="getSchoolApplyList" resultMap="BaseResultMap">
@@ -67,7 +69,18 @@
 
   <select id="getStudentApplyList" resultMap="StudentResultMap">
     SELECT <include refid="studentColumn"/>
-    FROM base_school
+    FROM base_student
   </select>
+  
+  <update id="verifyStudentApply">
+    UPDATE base_student
+    <set>
+      school_student_status = #{studentStatus},
+      school_student_verify_detail = #{verifyDetail}
+    </set>
+    <where>
+      id = #{id}
+    </where>
+  </update>
 
 </mapper>

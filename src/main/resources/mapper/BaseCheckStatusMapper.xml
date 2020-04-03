@@ -14,6 +14,7 @@
         <result column="school_student_SFZ_BM" jdbcType="VARCHAR" property="SFZBM" />
         <result column="school_student_status" jdbcType="VARCHAR" property="studentStatus" />
         <result column="school_student_major" jdbcType="VARCHAR" property="studentMajor" />
+        <result column="school_student_verify_detail" jdbcType="VARCHAR" property="verifyDetail" />
     </resultMap>
 
 
@@ -28,7 +29,8 @@
     school_student_SFZ_ZM,
     school_student_SFZ_BM,
     school_student_status,
-    school_student_major
+    school_student_major,
+    school_student_verify_detail
   </sql>
 
     <select id="getStudentStatus" resultMap="BaseResultMap">

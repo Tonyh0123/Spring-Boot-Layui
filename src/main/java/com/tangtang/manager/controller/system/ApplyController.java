@@ -161,6 +161,21 @@ public class ApplyController {
         return data;
     }
 
+
+    /**
+     * 学生认证申请审核
+     * @param student
+     * @return
+     */
+    @RequestMapping(value = "/verifyStudentStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> verifyStudentStatus(BaseStudent student) {
+        logger.info("学生认证申请审核");
+        Map<String,Object> data = new HashMap();
+        data = applyService.verifyStudentApply(student);
+        return data;
+    }
+
     /**
      *
      * 功能描述: 删除/恢复 用户

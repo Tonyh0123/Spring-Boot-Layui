@@ -11,4 +11,6 @@ public interface BaseApplyMapper {
     List<SchoolApplyDTO> getSchoolApplyList(SchoolApplyDTO schoolApplyDTO);
 
     List<BaseStudent> getStudentApplyList(BaseStudent student);
+
+    boolean verifyStudentApply(BaseStudent student);
 }
