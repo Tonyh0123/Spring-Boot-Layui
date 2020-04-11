@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='个人测试结果管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header" class="no-print"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+    <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+
+    <div id="showProjectDetail" class="layer_self_wrap" style="display:none; ">
+        <form id="projectAddFormShow" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+
+            <blockquote class="layui-elem-quote">项目基本信息</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>项目编号</b></label>
+                <div class="layui-input-block">
+                    <input id="projectIdShow"  lay-verify="required" autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>项目名称</b></label>
+                <div class="layui-input-block">
+                    <input id="projectNameShow"  lay-verify="required" autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>项目关键词</b></label>
+                <div class="layui-input-block">
+                    <input id="projectKeyWordsShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>项目类型</b></label>
+                <div class="layui-input-block">
+                    <input id="projectTypeShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>所属学校</b></label>
+                <div class="layui-input-block">
+                    <input id="projectBelongSchoolShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>立项时间</b></label>
+                <div class="layui-input-block">
+                    <input id="projectEstablishTimeShow"  lay-verify="required" autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>项目简介</b></label>
+                <div class="layui-input-block">
+                    <textarea id="projectIntroductionShow"  lay-verify="required"  class="layui-textarea" readonly></textarea>
+                </div>
+            </div>
+
+
+            <br>
+            <blockquote class="layui-elem-quote">项目详细信息</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>所属学科门类</b></label>
+                <div class="layui-input-block">
+                    <input id="projectSSXKMLShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>所属专业大类</b></label>
+                <div class="layui-input-block">
+                    <input id="projectSSZYDLShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>申请理由</b></label>
+                <div class="layui-input-block">
+                    <textarea id="projectApplyReasonShow"  lay-verify="required"  class="layui-textarea" readonly></textarea>
+                </div>
+            </div>
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label"><b>申请表</b></label>
+                    <div class="layui-input-block">
+                        <input type="text" id="projectApplyTableShow" lay-verify="required"   autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="previewButton" onclick="picPreview1()">
+                        <i class="layui-icon">&#xe67c;</i>预览
+                    </button>
+                </div>
+            </div>
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label"><b>项目策划书</b></label>
+                    <div class="layui-input-block">
+                        <input type="text" id="projectPlanningBookShow" lay-verify="required"   autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="previewButtonPB"  onclick="picPreview2()">
+                        <i class="layui-icon">&#xe67c;</i>预览
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>实施时间</b></label>
+                <div class="layui-input-block">
+                    <input id="projectImplementationTimeShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>预期成果</b></label>
+                <div class="layui-input-block">
+                    <textarea id="projectExpectedResultsShow"  lay-verify="required" class="layui-textarea" readonly></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>经费预算</b></label>
+                <div class="layui-input-block">
+                    <textarea id="projectMoneyBudgetsShow" lay-verify="required" class="layui-textarea" readonly></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>学校提供条件</b></label>
+                <div class="layui-input-block">
+                    <input id="projectXFTGTJShow"  lay-verify="required" autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>指导老师</b></label>
+                <div class="layui-input-block">
+                    <input id="projectGuidanceTeacherShow"  lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+
+            <br>
+            <blockquote class="layui-elem-quote">项目成员</blockquote>
+            <div class="layui-form-item layui-form-text" style="display: none">
+                <label class="layui-form-label">项目成员</label>
+                <div class="layui-input-block">
+                    <input id="projectMembersShow"  lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>年级</th>
+                    <th>学号</th>
+                    <th>专业</th>
+                    <th>联系电话</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+    <!--添加项目申报-->
+    <div id="addProjectDeclaration" class="layer_self_wrap" style="display:none; ">
+        <form id="projectAddForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+            <input id="id" type="hidden" name="id"/>
+            <input id="projectOwnerId" type="hidden" name="projectOwnerId"/>
+            <input id="projectOwnerName" type="hidden" name="projectOwnerName"/>
+
+            <!--表单提交前js会进行字符串拼接并将值填充进来-->
+            <input id="projectImplementationTime" type="hidden" name="projectImplementationTime"/>
+            <input id="projectMembers" type="hidden" name="projectMembers"/>
+
+            <blockquote class="layui-elem-quote">项目基本信息</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">项目名称</label>
+                <div class="layui-input-block">
+                    <input id="projectName" name="projectName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">项目关键词</label>
+                <div class="layui-input-block">
+                    <input id="projectKeyWords" name="projectKeyWords" lay-verify="required" placeholder="请用中文逗号（，）分隔" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">项目类型</label>
+                <div class="layui-input-block">
+                    <select name="projectType" id="projectType" lay-verify="required" lay-search>
+                        <option value="">请选择项目类型</option>
+                        <option value="类型1" >类型1</option>
+                        <option value="类型2" >类型2</option>
+                        <option value="类型3" >类型3</option>
+                        <option value="类型4" >类型4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">所属学校</label>
+                <div class="layui-input-block">
+                    <select name="projectBelongSchool" id="projectBelongSchool" lay-verify="required" lay-search>
+                        <option value="">请选择项目学校</option>
+                        <option value="学校1" >学校1</option>
+                        <option value="学校2" >学校2</option>
+                        <option value="学校3" >学校3</option>
+                        <option value="学校4" >学校4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">项目简介</label>
+                <div class="layui-input-block">
+                    <textarea id="projectIntroduction" name="projectIntroduction" lay-verify="required" placeholder="请输入[项目简介]" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+
+
+            <br>
+            <blockquote class="layui-elem-quote">项目详细信息</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">所属学科门类</label>
+                <div class="layui-input-block">
+                    <select name="projectSSXKML" id="projectSSXKML" lay-verify="required" lay-search>
+                        <option value="">请选择项目学校</option>
+                        <option value="学校1" >学校1</option>
+                        <option value="学校2" >学校2</option>
+                        <option value="学校3" >学校3</option>
+                        <option value="学校4" >学校4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">所属专业大类</label>
+                <div class="layui-input-block">
+                    <select name="projectSSZYDL" id="projectSSZYDL" lay-verify="required" lay-search>
+                        <option value="">请选择项目学校</option>
+                        <option value="学校1" >学校1</option>
+                        <option value="学校2" >学校2</option>
+                        <option value="学校3" >学校3</option>
+                        <option value="学校4" >学校4</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">申请理由</label>
+                <div class="layui-input-block">
+                    <textarea id="projectApplyReason" name="projectApplyReason" lay-verify="required" placeholder="请输入[申请理由]" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">申请表</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="projectApplyTable" name="projectApplyTable" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="uploadButton1">
+                        <i class="layui-icon">&#xe67c;</i>上传文件
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton1" style="display: none" onclick="picPreview1()">
+                        <i class="layui-icon">&#xe67c;</i>预览
+                    </button>
+                </div>
+            </div>
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">项目策划书</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="projectPlanningBook" name="projectPlanningBook" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="uploadButton2">
+                        <i class="layui-icon">&#xe67c;</i>上传文件
+                    </button>
+
+                    <button type="button" class="layui-btn" id="previewButton2" style="display: none" onclick="picPreview2()">
+                        <i class="layui-icon">&#xe67c;</i>预览
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">实施时间</label>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input   id="startTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 175px;">
+                    <input  id="endTime" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">预期成果</label>
+                <div class="layui-input-block">
+                    <textarea id="projectExpectedResults" name="projectExpectedResults"  lay-verify="required" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">经费预算</label>
+                <div class="layui-input-block">
+                    <textarea id="projectMoneyBudgets" name="projectMoneyBudgets"  lay-verify="required" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">指导老师</label>
+                <div class="layui-input-block">
+                    <input id="projectGuidanceTeacher" name="projectGuidanceTeacher" lay-verify="required"  autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+
+            <br>
+            <blockquote class="layui-elem-quote">项目成员</blockquote>
+            <div id="memberForm1" style="padding: 20px">
+                <div style="border: #009688 solid 2px;">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label ">姓名</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberName1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年级</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberGrade1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">学号</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberStudentID1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专业</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberMajor1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系电话</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberPhone1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Email</label>
+                        <div class="layui-input-block">
+                            <input id="projectMemberEmail1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="layui-btn" type="button" style="width: 300px; margin-top: 10px; margin-left: 35%" onclick="addProjectMembers()">继续添加</button>
+
+
+            <br><br>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="userSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="testResultListFather" class="layui-body" style="margin: 1%">
+
+        <hr class="layui-bg-green"/>
+
+        <button id="projectApply" class="layui-btn" onclick="addProjectDeclaration();" style="display: none">创业项目申报</button>
+        <button id="showInfo" class="layui-btn layui-btn-disabled"  style="display: none">身份未认证</button>
+        <button  class="layui-btn"  onclick="back2Home();">返回我的主页</button>
+
+        <table id="projectListForStudent" lay-filter="projectForStudentTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="projectDetail">项目详情</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+        </script>
+    </div>
+
+    <!--底部-->
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <script src="/projectDeclaration/projectDeclarationList.js"></script>
+    <script src="/js/getCookies.js"></script>
+    <script>
+        window.onload = function () {
+            if(getCookie("studentStatus")=="1"){
+                document.getElementById("projectApply").style.display = "";
+            }else{
+                document.getElementById("showInfo").style.display = "";
+            }
+        }
+
+        var pdf1 = "";
+        var pdf2 = "";
+        layui.use('upload', function(){
+            var upload = layui.upload;
+            //执行实例
+            upload.render({
+                elem: '#uploadButton1' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,accept: 'file'
+                ,exts: 'pdf'
+                ,done: function(res){
+
+                    document.getElementById("previewButton1").style.display='';
+                    pdf1 = res.fileUrl;
+                    $("#projectApplyTable").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+
+            upload.render({
+                elem: '#uploadButton2' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,accept: 'file'
+                ,exts: 'pdf'
+                ,done: function(res){
+
+                    document.getElementById("previewButton2").style.display='';
+                    pdf2 = res.fileUrl;
+                    $("#projectPlanningBook").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
+        });
+        function picPreview1() {
+            var uul = pdf1;
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '工作证明信息',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+        function picPreview2() {
+            var uul = pdf2;
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '学校证明信息',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+        $(function() {
+            //日期选择框
+            layui.use(['form', 'laydate'], function () {
+                var form = layui.form, layer = layui.layer
+                    , laydate = layui.laydate;
+                //日期
+                laydate.render({
+                    elem: '#startTime'
+                });
+
+                laydate.render({
+                    elem: '#endTime'
+                });
+
+            });
+
+        });
+        function back2Home() {
+            location.href = "/home";
+
+        }
+    </script>
+
+
+</div>
+
+</body>
+</html>

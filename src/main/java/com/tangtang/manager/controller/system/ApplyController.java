@@ -2,6 +2,7 @@ package com.tangtang.manager.controller.system;
 
 import com.tangtang.manager.dto.*;
 import com.tangtang.manager.pojo.BaseAdminUser;
+import com.tangtang.manager.pojo.BaseProjectDeclaration;
 import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.AdminUserService;

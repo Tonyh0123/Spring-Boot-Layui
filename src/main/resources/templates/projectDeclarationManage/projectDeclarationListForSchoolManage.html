@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='个人测试结果管理'"></head>
+<style>
+    .p2{text-indent: 2em;}
+
+    @font-face{
+        src:url("fonts/fz.TTF");
+        font-family: fzfont;
+    }
+    div.printId{
+        font-family: "fzfont";
+    }
+    .printId{
+        font-size: 16px;
+        line-height: 200%;
+        border: 1px solid #DCDCDC;
+        left:0;
+        top:0;
+        right:0;
+        bottom: 0;
+        margin: auto;
+
+    }
+    .duanluo{
+        /*border: 1px solid black;*/
+        border: 1px solid #DCDCDC;
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+    }
+    .bianju{
+        margin: 15px;
+    }
+    .biaoti{
+        font-size: 22px;
+        background-color: #cbdde6;
+    }
+    span{
+        color: red;
+    }
+    canvas{
+    }
+    body{
+        -webkit-print-color-adjust: exact;
+    }
+</style>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header" class="no-print"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+
+    <div id="checkResult" class="no-print" style="display: none">
+        <div>
+            <div id="printId" class="printId" style="width: 950px; margin-top: 50px; background-color: #fff">
+                <div class="">
+                    <p style="background-color: #cbdde6; font-size: 28px; text-align: center; margin-top: 30px ; margin-bottom: -30px">大学生创业能力综合测评-测评结果</p><br>
+                </div>
+                <div id="testResult" style="margin: 25px 25px 0 25px;"></div>
+                <div class="leftNav-item no-print print-link" >
+                    <ul>
+                        <li>
+                            <i class="fa fa-location-arrow" ></i>
+                            <a href="javascript:void(0)" class="rota">结果导出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="testResultListFather no-print" class="layui-body" style="margin: 1%">
+
+        <hr class="layui-bg-green"/>
+
+        <button class="layui-btn" onclick="">大学生创业综合能力测试</button>
+
+        <table id="testResultList" lay-filter="testResultTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="look">查看</a>
+            <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+        </script>
+    </div>
+
+    <!--底部-->
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <script src="/js/testQuestion/testResultList.js"></script>
+    <script type="text/javascript" src="/js/jQuery.print.js"></script>
+    <script src="/js/Chart.js"></script>
+    <script type="text/javascript">
+
+    </script>
+
+
+</div>
+
+</body>
+</html>

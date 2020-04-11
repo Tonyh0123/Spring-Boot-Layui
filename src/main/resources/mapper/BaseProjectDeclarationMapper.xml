@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseProjectDeclarationMapper">
+  <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseProjectDeclaration">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_owner_id" jdbcType="VARCHAR" property="projectOwnerId" />
+    <result column="project_owner_name" jdbcType="VARCHAR" property="projectOwnerName" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_key_words" jdbcType="VARCHAR" property="projectKeyWords" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_belong_school" jdbcType="VARCHAR" property="projectBelongSchool" />
+    <result column="project_implementation_time" jdbcType="VARCHAR" property="projectImplementationTime" />
+    <result column="project_SSXKML" jdbcType="VARCHAR" property="projectSSXKML" />
+    <result column="project_SSZYDL" jdbcType="VARCHAR" property="projectSSZYDL" />
+    <result column="project_establish_time" jdbcType="VARCHAR" property="projectEstablishTime" />
+    <result column="project_members" jdbcType="VARCHAR" property="projectMembers" />
+    <result column="project_guidance_teacher" jdbcType="VARCHAR" property="projectGuidanceTeacher" />
+    <result column="project_introduction" jdbcType="VARCHAR" property="projectIntroduction" />
+    <result column="project_apply_reason" jdbcType="VARCHAR" property="projectApplyReason" />
+    <result column="project_apply_table" jdbcType="VARCHAR" property="projectApplyTable" />
+    <result column="project_planning_book" jdbcType="VARCHAR" property="projectPlanningBook" />
+    <result column="project_XFTGTJ" jdbcType="VARCHAR" property="projectXFTGTJ" />
+    <result column="project_expected_results" jdbcType="VARCHAR" property="projectExpectedResults" />
+    <result column="project_money_budgets" jdbcType="VARCHAR" property="projectMoneyBudgets" />
+  </resultMap>
+
+  <sql id="selectColumn">
+    id,
+    project_owner_id,
+    project_owner_name,
+    project_id,
+    project_name,
+    project_key_words,
+    project_type,
+    project_belong_school,
+    project_implementation_time,
+    project_SSXKML,
+    project_SSZYDL,
+    project_establish_time,
+    project_members,
+    project_guidance_teacher,
+    project_introduction,
+    project_apply_reason,
+    project_apply_table,
+    project_planning_book,
+    project_XFTGTJ,
+    project_expected_results,
+    project_money_budgets
+  </sql>
+
+  <sql id="insertColumn">
+    project_owner_id,
+    project_owner_name,
+    project_id,
+    project_name,
+    project_key_words,
+    project_type,
+    project_belong_school,
+    project_implementation_time,
+    project_SSXKML,
+    project_SSZYDL,
+    project_members,
+    project_guidance_teacher,
+    project_introduction,
+    project_apply_reason,
+    project_apply_table,
+    project_planning_book,
+    project_expected_results,
+    project_money_budgets
+  </sql>
+
+  <!--查找某高校所有的立项申请-->
+  <select id="getProjectEstablishListForSchool" resultMap="BaseResultMap">
+    SELECT <include refid="selectColumn"/>
+    FROM base_project_establish_report
+    <where>
+      project_belong_school = #{school}
+    </where>
+  </select>
+
+  <!--查找个人立项申请-->
+  <select id="getPersonalProjectEstablishList" resultMap="BaseResultMap">
+    SELECT <include refid="selectColumn"/>
+    FROM base_project_establish_report
+    <where>
+      project_owner_id = #{projectOwnerId}
+    </where>
+  </select>
+
+  <!--申请立项时插入数据-->
+  <insert id="addProjectEstablishApply" parameterType="com.tangtang.manager.pojo.BaseProjectDeclaration">
+        INSERT  INTO base_project_establish_report
+        (
+            project_owner_id,
+            project_owner_name,
+            project_id,
+            project_name,
+            project_key_words,
+            project_type,
+            project_belong_school,
+            project_implementation_time,
+            project_SSXKML,
+            project_SSZYDL,
+            project_members,
+            project_guidance_teacher,
+            project_introduction,
+            project_apply_reason,
+            project_apply_table,
+            project_planning_book,
+            project_expected_results,
+            project_money_budgets
+        )
+        VALUES
+        (
+            #{projectOwnerId},
+            #{projectOwnerName},
+            #{projectId},
+            #{projectName},
+            #{projectKeyWords},
+            #{projectType},
+            #{projectBelongSchool},
+            #{projectImplementationTime},
+            #{projectSSXKML},
+            #{projectSSZYDL},
+            #{projectMembers},
+            #{projectGuidanceTeacher},
+            #{projectIntroduction},
+            #{projectApplyReason},
+            #{projectApplyTable},
+            #{projectPlanningBook},
+            #{projectExpectedResults},
+            #{projectMoneyBudgets}
+        )
+   </insert>
+
+  <!--校方同意立项申请时更新立项申请表中‘立项时间’、‘校方提供条件’字段-->
+  <update id="updateProjectDetail">
+    UPDATE base_project_establish_report
+    <set>
+      <if test="projectEstablishTime != null">
+        project_establish_time = #{projectEstablishTime},
+      </if>
+
+      <if test="projectXFTGTJ != null">
+        project_XFTGTJ = #{projectXFTGTJ},
+      </if>
+    </set>
+    WHERE id = #{id}
+  </update>
+</mapper>
