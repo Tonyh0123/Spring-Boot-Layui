@@ -69,6 +69,30 @@ public class BaseProjectDeclaration {
     @Column(name = "project_money_budgets")
     private String projectMoneyBudgets;
 
+    @Column(name = "project_pass_status")
+    private String project_pass_status;
+
+    @Column(name = "project_pass_detail")
+    private String project_pass_detail;
+
+    @Column(name = "project_LX_DBSJ")
+    private String project_LX_DBSJ;
+
+    @Column(name = "project_CXJD_DBSJ")
+    private String project_CXJD_DBSJ;
+
+    @Column(name = "project_CZJD_DBSJ")
+    private String project_CZJD_DBSJ;
+
+    @Column(name = "project_current_JD")
+    private String project_current_JD;
+
+    @Column(name = "project_JDBG_SQFJ")
+    private String project_JDBG_SQFJ;
+
+    @Column(name = "project_recommend_sign")
+    private String project_recommend_sign;
+
     public Integer getId() {
         return id;
     }
@@ -235,5 +259,69 @@ public class BaseProjectDeclaration {
 
     public void setProjectMoneyBudgets(String projectMoneyBudgets) {
         this.projectMoneyBudgets = projectMoneyBudgets;
+    }
+
+    public String getProject_pass_status() {
+        return project_pass_status;
+    }
+
+    public void setProject_pass_status(String project_pass_status) {
+        this.project_pass_status = project_pass_status;
+    }
+
+    public String getProject_pass_detail() {
+        return project_pass_detail;
+    }
+
+    public void setProject_pass_detail(String project_pass_detail) {
+        this.project_pass_detail = project_pass_detail;
+    }
+
+    public String getProject_LX_DBSJ() {
+        return project_LX_DBSJ;
+    }
+
+    public void setProject_LX_DBSJ(String project_LX_DBSJ) {
+        this.project_LX_DBSJ = project_LX_DBSJ;
+    }
+
+    public String getProject_CXJD_DBSJ() {
+        return project_CXJD_DBSJ;
+    }
+
+    public void setProject_CXJD_DBSJ(String project_CXJD_DBSJ) {
+        this.project_CXJD_DBSJ = project_CXJD_DBSJ;
+    }
+
+    public String getProject_CZJD_DBSJ() {
+        return project_CZJD_DBSJ;
+    }
+
+    public void setProject_CZJD_DBSJ(String project_CZJD_DBSJ) {
+        this.project_CZJD_DBSJ = project_CZJD_DBSJ;
+    }
+
+    public String getProject_current_JD() {
+        return project_current_JD;
+    }
+
+    public void setProject_current_JD(String project_current_JD) {
+        this.project_current_JD = project_current_JD;
+    }
+
+    public String getProject_JDBG_SQFJ() {
+        return project_JDBG_SQFJ;
+    }
+
+    public void setProject_JDBG_SQFJ(String project_JDBG_SQFJ) {
+        this.project_JDBG_SQFJ = project_JDBG_SQFJ;
+    }
+
+    public String getProject_recommend_sign() {
+        return project_recommend_sign;
+    }
+
+    public void setProject_recommend_sign(String project_recommend_sign) {
+        this.project_recommend_sign = project_recommend_sign;
     }
 }

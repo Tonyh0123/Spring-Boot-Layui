@@ -55,6 +55,20 @@ public class ProjectDeclarationController {
 
     /**
      *
+     * 功能描述: 跳到已立项项目列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 11：59
+     */
+    @RequestMapping("/LXProjectManageForSchool")
+    public String LXProjectManageForSchool() {
+        return "/projectDeclarationManage/LXProjectListForSchoolManage";
+    }
+
+    /**
+     *
      * 功能描述: 跳到学生个人项目申报管理列表
      *
      * @param:
@@ -80,8 +94,9 @@ public class ProjectDeclarationController {
     @RequestMapping(value = "/getProjectEstablishListForSchool", method = RequestMethod.POST)
     @ResponseBody
     public PageDataResult getProjectEstablishListForSchool(@RequestParam("pageNum") Integer pageNum,
-                                                           @RequestParam("pageSize") Integer pageSize, BaseProjectDeclaration projectDeclaration) {
-
+                                                           @RequestParam("pageSize") Integer pageSize, BaseProjectDeclaration projectDeclaration, String userId) {
+        String schoolName = projectDeclarationService.getSchoolNameByUserId(userId);
+        projectDeclaration.setProjectBelongSchool(schoolName);
         PageDataResult pdr = new PageDataResult();
         try {
             if(null == pageNum) {
@@ -97,6 +112,40 @@ public class ProjectDeclarationController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("校方项目申报管理列表查询异常！", e);
+        }
+        return pdr;
+    }
+
+    /**
+     *
+     * 功能描述: 分页已立项项目管理列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：05
+     */
+    @RequestMapping(value = "/getLXProjectListForSchool", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getLXProjectListForSchool(@RequestParam("pageNum") Integer pageNum,
+                                                           @RequestParam("pageSize") Integer pageSize, BaseProjectDeclaration projectDeclaration, String userId) {
+        String schoolName = projectDeclarationService.getSchoolNameByUserId(userId);
+        projectDeclaration.setProjectBelongSchool(schoolName);
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取列表
+            pdr = projectDeclarationService.getLXProjectListForSchool(projectDeclaration, pageNum ,pageSize);
+            logger.info("已立项项目列表查询=pdr:" + pdr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("已立项项目列表查询异常！", e);
         }
         return pdr;
     }
@@ -152,6 +201,7 @@ public class ProjectDeclarationController {
             proId += ran;
         }
         projectDeclaration.setProjectId(proId.toString());
+        projectDeclaration.setProject_pass_status("LXSQFQ");
         Map<String,Object> data = new HashMap();
         logger.info("新增项目申报");
         data = projectDeclarationService.addProjectEstablishApply(projectDeclaration);
@@ -172,6 +222,92 @@ public class ProjectDeclarationController {
     public Map<String, Object> updateProjectDetail(BaseProjectDeclaration projectDeclaration) {
         logger.info("更新项目申报信息");
         Map<String, Object> data = projectDeclarationService.updateProjectDetail(projectDeclaration);
+        return data;
+    }
+
+    /**
+     *
+     * 功能描述: 学校予以立项
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：19
+     */
+    @RequestMapping(value = "/agreeTheLXApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> agreeTheLXApply(BaseProjectDeclaration projectDeclaration) {
+        logger.info("学校予以立项");
+        projectDeclaration.setProjectEstablishTime(DateUtils.getNowDateString());
+        Map<String, Object> data = projectDeclarationService.agreeTheLXApply(projectDeclaration);
+        return data;
+    }
+
+    /**
+     *
+     * 功能描述: 阶段变更申请
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：19
+     */
+    @RequestMapping(value = "/JDBGApply", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> JDBGApply(BaseProjectDeclaration projectDeclaration) {
+        logger.info("阶段变更申请");
+        Map<String, Object> data = projectDeclarationService.JDBGApply(projectDeclaration);
+        return data;
+    }
+
+    /**
+     *
+     * 功能描述: 设置阶段变更答辩时间
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：19
+     */
+    @RequestMapping(value = "/setTimeOfDB", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setTimeOfDB(BaseProjectDeclaration projectDeclaration) {
+        logger.info("设置阶段变更答辩时间");
+        Map<String, Object> data = projectDeclarationService.setTimeOfDB(projectDeclaration);
+        return data;
+    }
+
+    /**
+     *
+     * 功能描述: 设置项目当前阶段
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：19
+     */
+    @RequestMapping(value = "/setCurrentJD", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> setCurrentJD(BaseProjectDeclaration projectDeclaration) {
+        logger.info("设置项目当前阶段");
+        Map<String, Object> data = projectDeclarationService.setCurrentJD(projectDeclaration);
+        return data;
+    }
+
+    /**
+     *
+     * 功能描述: 推荐项目至企业
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/08 12：19
+     */
+    @RequestMapping(value = "/recommendOrNot", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> recommendOrNot(BaseProjectDeclaration projectDeclaration) {
+        logger.info("推荐项目至企业");
+        Map<String, Object> data = projectDeclarationService.recommendOrNot(projectDeclaration);
         return data;
     }
 

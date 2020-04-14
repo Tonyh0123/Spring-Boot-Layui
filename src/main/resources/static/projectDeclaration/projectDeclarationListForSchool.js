@@ -12,12 +12,12 @@ $(function() {
         var table = layui.table;
         form = layui.form;
         var checkRolePermission = document.getElementById("checkThat").innerText;
-        if(checkRolePermission!='2' && checkRolePermission!='1'){
+        if(checkRolePermission!='3' && checkRolePermission!='1'){
             window.location.href="/myError"
         }else {
             tableIns=table.render({
-                elem: '#projectListForStudent',
-                url:'/declaration/getPersonalProjectEstablishList',
+                elem: '#projectListForSchool',
+                url:'/declaration/getProjectEstablishListForSchool',
                 where: {"userId":userId},
                 method: 'post', //默认：get请求
                 cellMinWidth: 300,
@@ -34,10 +34,11 @@ $(function() {
                 },
                 cols: [[
                     {type:'numbers'}
-                    ,{field:'projectOwnerName', title:'申请人',width:350, align:'center'}
+                    ,{field:'projectOwnerName', title:'申请人',width:180, align:'center'}
                     ,{field:'projectId', title:'项目编号',width:350,align:'center'}
-                    ,{field:'projectName', title:'项目名称',width:500,align:'center',sort:true}
-                    ,{title:'操作',align:'center', width:434, toolbar:'#optBar'}
+                    ,{field:'projectName', title:'项目名称',width:350,align:'center',sort:true}
+                    ,{field:'project_current_JD', title:'项目所处阶段',width:300,align:'center',sort:true}
+                    ,{title:'操作',align:'center', width:453, toolbar:'#optBar'}
                 ]],
                 done: function(res, curr, count){
                     //得到数据总量
@@ -47,74 +48,30 @@ $(function() {
             });
 
             //监听工具条
-            table.on('tool(projectForStudentTable)', function(obj){
+            table.on('tool(projectForSchoolTable)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'del'){
-                    //删除
-                    del(data,data.id);
-                } else if(obj.event === 'projectDetail'){
+                if(obj.event === 'projectDetail'){
                     projectDetail(data,data.id);
-                    //编辑
-                }else if(obj.event === 'JDBG_CXJD'){
-                    JDBG(data,"FQJDBG_CXJD");
-                    //编辑
-                }else if(obj.event === 'JDBG_CZJD'){
-                    JDBG(data,"FQJDBG_CZJD");
-                    //编辑
+                }else if(obj.event === 'setPassOtNot'){
+                    projectPassed(data);
+                }else if(obj.event === 'setLXOrNot'){
+                    projectLX(data);
+                }else if(obj.event === 'setTimeOfCXJD'){
+                    setTimeOfDB(data,"CXJDBG_DBSJYAP");
+                }else if(obj.event === 'setTimeOfCZJD'){
+                    setTimeOfDB(data,"CZJDBG_DBSJYAP");
+                }else if(obj.event === 'agreeCXJDBG'){
+                    agreeJDBG(data,"创新阶段","CXJD_BGCG");
+                }else if(obj.event === 'agreeCZJDBG'){
+                    agreeJDBG(data,"成长阶段","CZJD_BGCG");
                 }
             });
 
             form.on('submit(userSubmit)', function(data){
-                //提交前的字符串拼接/填充
-                var startTime = document.getElementById("startTime").value;
-                var endTime = document.getElementById("endTime").value;
-                var projectImplementationTime = startTime + '~' +endTime;
-                $("#projectImplementationTime").val(projectImplementationTime);
-                var userId = document.getElementById("userId").innerText;
-                var userName = document.getElementById("userName").innerText;
-                $("#projectOwnerId").val(userId);
-                $("#projectOwnerName").val(userName);
-                var projectMembers = [];
-                for(var i = 1; i<=index; i++){
-                    // console.log("No."+ i + ":"+" memberForm"+i.toString())
-                    if(document.getElementById("memberForm"+i.toString())){
-                        var records = {name:"",grade:"",stuID:"",major:"",phone:"",Email:""};
-                        records.name = document.getElementById("projectMemberName"+i.toString()).value;
-                        records.grade = document.getElementById("projectMemberGrade"+i.toString()).value;
-                        records.stuID = document.getElementById("projectMemberStudentID"+i.toString()).value;
-                        records.major = document.getElementById("projectMemberMajor"+i.toString()).value;
-                        records.phone = document.getElementById("projectMemberPhone"+i.toString()).value;
-                        records.Email = document.getElementById("projectMemberEmail"+i.toString()).value;
-                        projectMembers.push(records);
-                    }
-                // console.log(JSON.stringify(projectMembers).toString());
-                }
-                $("#projectMembers").val(JSON.stringify(projectMembers).toString());
                 // TODO 校验
                 formSubmit(data);
                 return false;
             });
-
-            form.on('submit(JDBGApplySubmit)', function(data){
-                var primaryKey = document.getElementById("primaryKey").innerText;
-                $.ajax({
-                    type: "POST",
-                    data: $.param({"id":primaryKey}) + '&' + $("#JDBGApplyForm").serialize(),
-                    url: "/declaration/JDBGApply",
-                    success: function (data) {
-                        if (data.code == 1) {
-                            layer.alert(data.msg,function(){
-                                layer.closeAll();
-                                location.reload();
-                            });
-                        } else {
-                            layer.alert(data.msg);
-                        }
-                    }
-                });
-                return false;
-            });
-
 
         }
 
@@ -178,6 +135,7 @@ function del(obj,id) {
 }
 
 function projectDetail(obj,id) {
+    document.getElementById("primaryKey").innerText = obj.id;
     $("#projectIdShow").val(obj.projectId);
     $("#projectNameShow").val(obj.projectName);
     $("#projectKeyWordsShow").val(obj.projectKeyWords);
@@ -236,28 +194,99 @@ function projectDetail(obj,id) {
         }
         ,end: function () {
             //弹窗关闭后清空值
-            document.getElementById("projectAddFormShow").reset();
+            location.reload();
+            // document.getElementById("projectAddFormShow").reset();
         }
     });
 }
 
-function addProjectDeclaration() {
+function projectPassed(obj) {
+    document.getElementById("primaryKey").innerText = obj.id;
     layer.open({
         type: 1 //此处以iframe举例
-        , title: '查看报告'
-        , area: ['1000px','900px']
+        , title: '项目审核'
+        , area: ['600px','600px']
         , shade: 0
         , maxmin: true
         , offset: ['60px']
-        , content: $("#addProjectDeclaration")
+        , content: $("#projectPassed")
         , btn: ['关闭'] //只是为了演示
         ,end: function () {
             //弹窗关闭后清空值
-            document.getElementById("projectAddForm").reset();
+            // location.reload();
+            document.getElementById("projectPassedForm").reset();
+            document.getElementById("shyj").style.display="none";
+            document.getElementById("dbsj").style.display="none";
         }
     });
 }
 
+function projectLX(obj) {
+    document.getElementById("primaryKey").innerText = obj.id;
+    layer.open({
+        type: 1 //此处以iframe举例
+        , title: '项目审核'
+        , area: ['600px','600px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#projectLX")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            // location.reload();
+            document.getElementById("projectLXForm").reset();
+            document.getElementById("XFTGTJ").style.display="none";
+            $("#project_current_JD").val("");
+        }
+    });
+}
+
+function setTimeOfDB(obj,passStatus) {
+    document.getElementById("primaryKey").innerText = obj.id;
+    $("#project_pass_status_For_JDBG").val(passStatus);
+    var title = "";
+    if(passStatus == "CXJDBG_DBSJYAP"){
+        title = "创新阶段变更-答辩安排";
+        document.getElementById("project_CZJD_DBSJ_div").style.display="none";
+    }else if(passStatus == "CZJDBG_DBSJYAP"){
+        title = "成长阶段变更-答辩安排";
+        document.getElementById("project_CXJD_DBSJ_div").style.display="none";
+    }
+    layer.open({
+        type: 1 //此处以iframe举例
+        , title: title
+        , area: ['600px','600px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#setTimeOfDB")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            // location.reload();
+            document.getElementById("setTimeOfDBForm").reset();
+        }
+    });
+}
+
+
+function agreeJDBG(obj,JD,status) {
+    $.ajax({
+        type: "POST",
+        data: {"id":obj.id,"project_current_JD":JD,"project_pass_status":status},
+        url: "/declaration/setCurrentJD",
+        success: function (data) {
+            if (data.code == 1) {
+                layer.alert(data.msg,function(){
+                    location.reload();
+                });
+            } else {
+                layer.alert(data.msg);
+            }
+        }
+    });
+}
 
 function addProjectMembers() {
     index += 1;
@@ -322,25 +351,6 @@ function removeMembersDiv(divId) {
     if(divBox == 1){
         $( "[id^='delete']" ).css('display','none');
     }
-}
-
-function JDBG(obj,status) {
-    $("#project_pass_status").val(status);
-    document.getElementById("primaryKey").innerText = obj.id;
-    layer.open({
-        type: 1 //此处以iframe举例
-        , title: '阶段变更'
-        , area: ['650px','650px']
-        , shade: 0
-        , maxmin: true
-        , offset: ['60px']
-        , content: $("#JDBGApply")
-        , btn: ['关闭'] //只是为了演示
-        ,end: function () {
-            //弹窗关闭后清空值
-            document.getElementById("JDBGApplyForm").reset();
-        }
-    });
 }
 
 

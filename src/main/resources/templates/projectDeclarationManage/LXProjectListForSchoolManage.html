@@ -230,40 +230,6 @@
         </form>
     </div>
 
-    <div id="setTimeOfDB" class="layer_self_wrap" style="display:none; ">
-        <form id="setTimeOfDBForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <blockquote class="layui-elem-quote">
-                <b>项目阶段变更</b><br>
-                该项目的项目发起人已向平台发起了项目阶段变更申请<br>
-                请学校方为该项目成员安排校内项目变更申请答辩<br>
-                在此之前，请先下载学生上传的项目有关附件，仅供答辩组成员参阅
-            </blockquote>
-
-            <input name="project_pass_status" id="project_pass_status_For_JDBG" type="hidden"/>
-
-            <div class="layui-form-item" id="project_CXJD_DBSJ_div">
-                <label class="layui-form-label" style="width: 175px"><b>创新阶段-答辩时间</b></label>
-                <div class="layui-input-inline" style="width: 350px;">
-                    <input  id="project_CXJD_DBSJ" name="project_CXJD_DBSJ" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
-                </div>
-            </div>
-
-            <div class="layui-form-item" id="project_CZJD_DBSJ_div">
-                <label class="layui-form-label" style="width: 175px"><b>成长阶段-答辩时间</b></label>
-                <div class="layui-input-inline" style="width: 350px;">
-                    <input  id="project_CZJD_DBSJ" name="project_CZJD_DBSJ" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <div class="layui-input-block" style="margin-left: 40%;">
-                    <button class="layui-btn"  lay-submit="" lay-filter="setTimeOfDBSubmit">提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <div id="testResultListFather" class="layui-body" style="margin: 1%">
         <hr class="layui-bg-green"/>
         <button  class="layui-btn"  onclick="back2Home();">返回我的主页</button>
@@ -272,39 +238,27 @@
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="projectDetail">项目详情</a>
-            {{#  if(d.project_pass_status == 'LXSQFQ'){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setPassOtNot">未立项</a>
-            {{#  } else if(d.project_pass_status == 'LXSQTG'){ }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
-            {{#  } else if(d.project_pass_status == 'FQJDBG_CXJD'){ }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="setTimeOfCXJD">创新阶段变更</a>
-            {{#  } else if(d.project_pass_status == 'FQJDBG_CZJD'){ }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="setTimeOfCZJD">成长阶段变更</a>
-            {{#  } else if(d.project_pass_status == 'CXJDBG_DBSJYAP'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">创新阶段答辩时间已安排，无需操作</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="agreeCXJDBG">同意变更-创新阶段</a>
-            {{#  }else if(d.project_pass_status == 'CXJD_BGCG'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">项目已变更为创新阶段，无需操作</a>
-            {{#  } else if(d.project_pass_status == 'CZJDBG_DBSJYAP'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">成长阶段答辩时间已安排，无需操作</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="agreeCZJDBG">同意变更-成长阶段</a>
-            {{#  } else if(d.project_pass_status == 'CZJD_BGCG'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">项目已变更为成长阶段，无需操作</a>
-            {{#  }else if(d.project_pass_status == 'LXSQBTG'){ }}
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="">立项未通过</a>
-            {{#  } else if(d.project_pass_status == 'DDLXDB'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">等待立项答辩</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setLXOrNot">立项审核</a>
-           {{#  }
+            {{#  if(d.project_current_JD == '已立项'){ }}
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">已立项</a>
+            {{#  } else if(d.project_current_JD == '创新阶段'){ }}
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">创新阶段</a>
+            {{#  } else if(d.project_current_JD == '成长阶段'){ }}
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">成长阶段</a>
+            {{#  }
+            }}
 
-
+            {{#  if(d.project_recommend_sign == '1'  ){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteRecommended">撤回推优</a>
+            {{#  } else if(d.project_recommend_sign == null || d.project_recommend_sign == '0'){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recommend2Company">推优</a>
+            {{#  }
             }}
         </script>
     </div>
 
     <!--底部-->
     <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
-    <script src="/projectDeclaration/projectDeclarationListForSchool.js"></script>
+    <script src="/projectDeclaration/LXProjectListForSchool.js"></script>
     <script src="/js/getCookies.js"></script>
     <script>
         var pdf1 = "";
@@ -423,27 +377,6 @@
                 });
                 return false;
             });
-
-            form.on('submit(setTimeOfDBSubmit)', function(data){
-                // TODO 校验
-                var primaryKey = document.getElementById("primaryKey").innerText;
-                $.ajax({
-                    type: "POST",
-                    data: $.param({"id":primaryKey}) + '&' + $("#setTimeOfDBForm").serialize(),
-                    url: "/declaration/setTimeOfDB",
-                    success: function (data) {
-                        if (data.code == 1) {
-                            layer.alert(data.msg,function(){
-                                layer.closeAll();
-                                location.reload();
-                            });
-                        } else {
-                            layer.alert(data.msg);
-                        }
-                    }
-                });
-                return false;
-            });
         });
         function picPreview1() {
             var uul = pdf1;
@@ -484,15 +417,6 @@
                 laydate.render({
                     elem: '#project_LX_DBSJ'
                 });
-                laydate.render({
-                    elem: '#project_CXJD_DBSJ'
-                });
-                laydate.render({
-                    elem: '#project_CZJD_DBSJ'
-                });
-
-
-
 
             });
 

@@ -9,7 +9,9 @@
     <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
     <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
     <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+    <a id="primaryKey" style="display: none"></a>
 
+    <!--显示项目详情-->
     <div id="showProjectDetail" class="layer_self_wrap" style="display:none; ">
         <form id="projectAddFormShow" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
 
@@ -81,30 +83,32 @@
                 </div>
             </div>
             <div class="layui-row layui-form-item">
-                <div class=" layui-col-xs6" >
-                    <label class="layui-form-label"><b>申请表</b></label>
-                    <div class="layui-input-block">
-                        <input type="text" id="projectApplyTableShow" lay-verify="required"   autocomplete="off" class="layui-input" readonly>
-                    </div>
-                </div>
+<!--                <div class=" layui-col-xs6" >-->
+<!--                    -->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input type="text"  lay-verify="required"   autocomplete="off" class="layui-input" readonly>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class=" layui-col-xs6" >
-                    <button type="button" class="layui-btn" id="previewButton" onclick="picPreview1()">
-                        <i class="layui-icon">&#xe67c;</i>预览
+                    <label class="layui-form-label"><b>申请表</b></label>
+                    <button id="projectApplyTableShow" type="button" class="layui-btn" onclick="pdfPreview(this)" style="width: 300px">
+                        <i class="layui-icon">&#xe67c;</i>查看申请表
                     </button>
                 </div>
             </div>
             <div class="layui-row layui-form-item">
-                <div class=" layui-col-xs6" >
-                    <label class="layui-form-label"><b>项目策划书</b></label>
-                    <div class="layui-input-block">
-                        <input type="text" id="projectPlanningBookShow" lay-verify="required"   autocomplete="off" class="layui-input" readonly>
-                    </div>
-                </div>
+<!--                <div class=" layui-col-xs6" >-->
+<!--                    -->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input type="text"  lay-verify="required"   autocomplete="off" class="layui-input" readonly>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class=" layui-col-xs6" >
-                    <button type="button" class="layui-btn" id="previewButtonPB"  onclick="picPreview2()">
-                        <i class="layui-icon">&#xe67c;</i>预览
+                    <label class="layui-form-label"><b>项目策划书</b></label>
+                    <button type="button" class="layui-btn" id="projectPlanningBookShow"  onclick="pdfPreview(this)" style="width: 300px">
+                        <i class="layui-icon">&#xe67c;</i>查看项目策划书
                     </button>
                 </div>
             </div>
@@ -386,6 +390,37 @@
         </form>
     </div>
 
+    <!-项目阶段变更申请-->
+    <div id="JDBGApply" class="layer_self_wrap" style="display:none; ">
+        <form id="JDBGApplyForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+
+
+            <blockquote class="layui-elem-quote">项目基本信息</blockquote>
+            <input type="hidden" id="project_pass_status" name="project_pass_status"/>
+            <div class="layui-row layui-form-item">
+                <div class=" layui-col-xs6" >
+                    <label class="layui-form-label">申请表</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="project_JDBG_SQFJ" name="project_JDBG_SQFJ" lay-verify="required"  placeholder="阶段变更申请时需提交相关附件，以描述您的项目当前情况" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class=" layui-col-xs6" >
+                    <button type="button" class="layui-btn" id="JDBGApplyUploadButton">
+                        <i class="layui-icon">&#xe67c;</i>上传附件
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="JDBGApplySubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div id="testResultListFather" class="layui-body" style="margin: 1%">
 
         <hr class="layui-bg-green"/>
@@ -398,7 +433,56 @@
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="projectDetail">项目详情</a>
+
+            {{#  if(d.project_current_JD == '' || d.project_pass_status == 'LXSQFQ'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">未立项</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'LXSQTG'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="JDBG_CXJD">申请阶段变更至创新阶段</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'DDLXDB'){ }}
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">立项答辩时间已安排</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'FQJDBG_CXJD'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">创新阶段变更申请已发起</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'FQJDBG_CZJD'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">成长阶段变更申请已发起</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'CXJDBG_DBSJYAP'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">答辩时间已安排，待答辩后学校操作</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'CZJDBG_DBSJYAP'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">创新阶段</a>
+            <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">答辩时间已安排，待答辩后学校操作</a>
+            {{#  }
+
+            else if(d.project_pass_status == 'LXSQBTG'){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="">立项未通过</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
+            {{#  }
+
+            else if(d.project_current_JD == '创新阶段'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">创新阶段</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="JDBG_CZJD">申请阶段变更至成长阶段</a>
+            {{#  }
+
+            else if(d.project_current_JD == '成长阶段'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">成长阶段</a>
+            {{#  }
+            }}
+
         </script>
     </div>
 
@@ -457,6 +541,21 @@
                     //请求异常回调
                 }
             });
+
+            upload.render({
+                elem: '#JDBGApplyUploadButton' //绑定元素
+                ,url: '/upload/identifyConfirmFileUpload' //上传接口
+                ,method: 'post'
+                ,accept: 'file'
+                ,done: function(res){
+                    $("#project_JDBG_SQFJ").val(res.fileUrl);
+
+                }
+                ,error: function(){
+                    alert("failed");
+                    //请求异常回调
+                }
+            });
         });
         function picPreview1() {
             var uul = pdf1;
@@ -508,6 +607,22 @@
         function back2Home() {
             location.href = "/home";
 
+        }
+
+        function pdfPreview(obj) {
+            var uul = $(obj).val();
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: '查看文件',
+                    type: 2,
+                    area: ['1000px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
         }
     </script>
 

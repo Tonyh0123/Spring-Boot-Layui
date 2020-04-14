@@ -26,6 +26,14 @@
     <result column="project_XFTGTJ" jdbcType="VARCHAR" property="projectXFTGTJ" />
     <result column="project_expected_results" jdbcType="VARCHAR" property="projectExpectedResults" />
     <result column="project_money_budgets" jdbcType="VARCHAR" property="projectMoneyBudgets" />
+      <result column="project_pass_status" jdbcType="VARCHAR" property="project_pass_status" />
+      <result column="project_pass_detail" jdbcType="VARCHAR" property="project_pass_detail" />
+      <result column="project_LX_DBSJ" jdbcType="VARCHAR" property="project_LX_DBSJ" />
+      <result column="project_CXJD_DBSJ" jdbcType="VARCHAR" property="project_CXJD_DBSJ" />
+      <result column="project_CZJD_DBSJ" jdbcType="VARCHAR" property="project_CZJD_DBSJ" />
+      <result column="project_current_JD" jdbcType="VARCHAR" property="project_current_JD" />
+      <result column="project_JDBG_SQFJ" jdbcType="VARCHAR" property="project_JDBG_SQFJ" />
+      <result column="project_recommend_sign" jdbcType="VARCHAR" property="project_recommend_sign" />
   </resultMap>
 
   <sql id="selectColumn">
@@ -49,7 +57,15 @@
     project_planning_book,
     project_XFTGTJ,
     project_expected_results,
-    project_money_budgets
+    project_money_budgets,
+    project_pass_status,
+    project_pass_detail,
+    project_LX_DBSJ,
+    project_CXJD_DBSJ,
+    project_CZJD_DBSJ,
+    project_current_JD,
+    project_JDBG_SQFJ,
+    project_recommend_sign
   </sql>
 
   <sql id="insertColumn">
@@ -73,13 +89,18 @@
     project_money_budgets
   </sql>
 
+    <select id="getSchoolNameByUserId" resultType="String">
+        SELECT school_name FROM base_school WHERE id=#{userId}
+    </select>
+
   <!--查找某高校所有的立项申请-->
   <select id="getProjectEstablishListForSchool" resultMap="BaseResultMap">
     SELECT <include refid="selectColumn"/>
     FROM base_project_establish_report
     <where>
-      project_belong_school = #{school}
+      project_belong_school = #{projectBelongSchool}
     </where>
+    ORDER BY project_current_JD,project_pass_status
   </select>
 
   <!--查找个人立项申请-->
@@ -112,7 +133,8 @@
             project_apply_table,
             project_planning_book,
             project_expected_results,
-            project_money_budgets
+            project_money_budgets,
+            project_pass_status
         )
         VALUES
         (
@@ -133,22 +155,136 @@
             #{projectApplyTable},
             #{projectPlanningBook},
             #{projectExpectedResults},
-            #{projectMoneyBudgets}
+            #{projectMoneyBudgets},
+            #{project_pass_status}
         )
    </insert>
 
-  <!--校方同意立项申请时更新立项申请表中‘立项时间’、‘校方提供条件’字段-->
-  <update id="updateProjectDetail">
-    UPDATE base_project_establish_report
-    <set>
-      <if test="projectEstablishTime != null">
-        project_establish_time = #{projectEstablishTime},
-      </if>
+    <!--学校查看学生的项目申报，审核通过并为该项目安排立项答辩时间-->
+    <!--项目表中[项目状态]、[立项答辩时间]字段更新-->
+    <!--如不通过则只更新[项目状态]与[审核意见]两个字段-->
+    <update id="updateProjectDetail">
+        UPDATE base_project_establish_report
+        <set>
+            <if test="project_pass_status != null">
+                project_pass_status = #{project_pass_status},
+            </if>
 
-      <if test="projectXFTGTJ != null">
-        project_XFTGTJ = #{projectXFTGTJ},
-      </if>
-    </set>
-    WHERE id = #{id}
-  </update>
+            <if test="project_pass_detail != null">
+                project_pass_detail = #{project_pass_detail},
+            </if>
+
+            <if test="project_LX_DBSJ != null">
+                project_LX_DBSJ = #{project_LX_DBSJ},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--通过立项答辩之后学校予以立项，立项时校方填写学校可为该项目提供怎样的支持，也就是校方提供条件。-->
+    <!--项目表中[项目状态]、[校方提供条件]、[项目当前状态]、[立项时间]字段更新-->
+    <update id="agreeTheLXApply">
+        UPDATE base_project_establish_report
+        <set>
+            <if test="project_pass_status != null">
+                project_pass_status = #{project_pass_status},
+            </if>
+
+            <if test="projectXFTGTJ != null">
+                project_XFTGTJ = #{projectXFTGTJ},
+            </if>
+
+            <if test="project_current_JD != null">
+                project_current_JD = #{project_current_JD},
+            </if>
+
+            <if test="projectEstablishTime != null">
+                project_establish_time = #{projectEstablishTime},
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--状态为‘已立项’的项目只能申请变更创新阶段，状态为‘创新阶段’的项目可进一步申请‘成长阶段’-->
+    <!--此方法为检查项目的当前状态，判断项目能申请的阶段-->
+    <select id="checkCurrentJD" resultType="String">
+        SELECT project_current_JD FROM base_project_establish_report WHERE project_id=#{projectId}
+    </select>
+
+    <!--学校方面规定一学年有两次创业阶段答辩的机会，而这些机会需要项目发起人在平台发起‘项目阶段变更答辩申请’-->
+    <!--学生在申请阶段变更时需提交一些材料，供答辩组审阅。具体是什么材料由学生决定。-->
+    <!--项目表中[项目状态]、[阶段变更申请附件url]字段更新-->
+    <update id="JDBGApply">
+        UPDATE base_project_establish_report
+        <set>
+            <if test="project_pass_status != null">
+                project_pass_status = #{project_pass_status},
+            </if>
+
+            <if test="project_JDBG_SQFJ != null">
+                project_JDBG_SQFJ = #{project_JDBG_SQFJ},
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--学校方面需在平台上统一为已申请阶段变更的项目进行答辩时间安排-->
+    <!--项目表中[项目状态]字段更新-->
+    <!--若为创新阶段变更，则项目表中[创新阶段答辩时间]字段也随之更新-->
+    <!--若为成长阶段变更，则项目表中[成长阶段答辩时间]字段也随之更新-->
+    <update id="setTimeOfDB">
+        UPDATE base_project_establish_report
+        <set>
+            <if test="project_pass_status != null">
+                project_pass_status = #{project_pass_status},
+            </if>
+
+            <if test="project_CXJD_DBSJ != null">
+                project_CXJD_DBSJ = #{project_CXJD_DBSJ},
+            </if>
+
+            <if test="project_CZJD_DBSJ != null">
+                project_CZJD_DBSJ = #{project_CZJD_DBSJ},
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--答辩之后经答辩组一致同意之后校方予以项目阶段变更，学校在平台为已通过答辩的项目进行阶段变更-->
+    <!--项目表中[项目所处阶段]字段更新-->
+    <update id="setCurrentJD">
+        UPDATE base_project_establish_report
+        <set>
+
+            <if test="project_pass_status != null">
+                project_pass_status = #{project_pass_status},
+            </if>
+
+            <if test="project_current_JD != null">
+                project_current_JD = #{project_current_JD},
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--查找某高校所有已经立项的项目，进行推优-->
+    <select id="getLXProjectListForSchool" resultMap="BaseResultMap">
+        SELECT <include refid="selectColumn"/>
+        FROM base_project_establish_report
+        <where>
+            project_belong_school = #{projectBelongSchool} and project_current_JD != ''
+        </where>
+        ORDER BY project_current_JD
+    </select>
+
+    <!--学校可根据答辩情况在平台上向企业推荐相应项目-->
+    <!--项目表中[是否推荐]字段更新-->
+    <update id="recommendOrNot">
+        UPDATE base_project_establish_report
+        SET project_recommend_sign = #{project_recommend_sign} WHERE id = #{id}
+    </update>
 </mapper>
