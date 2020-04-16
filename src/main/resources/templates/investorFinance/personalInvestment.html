@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='个人测试结果管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header" class="no-print"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+    <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+    <a id="primaryKey" style="display: none"></a>
+
+    <div id="addInvestment" class="layer_self_wrap" style="display:none; ">
+        <form id="addInvestmentForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <blockquote class="layui-elem-quote">发布融资信息</blockquote>
+
+            <input id="investor_id" name="investor_id" type="hidden"/>
+            <input id="id" name="id" type="hidden"/>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">投资人姓名</label>
+                <div class="layui-input-block">
+                    <input id="investor_name" name="investor_name" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">所属公司</label>
+                <div class="layui-input-block">
+                    <input id="belong_company" name="belong_company" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">投资人职位</label>
+                <div class="layui-input-block">
+                    <input id="investor_position" name="investor_position" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">工作年数</label>
+                <div class="layui-input-block">
+                    <input id="investor_work_years" name="investor_work_years" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">所在省份</label>
+                <div class="layui-input-block">
+                    <input id="belong_province" name="belong_province" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">主投轮次</label>
+                <div class="layui-input-block">
+                    <input id="main_turn" name="main_turn" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><b>投资领域</b></label>
+                <div class="layui-input-block">
+                    <select name="investment_field" id="investment_field" lay-verify="required" lay-filter="" lay-search>
+                        <option value="" >请选择</option>
+                        <option value="领域1" >领域1</option>
+                        <option value="领域2" >领域2</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">单笔投资额度</label>
+                <div class="layui-input-block">
+                    <input id="single_investment" name="single_investment" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">个人简介</label>
+                <div class="layui-input-block">
+                    <textarea id="personal_introduction"  name="personal_introduction"  class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">机构名称（公司名）</label>
+                <div class="layui-input-block">
+                    <input id="organization_name" name="organization_name" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">机构所在省份</label>
+                <div class="layui-input-block">
+                    <input id="organization_location" name="organization_location" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label ">机构资金规模</label>
+                <div class="layui-input-block">
+                    <input id="organization_ZJGM" name="organization_ZJGM" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">机构简介</label>
+                <div class="layui-input-block">
+                    <textarea id="organization_introduction"  name="organization_introduction"  class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 40%;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="addInvestmentSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="testResultListFather" class="layui-body" style="margin: 1%">
+        <hr class="layui-bg-green"/>
+        <button  class="layui-btn"  onclick="back2Home();">返回我的主页</button>
+        <button  class="layui-btn"  onclick="addInvestment();" id="addInvestmentButton" style="display: none">发布融资信息</button>
+
+        <table id="personalInvestment" lay-filter="personalInvestmentTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+
+    <!--底部-->
+    <script src="/investotFinance/personalInvestmentList.js"></script>
+    <script src="/js/getCookies.js"></script>
+    <script>
+
+        $(function() {
+            //日期选择框
+            layui.use(['form', 'laydate'], function () {
+                var form = layui.form, layer = layui.layer
+                    , laydate = layui.laydate;
+                //日期
+                laydate.render({
+                    elem: '#project_LX_DBSJ'
+                });
+                laydate.render({
+                    elem: '#project_CXJD_DBSJ'
+                });
+                laydate.render({
+                    elem: '#project_CZJD_DBSJ'
+                });
+
+            });
+
+        });
+        function back2Home() {
+            location.href = "/home";
+
+        }
+    </script>
+</div>
+
+</body>
+</html>

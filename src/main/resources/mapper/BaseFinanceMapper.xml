@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseFinanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseFinance">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="project_id" jdbcType="VARCHAR" property="project_id" />
+        <result column="project_name" jdbcType="VARCHAR" property="project_name" />
+        <result column="finance_company" jdbcType="VARCHAR" property="finance_company" />
+        <result column="finance_money" jdbcType="VARCHAR" property="finance_money" />
+        <result column="finance_type" jdbcType="VARCHAR" property="finance_type" />
+        <result column="finance_get_time" jdbcType="VARCHAR" property="finance_get_time" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    project_id,
+    project_name,
+    finance_company,
+    finance_money,
+    finance_type,
+    finance_get_time
+  </sql>
+
+    <insert id="addProjectFinance" parameterType="com.tangtang.manager.pojo.BaseFinance">
+        INSERT  INTO base_finance
+        (
+            project_id,
+            project_name,
+            finance_company,
+            finance_money,
+            finance_type,
+            finance_get_time
+        )
+        VALUES
+        (
+            #{project_id},
+            #{project_name},
+            #{finance_company},
+            #{finance_money},
+            #{finance_type},
+            #{finance_get_time}
+        )
+   </insert>
+
+    <select id="getProjectFinanceByProjectId" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_finance WHERE project_id = #{project_id}
+        order by finance_get_time
+    </select>
+
+    <update id="updateTestQuestion">
+        UPDATE base_test_question
+        <set>
+            <if test="testQuestion != null">
+                test_question = #{testQuestion},
+            </if>
+
+            <if test="testAnswerA != null">
+                test_answerA = #{testAnswerA},
+            </if>
+
+            <if test="testAnswerB != null">
+                test_answerB = #{testAnswerB},
+            </if>
+
+            <if test="testAnswerC != null">
+                test_answerC = #{testAnswerC},
+            </if>
+            <if test="testAnswerD != null">
+                test_answerD = #{testAnswerD},
+            </if>
+
+            <if test="testAnswerA_score != null">
+                test_answerA_score = #{testAnswerA_score},
+            </if>
+
+            <if test="testAnswerB_score != null">
+                test_answerB_score = #{testAnswerB_score},
+            </if>
+
+            <if test="testAnswerC_score != null">
+                test_answerC_score = #{testAnswerC_score},
+            </if>
+            <if test="testAnswerD_score != null">
+                test_answerD_score = #{testAnswerD_score},
+            </if>
+
+            <if test="testType != null">
+                test_type = #{testType},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

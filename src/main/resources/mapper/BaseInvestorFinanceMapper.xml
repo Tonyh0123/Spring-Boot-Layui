@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseInvestorFinanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseInvestorFinance">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="investor_id" jdbcType="VARCHAR" property="investor_id" />
+        <result column="investor_name" jdbcType="VARCHAR" property="investor_name" />
+        <result column="belong_company" jdbcType="VARCHAR" property="belong_company" />
+        <result column="investor_position" jdbcType="VARCHAR" property="investor_position" />
+        <result column="investor_work_years" jdbcType="VARCHAR" property="investor_work_years" />
+        <result column="belong_province" jdbcType="VARCHAR" property="belong_province" />
+        <result column="main_turn" jdbcType="VARCHAR" property="main_turn" />
+        <result column="single_investment" jdbcType="VARCHAR" property="single_investment" />
+        <result column="investment_field" jdbcType="VARCHAR" property="investment_field" />
+        <result column="personal_introduction" jdbcType="VARCHAR" property="personal_introduction" />
+        <result column="organization_name" jdbcType="VARCHAR" property="organization_name" />
+        <result column="organization_location" jdbcType="VARCHAR" property="organization_location" />
+        <result column="organization_ZJGM" jdbcType="VARCHAR" property="organization_ZJGM" />
+        <result column="organization_introduction" jdbcType="VARCHAR" property="organization_introduction" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    investor_id,
+    investor_name,
+    belong_company,
+    investor_position,
+    investor_work_years,
+    belong_province,
+    main_turn,
+    single_investment,
+    investment_field,
+    personal_introduction,
+    organization_name,
+    organization_location,
+    organization_ZJGM,
+    organization_introduction
+  </sql>
+
+    <insert id="addInvestment" parameterType="com.tangtang.manager.pojo.BaseInvestorFinance">
+        INSERT  INTO base_investor_finance
+        (
+            investor_id,
+            investor_name,
+            belong_company,
+            investor_position,
+            investor_work_years,
+            belong_province,
+            main_turn,
+            single_investment,
+            investment_field,
+            personal_introduction,
+            organization_name,
+            organization_location,
+            organization_ZJGM,
+            organization_introduction
+        )
+        VALUES
+        (
+            #{investor_id},
+            #{investor_name},
+            #{belong_company},
+            #{investor_position},
+            #{investor_work_years},
+            #{belong_province},
+            #{main_turn},
+            #{single_investment},
+            #{investment_field},
+            #{personal_introduction},
+            #{organization_name},
+            #{organization_location},
+            #{organization_ZJGM},
+            #{organization_introduction}
+        )
+   </insert>
+
+    <select id="getInvestmentByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_investor_finance WHERE investor_id = #{investor_id}
+    </select>
+
+    <select id="getInvestments" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_investor_finance
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <update id="updateInvestment">
+        UPDATE base_investor_finance
+        <set>
+            <if test="investor_id != null">
+                investor_id = #{investor_id},
+            </if>
+
+            <if test="investor_name != null">
+                investor_name = #{investor_name},
+            </if>
+
+            <if test="belong_company != null">
+                belong_company = #{belong_company},
+            </if>
+
+            <if test="investor_position != null">
+                investor_position = #{investor_position},
+            </if>
+            <if test="investor_work_years != null">
+                investor_work_years = #{investor_work_years},
+            </if>
+
+            <if test="belong_province != null">
+                belong_province = #{belong_province},
+            </if>
+
+            <if test="main_turn != null">
+                main_turn = #{main_turn},
+            </if>
+
+            <if test="single_investment != null">
+                single_investment = #{single_investment},
+            </if>
+            <if test="investment_field != null">
+                investment_field = #{investment_field},
+            </if>
+
+            <if test="personal_introduction != null">
+                personal_introduction = #{personal_introduction},
+            </if>
+
+            <if test="organization_name != null">
+                organization_name = #{organization_name},
+            </if>
+
+            <if test="organization_location != null">
+                organization_location = #{organization_location},
+            </if>
+
+            <if test="organization_ZJGM != null">
+                organization_ZJGM = #{organization_ZJGM},
+            </if>
+
+            <if test="organization_introduction != null">
+                organization_introduction = #{organization_introduction},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

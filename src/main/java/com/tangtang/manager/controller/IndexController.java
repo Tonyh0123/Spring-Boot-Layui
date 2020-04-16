@@ -89,6 +89,12 @@ public class IndexController {
         return "testQuestion/testResultById";
     }
 
+    @RequestMapping("financeInfo")
+    public String toFinanceInfo(){
+        logger.info("定向融资信息界面");
+        return "financeInfo";
+    }
+
     /**
      * 测试提交[Branch--->mymymy]
      */

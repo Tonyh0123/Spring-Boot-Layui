@@ -50,17 +50,19 @@ $(function() {
             table.on('tool(projectForStudentTable)', function(obj){
                 var data = obj.data;
                 if(obj.event === 'del'){
-                    //删除
                     del(data,data.id);
+
                 } else if(obj.event === 'projectDetail'){
                     projectDetail(data,data.id);
-                    //编辑
+
                 }else if(obj.event === 'JDBG_CXJD'){
                     JDBG(data,"FQJDBG_CXJD");
-                    //编辑
+
                 }else if(obj.event === 'JDBG_CZJD'){
                     JDBG(data,"FQJDBG_CZJD");
-                    //编辑
+
+                }else if(obj.event === 'addFinance'){
+                    addFinance(data);
                 }
             });
 
@@ -115,6 +117,25 @@ $(function() {
                 return false;
             });
 
+            form.on('submit(addFinanceSubmit)', function(data){
+                $.ajax({
+                    type: "POST",
+                    data: $("#addFinanceForm").serialize(),
+                    url: "/finance/addProjectFinance",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.alert(data.msg,function(){
+                                layer.closeAll();
+                                location.reload();
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    }
+                });
+                return false;
+            });
+
 
         }
 
@@ -143,7 +164,6 @@ function formSubmit(obj){
         }
     });
 }
-
 
 function load(obj){
     //重新加载table
@@ -222,6 +242,39 @@ function projectDetail(obj,id) {
 
     }
 
+    //加载融资情况
+    layui.use('table', function(){
+        var table = layui.table;
+        FinanceTable=table.render({
+            elem: '#projectFinance',
+            url:'/finance/getProjectFinanceByProjectId',
+            where: {"projectId":obj.projectId},
+            method: 'post', //默认：get请求
+            page: false,
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：pageNum
+                limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
+            },
+            response:{
+                statusName: 'code', //数据状态的字段名称，默认：code
+                statusCode: 200, //成功的状态码，默认：0
+                countName: 'totals', //数据总数的字段名称，默认：count
+                dataName: 'list' //数据列表的字段名称，默认：data
+            },
+            cols: [[
+                {type:'numbers'}
+                ,{field:'finance_company', title:'融资方', align:'center'}
+                ,{field:'finance_money', title:'融资金额',align:'center'}
+                ,{field:'finance_type', title:'融资类型',align:'center',sort:true}
+                ,{field:'finance_get_time', title:'融资获得时间',align:'center',sort:true}
+            ]],
+            done: function(res, curr, count){
+                pageCurr=curr;
+            }
+        });
+
+    });
+
     layer.open({
         type: 1 //此处以iframe举例
         , title: '项目详情'
@@ -257,7 +310,6 @@ function addProjectDeclaration() {
         }
     });
 }
-
 
 function addProjectMembers() {
     index += 1;
@@ -339,6 +391,25 @@ function JDBG(obj,status) {
         ,end: function () {
             //弹窗关闭后清空值
             document.getElementById("JDBGApplyForm").reset();
+        }
+    });
+}
+
+function addFinance(obj) {
+    $("#project_id_finance").val(obj.projectId);
+    $("#project_name_finance").val(obj.projectName);
+    layer.open({
+        type: 1
+        , title: '添加融资条目'
+        , area: ['650px','650px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#addFinance")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            document.getElementById("addFinanceForm").reset();
         }
     });
 }
