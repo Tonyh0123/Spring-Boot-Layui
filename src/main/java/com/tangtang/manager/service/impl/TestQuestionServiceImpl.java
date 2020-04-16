@@ -72,14 +72,14 @@ public class TestQuestionServiceImpl implements TestQuestionService {
     @Override
     public PageDataResult getTestQuestionList(BaseTestQuestion question, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseTestQuestion> baseQuestions = questionMapper.getTestQuestionList(question);
-        PageHelper.startPage(pageNum, pageSize);
-        if(baseQuestions.size() != 0){
-            PageInfo<BaseTestQuestion> pageInfo = new PageInfo<>(baseQuestions);
-            pageDataResult.setList(baseQuestions);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
-        }
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseTestQuestion> nums = questionMapper.getTestQuestionList();
 
+        List<BaseTestQuestion> baseQuestions = questionMapper.getTestQuestionListTest(question,pageNum,pageSize);
+        if(baseQuestions.size() != 0){
+            pageDataResult.setList(baseQuestions);
+            pageDataResult.setTotals(nums.size());
+        }
         return pageDataResult;
     }
 

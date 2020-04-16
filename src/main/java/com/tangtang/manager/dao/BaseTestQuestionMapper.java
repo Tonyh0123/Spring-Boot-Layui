@@ -18,7 +18,7 @@ public interface BaseTestQuestionMapper extends MyMapper<BaseTestQuestion> {
 
     boolean addSomethingToTestResult(BaseTestResult baseTestResult);
 
-    List<BaseTestQuestion> getTestQuestionList(BaseTestQuestion question);
+    List<BaseTestQuestion> getTestQuestionListTest(BaseTestQuestion question, Integer pageNum, Integer pageSize);
 
     List<BaseTestQuestion> getTestQuestionList();
 

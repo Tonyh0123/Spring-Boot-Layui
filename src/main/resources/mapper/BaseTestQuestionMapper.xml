@@ -76,6 +76,13 @@
         order by test_type
     </select>
 
+    <select id="getTestQuestionListTest" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_test_question
+        order by test_type
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+
     <update id="updateTestQuestion">
         UPDATE base_test_question
         <set>
