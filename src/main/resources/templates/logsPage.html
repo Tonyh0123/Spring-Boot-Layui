@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+</head>
+<body background="" >
+<div class="layui-layout layui-layout-admin">
+    <div th:replace="fragments/head :: header"></div>
+    <div class="layui-container" style="height: 100%">
+        <div style="margin-top: 20px">
+            <button class="layui-btn" onclick="showLogs('2020-04-10')">显示04-10日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-11')">显示04-11日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-12')">显示04-12日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-13')">显示04-13日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-14')">显示04-14日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-15')">显示04-15日志</button>
+            <button class="layui-btn" onclick="showLogs('2020-04-16')">显示04-16日志</button>
+        </div>
+    <div id="logsFather" style="display:none;">
+        
+        <div id="logs" style="margin-left: 50px; margin-right: 50px; margin-top: 20px"></div>
+
+    </div>
+</div>
+</div>
+<script>
+    var logData;
+    window.onload = function () {
+        $.ajax({
+            url:'/logs/checkLogs',
+            method: 'post',
+            async: true,
+            success:function(data) {
+                logData = data ;
+
+
+            }
+            ,error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function showLogs(dateStr) {
+        
+        for(var i=0;i<logData.length;i++){
+            var logsLine = "";
+            logsLine = logData[i];
+            if(logsLine.startsWith(dateStr)){
+                $('#logs').append('<p>'+logsLine+'</p><br>')
+            }
+        }
+
+        layui.use('layer', function() {
+            var layer = layui.layer;
+
+            layer.open({
+                type: 1 //此处以iframe举例
+                , title: dateStr + '日志'
+                , area: ['1800px', '900px']
+                , shade: 0
+                , maxmin: true
+                , offset: ['35px']
+                , content: $("#logsFather")
+                , btn: ['关闭'] //只是为了演示
+                , btn2: function () {
+                    layer.closeAll();
+                }
+                , end: function () {
+                    //弹窗关闭后清空原输入框的值
+                    $('#logs').html("");
+
+                }
+            });
+        });
+
+    }
+</script>
+</body>
+</html>
