@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseMessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseMessage">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="message_owner" jdbcType="VARCHAR" property="message_owner" />
+        <result column="message_sender" jdbcType="VARCHAR" property="message_sender" />
+        <result column="message_title" jdbcType="VARCHAR" property="message_title" />
+        <result column="message_content" jdbcType="VARCHAR" property="message_content" />
+        <result column="message_date_time" jdbcType="VARCHAR" property="message_date_time" />
+        <result column="project_name" jdbcType="VARCHAR" property="project_name" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    message_owner,
+    message_sender,
+    message_title,
+    message_content,
+    message_date_time,
+    project_name
+  </sql>
+
+    <insert id="addMessage" parameterType="com.tangtang.manager.pojo.BaseMessage">
+        INSERT  INTO base_message
+        (
+            message_owner,
+            message_sender,
+            message_title,
+            message_content,
+            message_date_time,
+            project_name
+        )
+        VALUES
+        (
+            #{message_owner},
+            #{message_sender},
+            #{message_title},
+            #{message_content},
+            #{message_date_time},
+            #{project_name}
+        )
+   </insert>
+
+    <select id="getMessageByUserName" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_message
+        WHERE message_owner = #{message_owner}
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>

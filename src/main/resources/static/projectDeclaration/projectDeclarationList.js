@@ -4,6 +4,7 @@
 var pageCurr;
 var form;
 var userId = document.getElementById("userId").innerText;
+var userName = document.getElementById("userName").innerText;
 var index = 1; //填写表单时项目成员的个数
 var divBox = 1;
 $(function() {
@@ -63,6 +64,12 @@ $(function() {
 
                 }else if(obj.event === 'addFinance'){
                     addFinance(data);
+                }else if(obj.event === 'checkDBSJ'){
+                    checkDBSJ(data);
+                }else if(obj.event === 'checkCXDBSJ'){
+                    checkCXDBSJ(data);
+                }else if(obj.event === 'checkCZDBSJ'){
+                    checkCZDBSJ(data);
                 }
             });
 
@@ -227,6 +234,12 @@ function projectDetail(obj,id) {
     $("#projectGuidanceTeacherShow").val(obj.projectGuidanceTeacher);
     $("#projectMembersShow").val(obj.projectMembers);
 
+    //为了留言
+    $("#project_name_message").val(obj.projectName);
+    $("#message_owner").val(obj.projectOwnerName);
+    $("#message_sender").val(userName);
+
+
     var members = JSON.parse(obj.projectMembers);
 
     for(var i = 0; i<members.length; i++){
@@ -290,6 +303,9 @@ function projectDetail(obj,id) {
         ,end: function () {
             //弹窗关闭后清空值
             document.getElementById("projectAddFormShow").reset();
+            $("#project_name_message").val("");
+            $("#message_owner").val("");
+            $("#message_sender").val("");
         }
     });
 }
@@ -414,6 +430,59 @@ function addFinance(obj) {
     });
 }
 
+function checkDBSJ(obj) {
+    $("#LXDBSJ").val(obj.project_LX_DBSJ);
+    layer.open({
+        type: 1
+        , title: '答辩时间'
+        , area: ['650px','650px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#checkDBSJ")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            $("#LXDBSJ").val("");
+        }
+    });
+}
+
+function checkCXDBSJ(obj) {
+    $("#CXDBSJ").val(obj.project_CXJD_DBSJ);
+    layer.open({
+        type: 1
+        , title: '答辩时间'
+        , area: ['650px','650px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#checkCXDBSJ")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            $("#CXDBSJ").val("");
+        }
+    });
+}
+
+function checkCZDBSJ(obj) {
+    $("#CZDBSJ").val(obj.project_CZJD_DBSJ);
+    layer.open({
+        type: 1
+        , title: '答辩时间'
+        , area: ['650px','650px']
+        , shade: 0
+        , maxmin: true
+        , offset: ['60px']
+        , content: $("#checkCZDBSJ")
+        , btn: ['关闭'] //只是为了演示
+        ,end: function () {
+            //弹窗关闭后清空值
+            $("#CZDBSJ").val("");
+        }
+    });
+}
 
 
 

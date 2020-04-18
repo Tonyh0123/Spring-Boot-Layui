@@ -57,6 +57,12 @@ public class LogsController {
         logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
         List<String> list = new ArrayList<>();
         for(String name:listFileName){
+            if(name.endsWith(".gz")){
+                logsUtils.doUncompressFile(name); //解压缩.gz文件
+            }
+        }
+        logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
+        for(String name:listFileName){
             if(name.endsWith(".0")){
 //                doUncompressFile(name); 解压缩.gz文件
                 logsUtils.readFile(name,list);

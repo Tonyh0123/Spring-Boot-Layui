@@ -12,7 +12,7 @@ public class LogsUtils {
      * Uncompress the incoming file.
      * @param inFileName Name of the file to be uncompressed
      */
-    private static void doUncompressFile(String inFileName) {
+    public void doUncompressFile(String inFileName) {
 
         try {
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='个人留言管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+    <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+
+    <div id="messageFather" class="layui-body" style="margin: 1%">
+        <div id="messageList">
+        </div>
+    </div>
+
+
+    <!--回复留言-->
+    <div id="addReply" class="layer_self_wrap" style="display:none; ">
+        <form id="addReplyForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+
+            <blockquote class="layui-elem-quote">回复该留言</blockquote>
+
+            <input type="hidden" id="message_id" name="message_id"/>
+            <input type="hidden" id="reply_user_name" name="reply_user_name"/>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">回复内容</label>
+                <div class="layui-input-block">
+                    <textarea id="reply_content" name="reply_content" lay-verify="required" placeholder="请输入回复内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="addReplySubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/message/message.js"></script>
+    <script src="/js/message/reply.js"></script>
+    <script>
+        window.onload = function () {
+            var userName = document.getElementById("userName").innerText;
+            $.ajax({
+                type: "POST",
+                data: {"userName":userName,"pageNum":null,"pageSize":null},
+                url: "/message/getMessageList",
+                async: false,
+                success: function (data) {
+                    for(var i = 0; i<data.list.length; i++){
+                        $("#messageList").append('<div>' +
+                            '<p>标题：'+ data.list[i].message_title+'</p>' +
+                            '<p>内容：'+ data.list[i].message_content+'</p>' +
+                            '<p>留言者：'+ data.list[i].message_sender+'</p>' +
+                            '<p>时间：'+ data.list[i].message_date_time+'</p>' +
+                            '<p>留言项目：'+ data.list[i].project_name+'</p>' +
+                            '<button class="layui-btn" type="button" onclick="addReply(\''+data.list[i].id+'\');">回复</button>' +
+                            '<br>' +
+                            '<p>以下是留言回复：</p>' +
+                            '<ul id="reply'+data.list[i].id+'">' +
+                            '</ul>' +
+                            '</div>' +
+                            '<br>');
+                        var ulId = "#reply"+data.list[i].id;
+                        console.log("ulId"+ulId);
+                        $.ajax({
+                            type: "POST",
+                            data: {"message_id":data.list[i].id,"pageNum":null,"pageSize":null},
+                            url: "/reply/getReplyList",
+                            async: false,
+                            success: function (replyData) {
+                                for(var i = 0; i<replyData.list.length; i++){
+                                    $(ulId).append('<li>'+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+replyData.list[i].reply_date_time+'</li>');
+                                    console.log(replyData.list[i].reply_content);
+                                }
+
+                            }
+                        });
+                    }
+
+
+
+                }
+            });
+
+
+
+        }
+    </script>
+
+</div>
+</body>
+</html>

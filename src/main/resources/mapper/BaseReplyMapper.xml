@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseReplyMapper">
+
+    <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseReply">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="message_id" jdbcType="VARCHAR" property="message_id" />
+        <result column="reply_content" jdbcType="VARCHAR" property="reply_content" />
+        <result column="reply_date_time" jdbcType="VARCHAR" property="reply_date_time" />
+        <result column="reply_user_name" jdbcType="VARCHAR" property="reply_user_name" />
+    </resultMap>
+
+    <sql id="baseColumn">
+    id,
+    message_id,
+    reply_content,
+    reply_date_time,
+    reply_user_name
+  </sql>
+
+    <insert id="addReply" parameterType="com.tangtang.manager.pojo.BaseReply">
+        INSERT  INTO base_reply
+        (
+            message_id,
+            reply_content,
+            reply_date_time,
+            reply_user_name
+        )
+        VALUES
+        (
+            #{message_id},
+            #{reply_content},
+            #{reply_date_time},
+            #{reply_user_name}
+        )
+   </insert>
+
+    <select id="getMessageReply" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_reply
+        WHERE message_id = #{message_id}
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+
+</mapper>
