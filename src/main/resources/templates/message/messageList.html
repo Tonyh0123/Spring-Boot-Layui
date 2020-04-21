@@ -2,6 +2,11 @@
 <html  xmlns:th="http://www.thymeleaf.org"
        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:include="layout :: htmlhead" th:with="title='个人留言管理'"></head>
+<style>
+    body,div{padding: 0 ;margin:0;}
+    .left{float: left;width: 800px;background-color:#fff;}
+    .right{margin-left: 820px;margin-right: 20px; background-color: #fff;}
+</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <!--头-->
@@ -10,7 +15,21 @@
     <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
 
     <div id="messageFather" class="layui-body" style="margin: 1%">
-        <div id="messageList">
+
+        <div id="messageList" class="left main-product">
+            <p class="title" style="margin-top: -150px; margin-bottom: -50px">
+                <span>我收到的</span>
+            </p>
+            <div style="margin-bottom: 10px;margin-top: -20px; margin-left: 46%"><img src="/images/Bat-Man.png"></div>
+
+        </div>
+
+        <div id="messageToMe" class="right main-product">
+            <p class="title" style="margin-top: -150px; margin-bottom: -50px">
+                <span>我发出的</span>
+            </p>
+            <div style="margin-bottom: 10px;margin-top: -20px; margin-left: 46%"><img src="/images/Iron-Man.png"></div>
+
         </div>
     </div>
 
@@ -56,15 +75,15 @@
                 async: false,
                 success: function (data) {
                     for(var i = 0; i<data.list.length; i++){
-                        $("#messageList").append('<div>' +
-                            '<p>标题：'+ data.list[i].message_title+'</p>' +
-                            '<p>内容：'+ data.list[i].message_content+'</p>' +
-                            '<p>留言者：'+ data.list[i].message_sender+'</p>' +
-                            '<p>时间：'+ data.list[i].message_date_time+'</p>' +
-                            '<p>留言项目：'+ data.list[i].project_name+'</p>' +
-                            '<button class="layui-btn" type="button" onclick="addReply(\''+data.list[i].id+'\');">回复</button>' +
+                        $("#messageList").append('<div class="content" style="text-align: left;">' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-release" style="font-size: 16px; color: #33aba0;"></i> 标题：'+ data.list[i].message_title+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-dialogue" style="font-size: 16px; color: #33aba0;"></i> 内容：'+ data.list[i].message_content+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-user" style="font-size: 16px; color: #33aba0;"></i> 留言者：'+ data.list[i].message_sender+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> 时间：'+ data.list[i].message_date_time+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-chart-screen" style="font-size: 16px; color: #33aba0;"></i> 留言项目：'+ data.list[i].project_name+'</p>' +
+                            '<button class="layui-btn" type="button" style="width: 100px; margin-left: 86%; margin-bottom: 10px" onclick="addReply(\''+data.list[i].id+'\');">回复</button>' +
                             '<br>' +
-                            '<p>以下是留言回复：</p>' +
+                            // '<p class="title" style="margin-top: -90px; margin-bottom: -80px"><span style="font-size: 28px;  ">以下是留言回复：</span></p>' +
                             '<ul id="reply'+data.list[i].id+'">' +
                             '</ul>' +
                             '</div>' +
@@ -78,7 +97,57 @@
                             async: false,
                             success: function (replyData) {
                                 for(var i = 0; i<replyData.list.length; i++){
-                                    $(ulId).append('<li>'+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+replyData.list[i].reply_date_time+'</li>');
+                                    $(ulId).append('<div class="content">' +
+                                        '<p style="text-align: left; color: black"><i class="layui-icon layui-icon-friends" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'</p>' +
+                                        '<p style="text-align: right; color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_date_time+'</p>' +
+                                        '</div><br>');
+                                    console.log(replyData.list[i].reply_content);
+                                }
+
+                            }
+                        });
+                    }
+
+
+
+                }
+            });
+
+
+            $.ajax({
+                type: "POST",
+                data: {"userName":userName,"pageNum":null,"pageSize":null},
+                url: "/message/getMessageToMeList",
+                async: false,
+                success: function (data) {
+                    for(var i = 0; i<data.list.length; i++){
+                        $("#messageToMe").append('<div class="content" style="text-align: left;">' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-release" style="font-size: 16px; color: #33aba0;"></i> 标题：'+ data.list[i].message_title+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-dialogue" style="font-size: 16px; color: #33aba0;"></i> 内容：'+ data.list[i].message_content+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-user" style="font-size: 16px; color: #33aba0;"></i> 留言者：'+ data.list[i].message_sender+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> 时间：'+ data.list[i].message_date_time+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-chart-screen" style="font-size: 16px; color: #33aba0;"></i> 留言项目：'+ data.list[i].project_name+'</p>' +
+                            '<p style="color: black"><i class="layui-icon layui-icon-username" style="font-size: 16px; color: #33aba0;"></i> 留给谁：'+ data.list[i].message_owner+'</p>' +
+                            '<button class="layui-btn" type="button" style="width: 100px; margin-left: 86%; margin-bottom: 10px" onclick="addReply(\''+data.list[i].id+'\');">回复</button>' +
+                            '<br>' +
+                            // '<p class="title" style="margin-top: -90px; margin-bottom: -80px"><span style="font-size: 28px;  ">以下是留言回复：</span></p>' +
+                            '<ul id="toMeReply'+data.list[i].id+'">' +
+                            '</ul>' +
+                            '</div>' +
+                            '<br>');
+                        var ulId = "#toMeReply"+data.list[i].id;
+                        console.log("ulId"+ulId);
+                        $.ajax({
+                            type: "POST",
+                            data: {"message_id":data.list[i].id,"pageNum":null,"pageSize":null},
+                            url: "/reply/getReplyList",
+                            async: false,
+                            success: function (replyData) {
+                                for(var i = 0; i<replyData.list.length; i++){
+                                    $(ulId).append('<div class="content">' +
+                                        '<p style="text-align: left; color: black"><i class="layui-icon layui-icon-friends" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'</p>' +
+                                        '<p style="text-align: right; color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_date_time+'</p>' +
+                                        '</div><br>');
                                     console.log(replyData.list[i].reply_content);
                                 }
 

@@ -11,6 +11,9 @@ public class BaseInvestorFinance {
     @Column(name = "investor_id")
     private String investor_id;
 
+    @Column(name = "platform_user_name")
+    private String platform_user_name;
+
     @Column(name = "investor_name")
     private String investor_name;
 
@@ -54,6 +57,10 @@ public class BaseInvestorFinance {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getInvestor_id() {
         return investor_id;
     }
@@ -62,8 +69,12 @@ public class BaseInvestorFinance {
         this.investor_id = investor_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getPlatform_user_name() {
+        return platform_user_name;
+    }
+
+    public void setPlatform_user_name(String platform_user_name) {
+        this.platform_user_name = platform_user_name;
     }
 
     public String getInvestor_name() {

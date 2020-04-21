@@ -37,6 +37,21 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public PageDataResult getMessageToMeByUserName(String message_sender, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        pageNum = (pageNum-1)*pageSize;
+        //先获得数据总数，用于分页，pageSize设置为100000是尽可能往大的数去设置
+        List<BaseMessage> nums = messageMapper.getMessageToMeByUserName(message_sender,0,100000);
+        //然后获取每页需要显示的条数
+        List<BaseMessage> baseMessages = messageMapper.getMessageToMeByUserName(message_sender,pageNum,pageSize);
+        if(baseMessages.size() != 0){
+            pageDataResult.setList(baseMessages);
+            pageDataResult.setTotals(nums.size());
+        }
+        return pageDataResult;
+    }
+
+    @Override
     public Map<String, Object> addMessage(BaseMessage baseMessage) {
         Map<String,Object> data = new HashMap();
         try {

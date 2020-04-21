@@ -16,4 +16,7 @@ public interface BaseMessageMapper extends MyMapper<BaseMessage> {
 
     List<BaseMessage> getMessageByUserName(@Param("message_owner") String message_owner, Integer pageNum, Integer pageSize);
 
+    List<BaseMessage> getMessageToMeByUserName(@Param("message_sender") String message_sender, Integer pageNum, Integer pageSize);
+
+
 }

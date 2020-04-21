@@ -50,4 +50,11 @@
         limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
+    <select id="getMessageToMeByUserName" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_message
+        WHERE message_sender = #{message_sender}
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+
 </mapper>

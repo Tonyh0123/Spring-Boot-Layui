@@ -51,7 +51,7 @@ public class MessageController {
 
     /**
      *
-     * 功能描述: 分页留言列表
+     * 功能描述: 分页查询我发出的留言列表
      *
      * @param:
      * @return:
@@ -71,10 +71,40 @@ public class MessageController {
                 pageSize = 10;
             }
             pdr = messageService.getMessageByUserName(userName, pageNum ,pageSize);
-            logger.info("留言列表查询");
+            logger.info("我发出的留言列表查询");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("留言列表查询异常！", e);
+            logger.error("我发出的留言列表查询异常！", e);
+        }
+        return pdr;
+    }
+
+    /**
+     *
+     * 功能描述: 分页查询我收到的留言列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/21 11：59
+     */
+    @RequestMapping(value = "/getMessageToMeList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getMessageToMeList(@RequestParam("pageNum") Integer pageNum,
+                                         @RequestParam("pageSize") Integer pageSize, @RequestParam("userName")String userName) {
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            pdr = messageService.getMessageToMeByUserName(userName, pageNum ,pageSize);
+            logger.info("我收到的留言列表查询");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("我收到的留言列表查询异常！", e);
         }
         return pdr;
     }

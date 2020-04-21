@@ -95,6 +95,12 @@ public class IndexController {
         return "financeInfo";
     }
 
+    @RequestMapping("projectInfo")
+    public String toProjectInfo(){
+        logger.info("定向项目信息界面");
+        return "projectInfo";
+    }
+
     /**
      * 测试提交[Branch--->mymymy]
      */

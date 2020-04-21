@@ -9,6 +9,8 @@ public interface MessageService {
 
     PageDataResult getMessageByUserName(String message_owner, Integer pageNum, Integer pageSize);
 
+    PageDataResult getMessageToMeByUserName(String message_sender, Integer pageNum, Integer pageSize);
+
     Map<String,Object> addMessage(BaseMessage message);
 
 }
