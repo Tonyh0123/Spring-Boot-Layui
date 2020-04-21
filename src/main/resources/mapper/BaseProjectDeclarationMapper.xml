@@ -103,14 +103,21 @@
     ORDER BY project_current_JD,project_pass_status
   </select>
 
-  <!--查找个人立项申请-->
-  <select id="getPersonalProjectEstablishList" resultMap="BaseResultMap">
-    SELECT <include refid="selectColumn"/>
-    FROM base_project_establish_report
-    <where>
-      project_owner_id = #{projectOwnerId}
-    </where>
-  </select>
+    <!--查找个人立项申请-->
+    <select id="getPersonalProjectEstablishList" resultMap="BaseResultMap">
+        SELECT <include refid="selectColumn"/>
+        FROM base_project_establish_report
+        <where>
+            project_owner_id = #{projectOwnerId}
+        </where>
+    </select>
+
+    <!--查找已立项项目-->
+    <select id="getLXProjectList" resultMap="BaseResultMap">
+        SELECT <include refid="selectColumn"/>
+        FROM base_project_establish_report
+        WHERE project_current_JD != ''
+    </select>
 
   <!--申请立项时插入数据-->
   <insert id="addProjectEstablishApply" parameterType="com.tangtang.manager.pojo.BaseProjectDeclaration">

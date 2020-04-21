@@ -4,6 +4,8 @@
 <head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
     <link rel="stylesheet" href="/css/index.css"></link>
 <body style="">
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+    <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
 <!-- nav部分 -->
     <div class="nav index">
         <div th:include="nav :: copyNav"></div>
@@ -26,9 +28,117 @@
         <table id="financeInfo" lay-filter="financeInfoTable"></table>
     </div>
 
+    <div id="viewFinanceDetail" style="margin-top: 30px; display: none;">
+        <div class="layui-card" style="border-bottom: solid 1px #f2f2f2">
+            <div class="layui-card-body">
+                <p id="investor_name" style="font-size: 26px; margin-left: 18%">陈海贤</p>
+                <p style="font-size: 14px; margin-left: 18%; margin-top: 20px; color: #4E5465">
+                    <span id="belong_company">浙江海虹控股集团有限公司</span>
+                    <span id="investor_position" style="margin-left: 30px">董事长</span>
+                    <span style="margin-left: 30px">从业</span><span id="investor_work_years">35</span><span>年</span>
+                    <span id="belong_province" style="margin-left: 30px">浙江省</span>
+                </p>
+                <p style="font-size: 14px; margin-left: 18%; margin-top: 20px; color: #4E5465">
+                    <span>主投轮次：</span><span id="main_turn">天使轮</span>
+                    <span style="margin-left: 30px">单笔投资额度：</span><span id="single_investment">50万 - 500万</span>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="layui-container">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-component" style="font-size: 20px; color: #33aba0;"></i>  <b style="font-size: 20px; margin-left: 10px">投资领域</b> </div>
+                <div class="layui-card-body">
+                    <div id="investment_field" style="margin-left: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-container" style="margin-top: 10px">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-user" style="font-size: 20px; color: #33aba0;"></i>  <b style="font-size: 20px; margin-left: 10px">个人简介</b> </div>
+                <div class="layui-card-body">
+                    <p id="personal_introduction" style="margin-left: 40px; text-indent: 2em;">
+                        我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火
+                        我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火
+                        我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火
+                        我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火
+                        我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火我就是我不一样的烟火
+                    </p>
+
+                    <div style="margin-top: 5px; margin-left: 85%">
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <button type="button" class="layui-btn layui-btn-xs" onclick="addMessage();">感兴趣？给投资人留言</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-container" style="margin-top: 10px">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-home" style="font-size: 20px; color: #33aba0;"></i>  <b style="font-size: 20px; margin-left: 10px">机构信息</b> </div>
+                <div class="layui-card-body">
+                    <p style="margin-left: 40px">
+                        <span>机构名称：</span><span id="organization_name"></span>
+                    </p>
+                    <p style="margin-left: 40px">
+
+                        <span>机构所在地：</span><span id="organization_location"></span>
+                    </p>
+                    <p style="margin-left: 40px">
+                        <span>机构资金规模：</span><span id="organization_ZJGM"></span>
+                    </p>
+                    <p style="margin-left: 40px">
+                        <span>机构简介：</span>
+                    </p>
+                    <p style="margin-left: 40px;">
+                        <span id="organization_introduction">简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-留言-->
+    <div id="addMessage" class="layer_self_wrap" style="display:none; ">
+        <form id="addMessageForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+
+            <blockquote class="layui-elem-quote">向该投资人留言</blockquote>
+
+            <input type="hidden" id="message_owner" name="message_owner"/>
+            <input type="hidden" id="message_sender" name="message_sender"/>
+            <input type="hidden" id="project_name_message" name="project_name"/>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="message_title" name="message_title" lay-verify="required"   autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">留言内容</label>
+                <div class="layui-input-block">
+                    <textarea id="message_content" name="message_content" lay-verify="required" placeholder="请输入留言内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="addMessageSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 
 <script src="/financeInfo/financeInfo.js"></script>
+<script src="/js/message/message.js"></script>
 
 
 

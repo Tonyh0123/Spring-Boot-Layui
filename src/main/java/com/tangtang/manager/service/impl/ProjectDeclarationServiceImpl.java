@@ -234,6 +234,19 @@ public class ProjectDeclarationServiceImpl implements ProjectDeclarationService 
         return pageDataResult;
     }
 
+    @Override
+    public PageDataResult getLXProjectList(BaseProjectDeclaration projectDeclaration, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        List<BaseProjectDeclaration> projectDeclarations = projectDeclarationMapper.getLXProjectList(projectDeclaration);
+        PageHelper.startPage(pageNum, pageSize);
+        if(projectDeclarations.size() != 0){
+            PageInfo<BaseProjectDeclaration> pageInfo = new PageInfo<>(projectDeclarations);
+            pageDataResult.setList(projectDeclarations);
+            pageDataResult.setTotals((int) pageInfo.getTotal());
+        }
+
+        return pageDataResult;
+    }
 
 
     @Override

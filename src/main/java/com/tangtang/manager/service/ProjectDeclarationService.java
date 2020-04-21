@@ -14,6 +14,9 @@ public interface ProjectDeclarationService {
 
     PageDataResult getPersonalProjectEstablishList(BaseProjectDeclaration projectDeclaration, Integer pageNum, Integer pageSize);
 
+    PageDataResult getLXProjectList(BaseProjectDeclaration projectDeclaration, Integer pageNum, Integer pageSize);
+
+
     Map<String,Object> updateProjectDetail(BaseProjectDeclaration projectDeclaration);
 
     Map<String,Object> agreeTheLXApply(BaseProjectDeclaration projectDeclaration);

@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.tangtang.manager.pojo.BaseInvestorFinance">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="investor_id" jdbcType="VARCHAR" property="investor_id" />
+        <result column="platform_user_name" jdbcType="VARCHAR" property="platform_user_name" />
         <result column="investor_name" jdbcType="VARCHAR" property="investor_name" />
         <result column="belong_company" jdbcType="VARCHAR" property="belong_company" />
         <result column="investor_position" jdbcType="VARCHAR" property="investor_position" />
@@ -23,6 +24,7 @@
     <sql id="baseColumn">
     id,
     investor_id,
+    platform_user_name,
     investor_name,
     belong_company,
     investor_position,
@@ -42,6 +44,7 @@
         INSERT  INTO base_investor_finance
         (
             investor_id,
+            platform_user_name,
             investor_name,
             belong_company,
             investor_position,
@@ -59,6 +62,7 @@
         VALUES
         (
             #{investor_id},
+            #{platform_user_name},
             #{investor_name},
             #{belong_company},
             #{investor_position},
@@ -91,6 +95,10 @@
         <set>
             <if test="investor_id != null">
                 investor_id = #{investor_id},
+            </if>
+            
+            <if test="platform_user_name != null">
+                platform_user_name = #{platform_user_name},
             </if>
 
             <if test="investor_name != null">

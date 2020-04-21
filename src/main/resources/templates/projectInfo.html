@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='项目展示'">
+    <link rel="stylesheet" href="/css/index.css"></link>
+    <style>
+        .layerTC{background: #f2f2f2;}
+    </style>
+</head>
+<body style="">
+    <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+    <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+<!-- nav部分 -->
+    <div class="nav index">
+        <div th:include="nav :: copyNav"></div>
+    </div>
+
+    <div class="layui-container" style="top: 120px">
+        <form id="SearchForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 0px;">
+            <div class="layui-form-item" style="margin-left: 25%">
+                <div class="layui-input-inline" style="width: 527px;">
+                    <input id="noticeName" name="noticeName" placeholder="请输入项目发起人/项目名称" autocomplete="off" class="layui-input" type="text" style="height: 50px;font-size: 16px"/>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn"  lay-submit="" lay-filter="---" style="width:100px; height: 50px; font-size: 16px">查询</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+            </div>
+        </form>
+
+        <table id="projectInfo" lay-filter="projectInfoTable"></table>
+    </div>
+
+    <div id="viewProjectDetail" style="margin-top: 30px; display: none;">
+        <div class="layui-card" style="border-bottom: solid 1px #f2f2f2">
+            <div class="layui-card-body">
+                <p id="project_name" style="font-size: 26px; margin-left: 18%">知识的去严肃化对受众的影响</p>
+                <p id="belong_school" style="font-size: 14px; margin-left: 18%; margin-top: 20px; color: #4E5465">福建工程学院</p>
+                <p style="font-size: 14px; margin-left: 18%; margin-top: 15px; color: #4E5465">
+                    <b>项目关键词:</b><span id="project_keyWords" style="margin-left: 5px">大学生创业，SpringBoot，Layui</span>
+                </p>
+                <div id="belong_fields" style="margin-left: 18%; margin-top: 20px;">
+                </div>
+            </div>
+        </div>
+        <div class="layui-container">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-tabs" style="font-size: 15px; color: #33aba0;"></i>  <b>项目信息</b> </div>
+                <div class="layui-card-body">
+                    <p style="margin-left: 20px"><i class="layui-icon layui-icon-triangle-r" style="font-size: 15px; color: #33aba0;"></i>  <b style="color: #4E5465">项目介绍</b></p>
+                    <p id="project_introduction" style="margin-left: 40px; text-indent: 2em;"></p>
+
+                    <p style="margin-left: 20px; margin-top: 20px"><i class="layui-icon layui-icon-triangle-r" style="font-size: 15px; color: #33aba0;"></i>  <b style="color: #4E5465">项目进展阶段</b></p>
+                    <p id="project_current_JD" style="margin-left: 40px;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-container" style="margin-top: 10px">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-group" style="font-size: 15px; color: #33aba0;"></i>  <b>项目成员</b> </div>
+                <div class="layui-card-body">
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="290">
+                            <col width="290">
+                            <col width="290">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>年级</th>
+                            <th>学号</th>
+                            <th>专业</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody"></tbody>
+                    </table>
+
+                    <div style="margin-top: 5px; margin-left: 85%">
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <i class="layui-icon layui-icon-down" style="font-size: 18px; color: red;"></i>
+                        <button type="button" class="layui-btn layui-btn-xs" onclick="addMessage();">感兴趣？给项目发起人留言</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-container" style="margin-top: 10px">
+            <div class="layui-card" style="border: solid 3px #f2f2f2 ">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-flag" style="font-size: 15px; color: #33aba0;"></i>  <b>项目融资情况</b> </div>
+                <div class="layui-card-body">
+                    <table id="projectFinance" lay-filter="projectFinanceTable"></table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-留言-->
+    <div id="addMessage" class="layer_self_wrap" style="display:none; ">
+        <form id="addMessageForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+
+            <blockquote class="layui-elem-quote">向该项目的发起者留言</blockquote>
+
+            <input type="hidden" id="message_owner" name="message_owner"/>
+            <input type="hidden" id="message_sender" name="message_sender"/>
+            <input type="hidden" id="project_name_message" name="project_name"/>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" id="message_title" name="message_title" lay-verify="required"   autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">留言内容</label>
+                <div class="layui-input-block">
+                    <textarea id="message_content" name="message_content" lay-verify="required" placeholder="请输入留言内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="addMessageSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<script src="/js/projectInfo/projectInfo.js"></script>
+<script src="/js/message/message.js"></script>
+
+</body>
+</html>

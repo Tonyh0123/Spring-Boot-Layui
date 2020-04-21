@@ -185,6 +185,40 @@ public class ProjectDeclarationController {
         return pdr;
     }
 
+    /**
+     *
+     * 功能描述: 查询已立项项目列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/21 12：09
+     */
+    @RequestMapping(value = "/getLXProjectList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getLXProjectList(@RequestParam("pageNum") Integer pageNum,
+                                                          @RequestParam("pageSize") Integer pageSize,
+                                                          BaseProjectDeclaration projectDeclaration) {
+
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取列表
+            pdr = projectDeclarationService.getLXProjectList(projectDeclaration, pageNum ,pageSize);
+            logger.info("已立项项目列表查询");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("已立项项目列表查询异常！", e);
+        }
+        return pdr;
+    }
+
 
     /**
      * 新增项目申报

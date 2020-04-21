@@ -4,6 +4,7 @@
 var pageCurr;
 var form;
 var userId = document.getElementById("userId").innerText;
+var userName = document.getElementById("userName").innerText;
 $(function() {
     layui.use('table', function(){
         var table = layui.table;
@@ -113,6 +114,7 @@ function del(obj,id) {
 
 function addInvestment() {
     $("#investor_id").val(userId);
+    $("#platform_user_name").val(userName);
     layer.open({
         type: 1 //此处以iframe举例
         , title: '发布融资信息'
@@ -131,6 +133,7 @@ function addInvestment() {
 
 function editInvestment(obj) {
     $("#investor_id").val(userId);
+    $("#platform_user_name").val(userName);
     $("#id").val(obj.id);
     $("#investor_name").val(obj.investor_name);
     $("#belong_company").val(obj.belong_company);

@@ -17,6 +17,8 @@ public interface BaseProjectDeclarationMapper extends MyMapper<BaseProjectDeclar
 
     List<BaseProjectDeclaration> getPersonalProjectEstablishList(BaseProjectDeclaration projectDeclaration);
 
+    List<BaseProjectDeclaration> getLXProjectList(BaseProjectDeclaration projectDeclaration);
+
     /**
      * 学校审核学生立项申请时为学生安排立项答辩时间，并更新相应表字段
      * @param projectDeclaration
