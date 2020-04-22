@@ -5,6 +5,7 @@ import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.dto.UserSearchDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.AdminUserService;
 import org.apache.shiro.SecurityUtils;
@@ -237,7 +238,22 @@ public class UserController {
         logger.info("院校申请使用 ------> user:" + user);
         Map<String,Object> data = new HashMap();
         data = adminUserService.regSchoolUser(user);
-        data.put("url","/login");
+        data.put("url","/index");
+        return data;
+    }
+
+    /**
+     * 企业申请使用
+     * @param company
+     * @return
+     */
+    @RequestMapping(value = "/regCompanyUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> regCompanyUser(BaseCompany company) {
+        logger.info("企业申请");
+        Map<String,Object> data = new HashMap();
+        data = adminUserService.regCompanyUser(company);
+        data.put("url","/index");
         return data;
     }
 

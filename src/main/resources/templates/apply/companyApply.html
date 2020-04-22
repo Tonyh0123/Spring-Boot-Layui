@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='院校申请使用'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+    <a id="checkThat" style="display: none"><shiro:principal property="roleId"></shiro:principal></a>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <hr class="layui-bg-black"/>
+
+        <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
+
+        <table id="companyApplyList" lay-filter="applyTable"></table>
+
+        <script type="text/html" id="optBar">
+            {{#  if(d.apply_status == '1'){ }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已通过</a>
+            {{#  } else if(d.apply_status == '0'){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="Confirm">审核</a>
+            {{#  } else if(d.apply_status == '-1'){ }}
+            <a class="layui-btn-danger layui-btn layui-btn-xs" lay-event="">未通过</a>
+            {{#  } }}
+
+        </script>
+    </div>
+
+
+    <!--通过申请并为院校设置账号以及密码-->
+    <div id="addCompanyUser" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="addCompanyUserForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="pageNum" type="hidden" name="pageNum"/>
+            <input id="company_id" type="hidden" name="company_id"/>
+            <input id="company_contacts_email" type="hidden" name="company_contacts_email"/>
+            <input id="company_contacts_phone" type="hidden" name="company_contacts_phone"/>
+            <div class="layui-form-item ">
+                <label class="layui-form-label" >审核</label>
+                <div class="layui-input-inline">
+                    <select name="applyFlag" id="applyFlag" lay-verify="required" lay-filter="applyFlag" lay-search>
+                        <option value="yes" selected>通过</option>
+                        <option value="no" >不通过</option>
+                    </select>
+                </div>
+            </div>
+            <div id="yes">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input id="username" name="sysUserName"  autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input id="password" name="sysUserPwd" autocomplete="off" class="layui-input" type="password" placeholder="默认初始密码：123456" />
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">请填写6位以上的密码</div>
+                </div>
+            </div>
+            <div id="no" style="display: none">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">审核意见</label>
+                    <div class="layui-input-block">
+                        <textarea id="apply_opinion" name="apply_opinion" placeholder="请输入审核意见" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="userSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/apply/companyApply.js"></script>
+    <script>
+        function picPreview(uul, title) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.open({
+                    title: title,
+                    type: 2,
+                    area: ['1500px', '950px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: uul
+                    //
+                });
+            });
+        }
+    </script>
+    <script>
+        layui.use(['upload','element','form'], function(){
+            var element = layui.element;
+            var form = layui.form;
+            var  layer = layui.layer;
+            var upload = layui.upload;
+
+            form.on('select(applyFlag)', function (data) {
+                var message=data.value;
+                console.log(message);
+                if(message=="yes"){
+                    document.getElementById("no").style.display='none';
+                    document.getElementById("yes").style.display='';
+                    form.render('select');
+                }else if(message=="no"){
+                    document.getElementById("yes").style.display='none';
+                    document.getElementById("no").style.display='';
+                    form.render('select');
+                }
+            });
+        });
+    </script>
+
+</div>
+</body>
+</html>

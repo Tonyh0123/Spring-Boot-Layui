@@ -49,15 +49,67 @@
         #{applyStatus})
    </insert>
 
+    <insert id="regCompanyUser" parameterType="com.tangtang.manager.pojo.BaseCompany">
+        INSERT  INTO base_company
+        (
+            company_name,
+            company_contacts,
+            company_contacts_phone,
+            company_contacts_email,
+            company_industry,
+            company_location,
+            company_staff_size,
+            company_introduction,
+            company_business_license,
+            apply_status
+        )
+        VALUES
+        (
+            #{company_name},
+            #{company_contacts},
+            #{company_contacts_phone},
+            #{company_contacts_email},
+            #{company_industry},
+            #{company_location},
+            #{company_staff_size},
+            #{company_introduction},
+            #{company_business_license},
+            #{apply_status}
+        )
+   </insert>
+
     <insert id="confirmSchoolsApply" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
         INSERT  INTO base_admin_user (sys_user_name,sys_user_pwd,user_status,reg_time,user_phone,role_id)
         VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{userPhone}, #{roleId})
+   </insert>
+
+    <insert id="confirmCompanyApply" parameterType="com.tangtang.manager.dto.CompanyRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
+        INSERT  INTO base_admin_user (sys_user_name,sys_user_pwd,user_status,reg_time,user_phone,role_id)
+        VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{company_contacts_phone}, #{roleId})
    </insert>
 
     <update id="updateSchoolInfo">
         UPDATE base_school
         SET id = #{id} , sys_user_name = #{sysUserName} , apply_status = 1
         WHERE keyid = #{keyid}
+    </update>
+
+    <update id="updateCompanyInfo">
+        UPDATE base_company
+        <set>
+            <if test="id != null">
+                user_id = #{id},
+            </if>
+
+            <if test="apply_status != null">
+                apply_status = #{apply_status},
+            </if>
+
+            <if test="apply_opinion != null">
+                apply_opinion = #{apply_opinion},
+            </if>
+        </set>
+        WHERE id = #{company_id}
     </update>
 
 

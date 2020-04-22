@@ -7,8 +7,10 @@ import com.tangtang.manager.common.utils.DigestUtils;
 import com.tangtang.manager.common.utils.PinyinUtils;
 import com.tangtang.manager.dao.BaseApplyMapper;
 import com.tangtang.manager.dao.BaseRegistrationMapper;
+import com.tangtang.manager.dto.CompanyRegistrationDTO;
 import com.tangtang.manager.dto.SchoolApplyDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.service.ApplyService;
@@ -66,6 +68,19 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
+    public PageDataResult getCompanyApplyList(BaseCompany company, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        List<BaseCompany> companies = baseApplyMapper.getCompanyApplyList(company);
+        PageHelper.startPage(pageNum, pageSize);
+        if(companies.size() != 0){
+            PageInfo<BaseCompany> pageInfo = new PageInfo<>(companies);
+            pageDataResult.setList(companies);
+            pageDataResult.setTotals((int) pageInfo.getTotal());
+        }
+        return pageDataResult;
+    }
+
+    @Override
     public Map<String, Object> confirmSchoolsApply(SchoolRegistrationDTO schoolRegistrationDTO) {
         Map<String,Object> data = new HashMap();
         try {
@@ -103,6 +118,68 @@ public class ApplyServiceImpl implements ApplyService {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("用户[新增]异常！", e);
+            return data;
+        }
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> confirmCompanyApply(CompanyRegistrationDTO companyRegistrationDTO) {
+        Map<String,Object> data = new HashMap();
+        try {
+            if(companyRegistrationDTO.getApplyFlag().equals("yes")){
+                String usernameZW = companyRegistrationDTO.getSysUserName();
+                String username = PinyinUtils.getPinYinHeadChar(usernameZW);
+                companyRegistrationDTO.setSysUserName(username);
+                String firstPassword = "123456";
+                if(companyRegistrationDTO.getSysUserPwd() == null || companyRegistrationDTO.getSysUserPwd() == ""){
+                    String password = DigestUtils.Md5(username,firstPassword);
+                    companyRegistrationDTO.setSysUserPwd(password);
+                }else{
+                    firstPassword = companyRegistrationDTO.getSysUserPwd();
+                    String password = DigestUtils.Md5(username, companyRegistrationDTO.getSysUserPwd());
+                    companyRegistrationDTO.setSysUserPwd(password);
+
+                }
+                companyRegistrationDTO.setRegTime(DateUtils.getCurrentDate());
+                companyRegistrationDTO.setUserStatus(1);
+                companyRegistrationDTO.setRoleId(4); //  '4'===企业
+                companyRegistrationDTO.setApply_status("1");
+                boolean result1 = baseRegistrationMapper.confirmCompanyApply(companyRegistrationDTO);
+                int iddd = companyRegistrationDTO.getId();
+                System.out.println("看过来看过来   iddd---->"+iddd);
+                int result2 = baseRegistrationMapper.updateCompanyInfo(companyRegistrationDTO);
+                if(!result1 && result2<1){
+                    data.put("code",0);
+                    data.put("msg","新增失败！");
+                    logger.error("用户[新增]，结果=新增失败！");
+                    return data;
+                }
+                //开始发送邮件
+                mailService.sendSimpleMail(companyRegistrationDTO.getCompany_contacts_email(),"账户开通成功",
+                        "用户名："+companyRegistrationDTO.getSysUserName()+"密码："+firstPassword);
+                data.put("code",1);
+                data.put("msg","新增成功！");
+                logger.info("用户[新增]，结果=新增成功！");
+            }else {
+                companyRegistrationDTO.setApply_status("-1");
+                int result3 = baseRegistrationMapper.updateCompanyInfo(companyRegistrationDTO);
+                if(result3<1){
+                    data.put("code",0);
+                    data.put("msg","审核失败！");
+                    logger.error("企业信息更新，结果=失败！");
+                    return data;
+                }
+                mailService.sendSimpleMail(companyRegistrationDTO.getCompany_contacts_email(),"审核未通过",
+                        "审核意见："+companyRegistrationDTO.getApply_opinion());
+                data.put("code",1);
+                data.put("msg","审核成功！");
+                logger.info("企业信息更新，结果=成功！");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("企业申请审核异常！", e);
             return data;
         }
         return data;

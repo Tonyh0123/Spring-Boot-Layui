@@ -4,6 +4,7 @@ import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
 import com.tangtang.manager.dto.UserSearchDTO;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.response.PageDataResult;
 
 import java.util.Map;
@@ -25,6 +26,8 @@ public interface AdminUserService {
     Map<String,Object> regUser(StudentRegistrationDTO studentRegistrationDTO);
 
     Map<String,Object> regSchoolUser(SchoolRegistrationDTO schoolRegistrationDTO);
+
+    Map<String,Object> regCompanyUser(BaseCompany company);
 
     Map<String,Object> updateUser(BaseAdminUser user);
 

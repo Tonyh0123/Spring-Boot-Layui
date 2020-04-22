@@ -90,6 +90,7 @@ public class ShiroConfig {
         filterMap.put("/treegrid/*", "anon");
         filterMap.put("/treegrid/*/*", "anon");
         filterMap.put("/registrationOfSchool", "anon");
+        filterMap.put("/registrationOfCompany", "anon");
         filterMap.put("/fragments/*", "anon");
         filterMap.put("/layout", "anon");
         filterMap.put("/user/regSchoolUser", "anon");

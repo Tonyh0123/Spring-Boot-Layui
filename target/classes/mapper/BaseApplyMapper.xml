@@ -33,6 +33,38 @@
     <result column="school_student_verify_detail" jdbcType="VARCHAR" property="verifyDetail" />
   </resultMap>
 
+  <resultMap id="BaseCompanyResultMap" type="com.tangtang.manager.pojo.BaseCompany">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="company_name" jdbcType="VARCHAR" property="company_name" />
+    <result column="company_contacts" jdbcType="VARCHAR" property="company_contacts" />
+    <result column="company_contacts_phone" jdbcType="VARCHAR" property="company_contacts_phone" />
+    <result column="company_contacts_email" jdbcType="VARCHAR" property="company_contacts_email" />
+    <result column="company_industry" jdbcType="VARCHAR" property="company_industry" />
+    <result column="company_location" jdbcType="VARCHAR" property="company_location" />
+    <result column="company_staff_size" jdbcType="VARCHAR" property="company_staff_size" />
+    <result column="company_introduction" jdbcType="VARCHAR" property="company_introduction" />
+    <result column="company_business_license" jdbcType="VARCHAR" property="company_business_license" />
+    <result column="apply_status" jdbcType="VARCHAR" property="apply_status" />
+    <result column="apply_opinion" jdbcType="VARCHAR" property="apply_opinion" />
+  </resultMap>
+
+  <sql id="companyColumn">
+    id,
+    user_id,
+    company_name,
+    company_contacts,
+    company_contacts_phone,
+    company_contacts_email,
+    company_industry,
+    company_location,
+    company_staff_size,
+    company_introduction,
+    company_business_license,
+    apply_status,
+    apply_opinion
+  </sql>
+
   <sql id="baseColumn">
     keyid,
     id,
@@ -70,6 +102,11 @@
   <select id="getStudentApplyList" resultMap="StudentResultMap">
     SELECT <include refid="studentColumn"/>
     FROM base_student
+  </select>
+
+  <select id="getCompanyApplyList" resultMap="BaseCompanyResultMap">
+    SELECT <include refid="companyColumn"/>
+    FROM base_company
   </select>
   
   <update id="verifyStudentApply">

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='企业申请界面'">
+    <link rel="stylesheet" href="/css/index.css"></link>
+<body>
+<!-- nav部分 -->
+<div class="nav index">
+    <div th:include="nav :: copyNav"></div>
+</div>
+<div class="layui-container" style="top: 200px">
+<div class="layui-row"  style="position:absolute; top:30%; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
+    <h1 style="text-align: center">企业申请使用</h1>
+</div>
+<div class="layui-row"  > <!--  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;"  -->
+    <form id="companyRegForm" class="layui-form layui-form-pane" method="post" action="" >
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">公司注册名</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_name" name="company_name" lay-verify="required" placeholder="请输入公司注册名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">联系人</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_contacts" name="company_contacts" lay-verify="required"  placeholder="请输入联系人姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">联系电话</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_contacts_phone" name="company_contacts_phone" lay-verify="required"  placeholder="请输入联系人电话" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-row layui-form-item">
+            <div class="layui-col-xs6" >
+                <label class="layui-form-label">联系邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" id="company_contacts_email" name="company_contacts_email" lay-verify="email"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-col-xs6" >
+                <label class="layui-form-label"><button type="button" class="layui-btn-xs layui-btn layui-btn-primary" onclick="createVerifyCode()"><b>获取验证码</b></button></label>
+                <div class="layui-input-block">
+                    <input type="text" id="verifyCode" name="" lay-verify="verifyCode"  placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">所在行业</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_industry" name="company_industry" lay-verify="required"  placeholder="请输入公司所在行业" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">所在地</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_location" name="company_location" lay-verify="required"  placeholder="请输入公司所在地（省份）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">公司规模</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_staff_size" name="company_staff_size" lay-verify="required"  placeholder="请输入公司人员规模" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" >
+            <label class="layui-form-label">公司介绍</label>
+            <div class="layui-input-block">
+                <input type="text" id="company_introduction" name="company_introduction" lay-verify="required"  placeholder="请输入公司简介" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-row layui-form-item">
+            <div class=" layui-col-xs6" >
+                <label class="layui-form-label">营业执照</label>
+                <div class="layui-input-block">
+                    <input type="text" id="company_business_license" name="company_business_license" lay-verify="required"  placeholder="原件或带公章的复印件" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class=" layui-col-xs6" >
+                <button type="button" class="layui-btn" id="uploadButton1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+
+                <button type="button" class="layui-btn" id="previewButton1" style="display: none" onclick="picPreview1()">
+                    <i class="layui-icon">&#xe67c;</i>预览图片
+                </button>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="text-align: center;">
+            <div class="layui-input-block" style="margin: 0 auto;">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="mysubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<script src="/static/js/dateUtils.js"></script>
+<script src="/static/js/sysUser/userList.js"></script>
+<script src="/static/js/verifyCode.js"></script>
+<script>
+    var sended = false;
+    var verifyed = false;
+    var MainVerifyCode; //邮件验证码
+    layui.use(['form', 'layedit', 'laydate','layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+
+        //监听提交整体表单
+        form.on('submit(mysubmit)', function(data){
+            if(sended == true && verifyed == true){
+                $.ajax({
+                    type: "POST",
+                    data: $("#companyRegForm").serialize(),
+                    url: "/user/regCompanyUser",
+                    success: function (data) {
+                        if (data.code == 1) {
+                            layer.alert(data.msg,function(){
+                                window.location.href=data.url;
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+
+            }
+            return false;
+        });
+
+        //自定义验证规则，用于验证【验证码】是否正确
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符';
+                }
+            }
+            ,verifyCode:function(){
+                if(document.getElementById("verifyCode").value == MainVerifyCode){
+                    verifyed = true;
+
+                }else if(document.getElementById("verifyCode").value == ""){
+                    layer.msg('请验证邮箱！', {
+                        time: 3000, //3s后自动关闭
+                    });
+                }
+                else {
+                    return '验证码不正确！';
+                }
+            }
+        });
+
+    });
+
+    //创建验证码，四位数字
+    function createVerifyCode() {
+        var email = document.getElementById("company_contacts_email").value;
+        if(null != email && email!=""){
+            var verifyCode = "";
+            for (var i=0; i<4; i++){
+                var randomNum = Math.floor(Math.random()*10);
+                verifyCode = verifyCode + randomNum;
+
+            }
+            sendCode(verifyCode,email);
+            sended = true;
+        }else {
+            layer.msg('请输入邮箱', {
+                time: 3000, //3s后自动关闭
+            });
+        }
+
+    }
+
+    //ajax请求后端发送邮件
+    function sendCode(verifyCode,email) {
+        $.ajax({
+            type: "POST",
+            dataType : 'json',
+            data: {"verifyCode": verifyCode, "email": email},
+            url: "/verifyCode/checkVerifyCode",
+            success: function (data) {
+                if (data.code == 1) {
+                    MainVerifyCode = verifyCode; //发送成功进行验证
+                    layer.alert(data.msg);
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        })
+    }
+</script>
+<script>
+    var pdf1 = "";
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        upload.render({
+            elem: '#uploadButton1' //绑定元素
+            ,url: '/upload/identifyConfirmFileUpload' //上传接口
+            ,method: 'post'
+            ,done: function(res){
+
+                document.getElementById("previewButton1").style.display='';
+                pdf1 = res.fileUrl;
+                $("#company_business_license").val(res.fileUrl);
+
+            }
+            ,error: function(){
+                alert("failed");
+                //请求异常回调
+            }
+        });
+    });
+    function picPreview1() {
+        var uul = pdf1;
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.open({
+                title: '工作证明信息',
+                type: 2,
+                area: ['1000px', '950px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: uul
+                //
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

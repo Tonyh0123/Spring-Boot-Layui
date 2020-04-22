@@ -28,9 +28,15 @@ public class IndexController {
     }
 
     @RequestMapping("registrationOfSchool")
-    public String toregistrationOfSchool(){
-        logger.info("定向注册页");
+    public String toRegistrationOfSchool(){
+        logger.info("定向校方申请页");
         return "registrationOfSchool";
+    }
+
+    @RequestMapping("registrationOfCompany")
+    public String toRegistrationOfCompany(){
+        logger.info("定向企业申请页");
+        return "registrationOfCompany";
     }
 
     @RequestMapping("testPaper")

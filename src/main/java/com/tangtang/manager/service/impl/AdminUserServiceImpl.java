@@ -10,6 +10,7 @@ import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.pojo.BaseAdminUser;
 import com.tangtang.manager.dao.BaseAdminUserMapper;
 import com.tangtang.manager.dto.UserSearchDTO;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.service.AdminUserService;
 import com.tangtang.manager.response.PageDataResult;
 import com.tangtang.manager.common.utils.DateUtils;
@@ -117,6 +118,29 @@ public class AdminUserServiceImpl implements AdminUserService{
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("院校申请使用异常！", e);
+            return data;
+        }
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> regCompanyUser(BaseCompany company) {
+        Map<String,Object> data = new HashMap();
+        try {
+            company.setApply_status("0");
+            boolean result = baseRegistrationMapper.regCompanyUser(company);
+            if(!result){
+                data.put("code",0);
+                data.put("msg","操作失败，请联系管理！");
+                logger.error("企业申请使用，结果=申请失败，数据插入异常！");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","申请成功！");
+            logger.info("企业申请使用，结果=申请成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("企业申请使用异常！", e);
             return data;
         }
         return data;

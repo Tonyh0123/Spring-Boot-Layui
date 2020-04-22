@@ -8,14 +8,35 @@ function chooseRegi(){
     layer.msg('<center><b>请选择注册类型</b></center>', {
         offset: '100px',
         time: 20000,
-        // title: '注册类型',
-        btn: ['学生注册', '院校申请', '企业申请'],
+        area:['400px','100px'],
+        btn: ['学生', '院校', '企业','关闭'],
+        btnAlign: 'c',
         // skin: 'demo-class',
         yes: function () {
             window.location.href="/registration";
         },
         btn2: function () {
             window.location.href="/registrationOfSchool";
+        },
+        btn3: function () {
+            window.location.href="/registrationOfCompany";
+        },
+    });
+}
+
+function F_or_P(){
+    layer.msg('找融资/找项目', {
+        offset: '100px',
+        time: 20000,
+        area:['300px','100px'],
+        btn: ['找融资', '找项目','关闭'],
+        btnAlign: 'c',
+        // skin: 'demo-class',
+        yes: function () {
+            window.location.href="/financeInfo";
+        },
+        btn2: function () {
+            window.location.href="/projectInfo";
         }
     });
 }

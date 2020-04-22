@@ -1,6 +1,7 @@
 package com.tangtang.manager.dao;
 
 import com.tangtang.manager.dto.SchoolApplyDTO;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.pojo.BaseStudent;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,8 @@ public interface BaseApplyMapper {
     List<SchoolApplyDTO> getSchoolApplyList(SchoolApplyDTO schoolApplyDTO);
 
     List<BaseStudent> getStudentApplyList(BaseStudent student);
+
+    List<BaseCompany> getCompanyApplyList(BaseCompany company);
 
     boolean verifyStudentApply(BaseStudent student);
 }

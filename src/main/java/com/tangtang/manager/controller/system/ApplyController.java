@@ -2,6 +2,7 @@ package com.tangtang.manager.controller.system;
 
 import com.tangtang.manager.dto.*;
 import com.tangtang.manager.pojo.BaseAdminUser;
+import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.pojo.BaseProjectDeclaration;
 import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
@@ -66,6 +67,20 @@ public class ApplyController {
 
     /**
      *
+     * 功能描述: 跳到企业申请列表
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/22 13:55
+     */
+    @RequestMapping("/companyApplyManage")
+    public String companyApplyManage() {
+        return "/apply/companyApply";
+    }
+
+    /**
+     *
      * 功能描述: 分页查询申请列表
      *
      * @param:
@@ -111,7 +126,7 @@ public class ApplyController {
     @RequestMapping(value = "/getStudentApplyList", method = RequestMethod.POST)
     @ResponseBody
     public PageDataResult getStudentList(@RequestParam("pageNum") Integer pageNum,
-                                      @RequestParam("pageSize") Integer pageSize, BaseStudent student) {
+                                         @RequestParam("pageSize") Integer pageSize, BaseStudent student) {
         PageDataResult pdr = new PageDataResult();
         try {
             if(null == pageNum) {
@@ -127,6 +142,38 @@ public class ApplyController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("学生审核信息列表查询异常！", e);
+        }
+        return pdr;
+    }
+
+
+    /**
+     *
+     * 功能描述: 分页查询企业申请信息
+     *
+     * @param:
+     * @return:
+     * @auther: tangtang
+     * @date: 2020/04/22 11:10
+     */
+    @RequestMapping(value = "/getCompanyApplyList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getCompanyApplyList(@RequestParam("pageNum") Integer pageNum,
+                                         @RequestParam("pageSize") Integer pageSize, BaseCompany company) {
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            pdr = applyService.getCompanyApplyList(company, pageNum ,pageSize);
+            logger.info("企业审核信息列表查询=pdr:" + pdr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("企业审核信息列表查询异常！", e);
         }
         return pdr;
     }
@@ -149,7 +196,7 @@ public class ApplyController {
 
 
     /**
-     * 院校申请使用
+     * 院校申请审核
      * @param user
      * @return
      */
@@ -159,6 +206,20 @@ public class ApplyController {
         logger.info("院校申请使用 ------> user:" + user);
         Map<String,Object> data = new HashMap();
         data = applyService.confirmSchoolsApply(user);
+        return data;
+    }
+
+    /**
+     * 企业申请审核
+     * @param companyRegistrationDTO
+     * @return
+     */
+    @RequestMapping(value = "/judgeCompanyUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> judgeCompanyUser(CompanyRegistrationDTO companyRegistrationDTO) {
+        logger.info("企业申请审核");
+        Map<String,Object> data = new HashMap();
+        data = applyService.confirmCompanyApply(companyRegistrationDTO);
         return data;
     }
 
