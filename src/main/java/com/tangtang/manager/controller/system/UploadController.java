@@ -1,6 +1,7 @@
 package com.tangtang.manager.controller.system;
 
 import com.alibaba.fastjson.JSON;
+import com.tangtang.manager.common.utils.Enc_DecTools;
 import com.tangtang.manager.pojo.BaseSuccessfulCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ import java.util.UUID;
 @RequestMapping("upload")
 @MultipartConfig
 public class UploadController {
+
+    private static final int numOfEncAndDec = 0x99; //加密解密秘钥
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -106,12 +109,11 @@ public class UploadController {
             String date = sdf.format(new Date()).replace(" ","-").replace(":","-");
             String fileDate = sdf1.format(new Date()).replace(" ","-").replace(":","-");
             String uuid = UUID.randomUUID().toString().replace("-","");
-            String newFileName = webShowName + "_" + date + "_" + uuid + "." + fileSuffix;
-            System.out.println(newFileName);
-            String url = path + "/" +  newFileName;
+            String newFileName = webShowName + "_" + date + "_" + uuid + "." + fileSuffix +".secret";
+            String url = path + "/" +  newFileName ;
             InputStream inputStream = file.getInputStream();
 
-            pubUpload(inputStream,url);
+            identityUpload(inputStream,url);
 
 
             data.put("code",0);
@@ -142,5 +144,50 @@ public class UploadController {
         fileOutputStream.flush();
         fileOutputStream.close();
         inputStream.close();
+    }
+
+    /**
+     * 抽取公共身份文件上传模块
+     * @param inputStream
+     * @param url
+     * @throws IOException
+     */
+    public void identityUpload(InputStream inputStream, String url) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(url);
+        int len = 0;
+        while ((len = inputStream.read()) > -1) {
+            fileOutputStream.write(len ^ numOfEncAndDec);
+        }
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        inputStream.close();
+    }
+
+    @RequestMapping(value = "/decFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> DecFile(@RequestParam(value="encFile") String encFile )throws Exception {
+        Map<String,Object> data = new HashMap();
+        String decFile = encFile.replace(".secret","");
+        File realEncFile = new File(encFile);
+        File realDecFile = new File(decFile);
+        Enc_DecTools.DecFile(realEncFile,realDecFile);
+        realEncFile.delete();
+
+
+        data.put("fileurl",decFile.replace("F:",""));
+
+        return data;
+    }
+
+    @RequestMapping(value = "/encFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> EncFile(@RequestParam(value="decFile") String decFile )throws Exception {
+        Map<String,Object> data = new HashMap();
+        String encFile = decFile + ".secret";
+        File realEncFile = new File(encFile);
+        File realDecFile = new File(decFile);
+        Enc_DecTools.EncFile(realDecFile,realEncFile);
+        realDecFile.delete();
+        return data;
     }
 }

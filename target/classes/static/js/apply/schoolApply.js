@@ -33,10 +33,10 @@ $(function() {
                     ,{field:'schoolManagerName', title:'联系人姓名',align:'center'}
                     ,{field:'schoolManagerJob', title:'职位',align:'center'}
                     ,{field:'jobConfirm', title:'工作证明',align:'center', templet: '<div>' +
-                            '<img src="..{{ d.jobConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.jobConfirm }}\',\'工作证明信息\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.jobConfirm }}\',\'工作证明信息\')">' +
                             '</div>'}
                     ,{field:'schoolConfirm', title:'学校证明',align:'center', templet: '<div>' +
-                            '<img src="..{{ d.schoolConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.schoolConfirm }}\',\'学校证明信息\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.schoolConfirm }}\',\'学校证明信息\')">' +
                             '</div>'}
                     ,{field:'schoolManagerPhone', title: '手机号',align:'center'}
                     ,{field:'schoolManagerEmail', title: '邮箱',align:'center'}
@@ -126,7 +126,7 @@ function openUser(data,title){
 
     $("#keyid").val(data.keyid);
     $("#managerEmail").val(data.schoolManagerEmail);
-    $("#username").val(data.schoolManagerName);
+    $("#username").val(data.schoolName);
     $("#mobile").val(data.schoolManagerPhone);
     var pageNum = $(".layui-laypage-skip").find("input").val();
     $("#pageNum").val(pageNum);

@@ -94,6 +94,7 @@ public class ShiroConfig {
         filterMap.put("/fragments/*", "anon");
         filterMap.put("/layout", "anon");
         filterMap.put("/user/regSchoolUser", "anon");
+        filterMap.put("/user/regCompanyUser", "anon");
         filterMap.put("/user/regUser", "anon");
         filterMap.put("/user/login", "anon");
         filterMap.put("/registration", "anon");
@@ -105,6 +106,9 @@ public class ShiroConfig {
         filterMap.put("/verifyCode/checkVerifyCode", "anon");
         filterMap.put("/upload/identifyConfirmFileUpload", "anon");
         filterMap.put("/testQuestion/testPaper", "anon");
+        filterMap.put("/upload/decFile", "anon");
+        filterMap.put("/upload/encFile", "anon");
+
 
         filterMap.put("/case", "anon");
         filterMap.put("/index", "anon");

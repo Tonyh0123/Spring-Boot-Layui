@@ -36,21 +36,21 @@ $(function() {
                     ,{field:'studentEmail', title:'邮箱',align:'center'}
                     ,{field:'studentConfirm', title:'学生证',align:'center', templet: '<div>' +
                             '{{#  if( d.studentConfirm != null){ }}' +
-                            '<img src="..{{ d.studentConfirm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.studentConfirm }}\',\'学生证\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.studentConfirm }}\',\'学生证\')">' +
                             '{{#  } else { }}' +
                             '<p>未上传</p>' +
                             '{{#  } }}' +
                             '</div>'}
                     ,{field:'SFZZM', title:'身份证（正面）',align:'center', templet: '<div>' +
                             '{{#  if( d.sfzzm != null){ }}' +
-                            '<img src="..{{ d.sfzzm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.sfzzm }}\',\'身份证（正面）\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.sfzzm }}\',\'身份证（正面）\')">' +
                             '{{#  } else { }}' +
                             '<p>未上传</p>' +
                             '{{#  } }}' +
                             '</div>'}
                     ,{field:'SFZBM', title:'身份证（背面）',align:'center', templet: '<div>' +
                             '{{#  if( d.sfzbm != null){ }}' +
-                            '<img src="..{{ d.sfzbm }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.sfzbm }}\',\'身份证（背面）\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.sfzbm }}\',\'身份证（背面）\')">' +
                             '{{#  } else { }}' +
                             '<p>未上传</p>' +
                             '{{#  } }}' +

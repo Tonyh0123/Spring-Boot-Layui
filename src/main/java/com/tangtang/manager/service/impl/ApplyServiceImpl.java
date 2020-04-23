@@ -93,6 +93,7 @@ public class ApplyServiceImpl implements ApplyService {
                 String password = DigestUtils.Md5(username,firstPassword);
                 schoolRegistrationDTO.setSysUserPwd(password);
             }else{
+                firstPassword = schoolRegistrationDTO.getSysUserPwd();
                 String password = DigestUtils.Md5(username, schoolRegistrationDTO.getSysUserPwd());
                 schoolRegistrationDTO.setSysUserPwd(password);
             }

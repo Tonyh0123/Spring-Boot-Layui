@@ -154,6 +154,9 @@
         var pdf1 = "";
         var pdf2 = "";
         var pdf3 = "";
+        var realPdf1 = "";
+        var realPdf2 = "";
+        var realPdf3 = "";
         layui.use('upload', function(){
             var upload = layui.upload;
 
@@ -162,10 +165,12 @@
                 elem: '#uploadButton1' //绑定元素
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
+                ,size: 80
                 ,done: function(res){
 
                     document.getElementById("previewButton1").style.display='';
                     pdf1 = res.fileUrl;
+                    realPdf1 = pdf1.replace("/identifyConfirmFile","F:/identifyConfirmFile");
                     $("#studentConfirm").val(res.fileUrl);
 
                 }
@@ -180,10 +185,12 @@
                 elem: '#uploadButton2' //绑定元素
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
+                ,size: 80
                 ,done: function(res){
 
                     document.getElementById("previewButton2").style.display='';
                     pdf2 = res.fileUrl;
+                    realPdf2 = pdf2.replace("/identifyConfirmFile","F:/identifyConfirmFile");
                     $("#SFZZM").val(res.fileUrl);
 
                 }
@@ -198,10 +205,12 @@
                 elem: '#uploadButton3' //绑定元素
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
+                ,size: 80
                 ,done: function(res){
 
                     document.getElementById("previewButton3").style.display='';
                     pdf3 = res.fileUrl;
+                    realPdf3 = pdf3.replace("/identifyConfirmFile","F:/identifyConfirmFile");
                     $("#SFZBM").val(res.fileUrl);
 
                 }
@@ -212,50 +221,108 @@
             });
         });
         function picPreview1() {
-            var uul = pdf1;
-            layui.use('layer', function () {
-                var layer = layui.layer;
-                layer.open({
-                    title: '证明信息',
-                    type: 2,
-                    area: ['1000px', '950px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: uul
-                    //
-                });
+            $.ajax({
+                type: "POST",
+                data: {"encFile":realPdf1},
+                url: "/upload/decFile",
+                async: true,
+                success: function (res) {
+                    var uul = res.fileurl;
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            title: '证明信息',
+                            type: 2,
+                            area: ['1000px', '950px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            content: uul,
+                            end: function () {
+                                var realDecFile = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile");
+                                $.ajax({
+                                    type: "POST",
+                                    data: {"decFile":realDecFile},
+                                    url: "/upload/encFile",
+                                    async: true,
+                                });
+
+                            }
+                            //
+                        });
+                    });
+                },
+
             });
+
         }
 
         function picPreview2() {
-            var uul = pdf2;
-            layui.use('layer', function () {
-                var layer = layui.layer;
-                layer.open({
-                    title: '证明信息',
-                    type: 2,
-                    area: ['1000px', '950px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: uul
-                    //
-                });
+            $.ajax({
+                type: "POST",
+                data: {"encFile":realPdf2},
+                url: "/upload/decFile",
+                async: true,
+                success: function (res) {
+                    var uul = res.fileurl;
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            title: '证明信息',
+                            type: 2,
+                            area: ['1000px', '950px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            content: uul,
+                            end: function () {
+                                var realDecFile = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile");
+                                $.ajax({
+                                    type: "POST",
+                                    data: {"decFile":realDecFile},
+                                    url: "/upload/encFile",
+                                    async: true,
+                                });
+
+                            }
+                            //
+                        });
+                    });
+                },
+
             });
         }
 
         function picPreview3() {
-            var uul = pdf3;
-            layui.use('layer', function () {
-                var layer = layui.layer;
-                layer.open({
-                    title: '证明信息',
-                    type: 2,
-                    area: ['1000px', '950px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    content: uul
-                    //
-                });
+            $.ajax({
+                type: "POST",
+                data: {"encFile":realPdf3},
+                url: "/upload/decFile",
+                async: true,
+                success: function (res) {
+                    var uul = res.fileurl;
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.open({
+                            title: '证明信息',
+                            type: 2,
+                            area: ['1000px', '950px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            content: uul,
+                            end: function () {
+                                var realDecFile = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile");
+                                $.ajax({
+                                    type: "POST",
+                                    data: {"decFile":realDecFile},
+                                    url: "/upload/encFile",
+                                    async: true,
+                                });
+
+                            }
+                            //
+                        });
+                    });
+                },
+
             });
         }
 

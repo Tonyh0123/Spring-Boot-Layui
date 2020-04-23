@@ -38,7 +38,7 @@ $(function() {
                     ,{field:'company_staff_size', title:'人员规模',align:'center'}
                     ,{field:'company_introduction', title:'公司简介',align:'center'}
                     ,{field:'jobConfirm', title:'营业执照',align:'center', templet: '<div>' +
-                            '<img src="..{{ d.company_business_license }}" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.company_business_license }}\',\'营业执照\')">' +
+                            '<img src="/images/idCard.png" style="width:30px; height:30px;" onclick="picPreview(\'{{ d.company_business_license }}\',\'营业执照\')">' +
                             '</div>'}
                     ,{title:'操作',align:'center', toolbar:'#optBar'}
                 ]],

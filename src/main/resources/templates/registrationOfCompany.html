@@ -206,6 +206,7 @@
 </script>
 <script>
     var pdf1 = "";
+    var realPdf1 = "";
     layui.use('upload', function(){
         var upload = layui.upload;
         //执行实例
@@ -213,10 +214,12 @@
             elem: '#uploadButton1' //绑定元素
             ,url: '/upload/identifyConfirmFileUpload' //上传接口
             ,method: 'post'
+            ,size: 80
             ,done: function(res){
 
                 document.getElementById("previewButton1").style.display='';
                 pdf1 = res.fileUrl;
+                realPdf1 = pdf1.replace("/identifyConfirmFile","F:/identifyConfirmFile");
                 $("#company_business_license").val(res.fileUrl);
 
             }
@@ -227,18 +230,37 @@
         });
     });
     function picPreview1() {
-        var uul = pdf1;
-        layui.use('layer', function () {
-            var layer = layui.layer;
-            layer.open({
-                title: '工作证明信息',
-                type: 2,
-                area: ['1000px', '950px'],
-                fixed: false, //不固定
-                maxmin: true,
-                content: uul
-                //
-            });
+        $.ajax({
+            type: "POST",
+            data: {"encFile":realPdf1},
+            url: "/upload/decFile",
+            async: true,
+            success: function (res) {
+                var uul = res.fileurl;
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '营业执照',
+                        type: 2,
+                        area: ['1000px', '950px'],
+                        fixed: false, //不固定
+                        maxmin: true,
+                        content: uul,
+                        end: function () {
+                            var realDecFile = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile");
+                            $.ajax({
+                                type: "POST",
+                                data: {"decFile":realDecFile},
+                                url: "/upload/encFile",
+                                async: true,
+                            });
+
+                        }
+                        //
+                    });
+                });
+            },
+
         });
     }
 </script>
