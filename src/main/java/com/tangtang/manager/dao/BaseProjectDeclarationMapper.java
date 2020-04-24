@@ -1,6 +1,7 @@
 package com.tangtang.manager.dao;
 
 import com.tangtang.manager.pojo.BaseProjectDeclaration;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import tk.mapper.MyMapper;
 
@@ -17,7 +18,7 @@ public interface BaseProjectDeclarationMapper extends MyMapper<BaseProjectDeclar
 
     List<BaseProjectDeclaration> getPersonalProjectEstablishList(BaseProjectDeclaration projectDeclaration);
 
-    List<BaseProjectDeclaration> getLXProjectList(BaseProjectDeclaration projectDeclaration);
+    List<BaseProjectDeclaration> getLXProjectList(@Param("projectDeclaration")BaseProjectDeclaration projectDeclaration, Integer pageNum, Integer pageSize);
 
     /**
      * 学校审核学生立项申请时为学生安排立项答辩时间，并更新相应表字段

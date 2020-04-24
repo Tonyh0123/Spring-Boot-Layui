@@ -14,8 +14,6 @@
     <result column="project_type" jdbcType="VARCHAR" property="projectType" />
     <result column="project_belong_school" jdbcType="VARCHAR" property="projectBelongSchool" />
     <result column="project_implementation_time" jdbcType="VARCHAR" property="projectImplementationTime" />
-    <result column="project_SSXKML" jdbcType="VARCHAR" property="projectSSXKML" />
-    <result column="project_SSZYDL" jdbcType="VARCHAR" property="projectSSZYDL" />
     <result column="project_establish_time" jdbcType="VARCHAR" property="projectEstablishTime" />
     <result column="project_members" jdbcType="VARCHAR" property="projectMembers" />
     <result column="project_guidance_teacher" jdbcType="VARCHAR" property="projectGuidanceTeacher" />
@@ -34,6 +32,7 @@
       <result column="project_current_JD" jdbcType="VARCHAR" property="project_current_JD" />
       <result column="project_JDBG_SQFJ" jdbcType="VARCHAR" property="project_JDBG_SQFJ" />
       <result column="project_recommend_sign" jdbcType="VARCHAR" property="project_recommend_sign" />
+      <result column="project_belong_fields" jdbcType="VARCHAR" property="project_belong_fields" />
   </resultMap>
 
   <sql id="selectColumn">
@@ -46,8 +45,6 @@
     project_type,
     project_belong_school,
     project_implementation_time,
-    project_SSXKML,
-    project_SSZYDL,
     project_establish_time,
     project_members,
     project_guidance_teacher,
@@ -65,7 +62,8 @@
     project_CZJD_DBSJ,
     project_current_JD,
     project_JDBG_SQFJ,
-    project_recommend_sign
+    project_recommend_sign,
+    project_belong_fields
   </sql>
 
   <sql id="insertColumn">
@@ -77,8 +75,6 @@
     project_type,
     project_belong_school,
     project_implementation_time,
-    project_SSXKML,
-    project_SSZYDL,
     project_members,
     project_guidance_teacher,
     project_introduction,
@@ -86,7 +82,8 @@
     project_apply_table,
     project_planning_book,
     project_expected_results,
-    project_money_budgets
+    project_money_budgets,
+    project_belong_fields
   </sql>
 
     <select id="getSchoolNameByUserId" resultType="String">
@@ -116,7 +113,25 @@
     <select id="getLXProjectList" resultMap="BaseResultMap">
         SELECT <include refid="selectColumn"/>
         FROM base_project_establish_report
-        WHERE project_current_JD != ''
+        <where>
+            project_current_JD != ''
+            <if test="projectDeclaration.projectName != null and projectDeclaration.projectName != '' ">
+                and project_name LIKE '%' #{projectDeclaration.projectName} '%'
+            </if>
+
+            <if test="projectDeclaration.project_belong_fields != null and projectDeclaration.project_belong_fields != '' ">
+                and project_belong_fields LIKE '%' #{projectDeclaration.project_belong_fields} '%'
+            </if>
+
+            <if test="projectDeclaration.projectType != null and projectDeclaration.projectType != '' ">
+                and project_type LIKE '%' #{projectDeclaration.projectType} '%'
+            </if>
+
+            <if test="projectDeclaration.project_current_JD != null and projectDeclaration.project_current_JD != '' ">
+                and project_current_JD LIKE '%' #{projectDeclaration.project_current_JD} '%'
+            </if>
+        </where>
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
   <!--申请立项时插入数据-->
@@ -131,8 +146,6 @@
             project_type,
             project_belong_school,
             project_implementation_time,
-            project_SSXKML,
-            project_SSZYDL,
             project_members,
             project_guidance_teacher,
             project_introduction,
@@ -141,7 +154,8 @@
             project_planning_book,
             project_expected_results,
             project_money_budgets,
-            project_pass_status
+            project_pass_status,
+            project_belong_fields
         )
         VALUES
         (
@@ -153,8 +167,6 @@
             #{projectType},
             #{projectBelongSchool},
             #{projectImplementationTime},
-            #{projectSSXKML},
-            #{projectSSZYDL},
             #{projectMembers},
             #{projectGuidanceTeacher},
             #{projectIntroduction},
@@ -163,7 +175,8 @@
             #{projectPlanningBook},
             #{projectExpectedResults},
             #{projectMoneyBudgets},
-            #{project_pass_status}
+            #{project_pass_status},
+            #{project_belong_fields}
         )
    </insert>
 

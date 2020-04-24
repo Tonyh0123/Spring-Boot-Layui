@@ -27,7 +27,7 @@ $(function() {
             cols: [[
                 {field:'projectName', title:'项目', align:'center'}
                 ,{field:'projectIntroduction', title:'项目简介',align:'center'}
-                ,{field:'projectSSZYDL', title:'所属领域（专业大类）',align:'center'}
+                ,{field:'project_belong_fields', title:'所属领域',align:'center'}
                 ,{field:'projectBelongSchool', title:'所属高校',align:'center'}
                 ,{field:'project_current_JD', title:'项目阶段',align:'center'}
             ]],
@@ -41,6 +41,21 @@ $(function() {
         //监听行单击事件
         table.on('row(projectInfoTable)', function(obj){
             viewProjectDetail(obj.data);
+        });
+    });
+
+    //搜索框
+    layui.use(['form'], function(){
+        var form = layui.form ,layer = layui.layer;
+        //监听搜索框
+        form.on('submit(projectSearchSubmit)', function(data){
+            tableIns.reload({
+                where: data.field
+                , page: {
+                    curr: pageCurr //从当前页码开始
+                }
+            });
+            return false;
         });
     });
 
@@ -58,7 +73,11 @@ function viewProjectDetail(obj) {
     document.getElementById("project_current_JD").innerText = obj.project_current_JD;
 
 
-    $('#belong_fields').append('<button class="layui-btn layui-btn-xs">'+obj.projectSSZYDL+'</button>');
+    var fields = obj.project_belong_fields.split(',');
+    for (var i = 0; i < fields.length; i++) {
+        $('#belong_fields').append('<button class="layui-btn layui-btn-xs">'+fields[i]+'</button>');
+    }
+
 
 
     //为了留言

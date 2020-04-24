@@ -99,6 +99,19 @@ $(function() {
                 // console.log(JSON.stringify(projectMembers).toString());
                 }
                 $("#projectMembers").val(JSON.stringify(projectMembers).toString());
+
+                var project_belong_fields = "";
+                var r = document.getElementsByName("belong_fields");
+                for (var i = 0; i < r.length; i++) {
+                    if (r[i].checked) {
+                        project_belong_fields += "," + r[i].value;
+                    }
+                }
+                if (project_belong_fields.length > 0) {
+                    project_belong_fields = project_belong_fields.substring(1);
+                }
+                $("#project_belong_fields").val(project_belong_fields);
+                console.log(project_belong_fields);
                 // TODO 校验
                 formSubmit(data);
                 return false;
@@ -216,8 +229,7 @@ function projectDetail(obj,id) {
         $("#projectEstablishTimeShow").val(obj.projectEstablishTime);
     }
     $("#projectIntroductionShow").val(obj.projectIntroduction);
-    $("#projectSSXKMLShow").val(obj.projectSSXKML);
-    $("#projectSSZYDLShow").val(obj.projectSSZYDL);
+    $("#project_belong_fields_show").val(obj.project_belong_fields);
     $("#projectApplyReasonShow").val(obj.projectApplyReason);
     $("#projectApplyTableShow").val(obj.projectApplyTable);
     $("#projectPlanningBookShow").val(obj.projectPlanningBook);

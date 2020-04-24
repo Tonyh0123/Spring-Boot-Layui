@@ -43,6 +43,21 @@ $(function() {
         });
     });
 
+    //搜索框
+    layui.use(['form'], function(){
+        var form = layui.form ,layer = layui.layer;
+        //监听搜索框
+        form.on('submit(financeSearchSubmit)', function(data){
+            tableIns.reload({
+                where: data.field
+                , page: {
+                    curr: pageCurr //从当前页码开始
+                }
+            });
+            return false;
+        });
+    });
+
 });
 
 function viewInvestorDetail(obj) {
@@ -54,13 +69,16 @@ function viewInvestorDetail(obj) {
     document.getElementById("belong_province").innerText = obj.belong_province;
     document.getElementById("main_turn").innerText = obj.main_turn;
     document.getElementById("single_investment").innerText = obj.single_investment;
-    $('#investment_field').append('<button class="layui-btn layui-btn-xs">'+obj.investment_field+'</button>');
     document.getElementById("personal_introduction").innerText = obj.personal_introduction;
     document.getElementById("organization_name").innerText = obj.organization_name;
     document.getElementById("organization_location").innerText = obj.organization_location;
     document.getElementById("organization_ZJGM").innerText = obj.organization_ZJGM;
     document.getElementById("organization_introduction").innerText = obj.organization_introduction;
 
+    var fields = obj.investment_field.split(',');
+    for (var i = 0; i < fields.length; i++) {
+        $('#investment_field').append('<button class="layui-btn layui-btn-xs">'+fields[i]+'</button>');
+    }
 
     // 为了留言
     $("#message_owner").val(obj.platform_user_name);

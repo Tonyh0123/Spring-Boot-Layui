@@ -33,12 +33,6 @@ public class BaseProjectDeclaration {
     @Column(name = "project_implementation_time")
     private String projectImplementationTime;
 
-    @Column(name = "project_SSXKML")
-    private String projectSSXKML;
-
-    @Column(name = "project_SSZYDL")
-    private String projectSSZYDL;
-
     @Column(name = "project_establish_time")
     private String projectEstablishTime;
 
@@ -92,6 +86,17 @@ public class BaseProjectDeclaration {
 
     @Column(name = "project_recommend_sign")
     private String project_recommend_sign;
+
+    @Column(name = "project_belong_fields")
+    private String project_belong_fields;
+
+    public String getProject_belong_fields() {
+        return project_belong_fields;
+    }
+
+    public void setProject_belong_fields(String project_belong_fields) {
+        this.project_belong_fields = project_belong_fields;
+    }
 
     public Integer getId() {
         return id;
@@ -163,22 +168,6 @@ public class BaseProjectDeclaration {
 
     public void setProjectImplementationTime(String projectImplementationTime) {
         this.projectImplementationTime = projectImplementationTime;
-    }
-
-    public String getProjectSSXKML() {
-        return projectSSXKML;
-    }
-
-    public void setProjectSSXKML(String projectSSXKML) {
-        this.projectSSXKML = projectSSXKML;
-    }
-
-    public String getProjectSSZYDL() {
-        return projectSSZYDL;
-    }
-
-    public void setProjectSSZYDL(String projectSSZYDL) {
-        this.projectSSZYDL = projectSSZYDL;
     }
 
     public String getProjectEstablishTime() {

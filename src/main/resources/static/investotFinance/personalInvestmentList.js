@@ -67,6 +67,33 @@ $(function() {
             });
 
             form.on('submit(addInvestmentSubmit)', function(data){
+                var main_turn = "";
+                var r = document.getElementsByName("main_turn_checkbox");
+                for (var i = 0; i < r.length; i++) {
+                    if (r[i].checked) {
+                        main_turn += "," + r[i].value;
+                    }
+                }
+                if (main_turn.length > 0) {
+                    main_turn = main_turn.substring(1);
+                }
+                $("#main_turn").val(main_turn);
+
+                console.log(main_turn);
+                var investment_field = "";
+                var q = document.getElementsByName("investment_field_checkbox");
+
+                for (var i = 0; i < q.length; i++) {
+                    if (q[i].checked) {
+                        investment_field += "," + q[i].value;
+                    }
+                }
+                if (investment_field.length > 0) {
+                    investment_field = investment_field.substring(1);
+                }
+                $("#investment_field").val(investment_field);
+
+                console.log(investment_field);
                 $.ajax({
                     type: "POST",
                     data: $("#addInvestmentForm").serialize(),

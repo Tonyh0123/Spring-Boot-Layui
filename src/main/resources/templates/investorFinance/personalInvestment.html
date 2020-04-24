@@ -14,10 +14,12 @@
     <div id="addInvestment" class="layer_self_wrap" style="display:none; ">
         <form id="addInvestmentForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
             <blockquote class="layui-elem-quote">发布融资信息</blockquote>
-
+            <input type="hidden" id="main_turn" name="main_turn"/>
+            <input type="hidden" id="investment_field" name="investment_field"/>
             <input id="investor_id" name="investor_id" type="hidden"/>
             <input id="platform_user_name" name="platform_user_name" type="hidden"/>
             <input id="id" name="id" type="hidden"/>
+
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label ">投资人姓名</label>
                 <div class="layui-input-block">
@@ -54,20 +56,35 @@
             </div>
 
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label ">主投轮次</label>
+                <label class="layui-form-label ">主投项目阶段</label>
                 <div class="layui-input-block">
-                    <input id="main_turn" name="main_turn" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                    <input type="checkbox" name="main_turn_checkbox" title="立项阶段" value="立项阶段">
+                    <input type="checkbox" name="main_turn_checkbox" title="创新阶段" value="创新阶段">
+                    <input type="checkbox" name="main_turn_checkbox" title="成长阶段" value="成长阶段">
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label"><b>投资领域</b></label>
                 <div class="layui-input-block">
-                    <select name="investment_field" id="investment_field" lay-verify="required" lay-filter="" lay-search>
-                        <option value="" >请选择</option>
-                        <option value="领域1" >领域1</option>
-                        <option value="领域2" >领域2</option>
-                    </select>
+                    <input type="checkbox" name="investment_field_checkbox" title="农、林、牧、渔业" value="农、林、牧、渔业">
+                    <input type="checkbox" name="investment_field_checkbox" title="采矿业" value="采矿业">
+                    <input type="checkbox" name="investment_field_checkbox" title="制造业" value="制造业">
+                    <input type="checkbox" name="investment_field_checkbox" title="水、电、热力、燃气生产及供应" value="水、电、热力、燃气生产及供应">
+                    <input type="checkbox" name="investment_field_checkbox" title="建筑业" value="建筑业">
+                    <input type="checkbox" name="investment_field_checkbox" title="批发和零售业" value="批发和零售业">
+                    <input type="checkbox" name="investment_field_checkbox" title="交通运输、仓储和物流业" value="交通运输、仓储和物流业">
+                    <input type="checkbox" name="investment_field_checkbox" title="住宿和餐饮业" value="住宿和餐饮业">
+                    <input type="checkbox" name="investment_field_checkbox" title="信息技术服务业" value="信息技术服务业">
+                    <input type="checkbox" name="investment_field_checkbox" title="金融业" value="金融业">
+                    <input type="checkbox" name="investment_field_checkbox" title="房地产业" value="房地产业">
+                    <input type="checkbox" name="investment_field_checkbox" title="租赁和商务服务业" value="租赁和商务服务业">
+                    <input type="checkbox" name="investment_field_checkbox" title="科学技术服务业" value="科学技术服务业">
+                    <input type="checkbox" name="investment_field_checkbox" title="水利、环境和公共设施管理" value="水利、环境和公共设施管理">
+                    <input type="checkbox" name="investment_field_checkbox" title="居民服务、修理和其他服务业" value="居民服务、修理和其他服务业">
+                    <input type="checkbox" name="investment_field_checkbox" title="教育" value="教育">
+                    <input type="checkbox" name="investment_field_checkbox" title="医疗和社会工作" value="医疗和社会工作">
+                    <input type="checkbox" name="investment_field_checkbox" title="文化、体育和娱乐业" value="文化、体育和娱乐业">
                 </div>
             </div>
 

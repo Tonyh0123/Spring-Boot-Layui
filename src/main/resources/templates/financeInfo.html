@@ -12,13 +12,66 @@
     </div>
 
     <div class="layui-container" style="top: 120px">
-        <form id="SearchForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 0px;">
-            <div class="layui-form-item" style="margin-left: 25%">
-                <div class="layui-input-inline" style="width: 527px;">
-                    <input id="noticeName" name="noticeName" placeholder="请输入投资人/投资机构名称" autocomplete="off" class="layui-input" type="text" style="height: 50px;font-size: 16px"/>
+        <form id="SearchForm" class="layui-form" method="post" action="" style="margin-top: 0px;">
+            <div class="layui-form-item" style="">
+                <div class="layui-input-inline" style="width: 527px; margin-left: 25%">
+                    <input id="projectName" name="investor_name" placeholder="请输入投资人名称" autocomplete="off" class="layui-input" type="text" style="height: 50px;font-size: 16px"/>
                 </div>
+
                 <div class="layui-inline">
-                    <button class="layui-btn"  lay-submit="" lay-filter="---" style="width:100px; height: 50px; font-size: 16px">查询</button>
+                    <button class="layui-btn"  lay-submit="" lay-filter="financeSearchSubmit" style="width:100px; height: 50px; font-size: 16px; " ><i class="layui-icon layui-icon-search" style="font-size: 15px; color: #fff;"></i>查询</button>
+                </div>
+
+
+                <div class="layui-card" style="border: solid 1px #f2f2f2; margin-left: 0% ">
+                    <div class="layui-card-header"><i class="layui-icon layui-icon-flag" style="font-size: 15px; color: #33aba0;"></i>  <b>投资领域</b> </div>
+                    <div class="layui-card-body">
+                        <button class="layui-btn layui-btn-xs" type="button" >&nbsp;&nbsp;全部&nbsp;&nbsp;</button>
+                        <ul style="margin-left: 90px; margin-top: -28px">
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="农、林、牧、渔业" value="农、林、牧、渔业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="采矿业" value="采矿业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="制造业" value="制造业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="水、电、热力、燃气生产及供应" value="水、电、热力、燃气生产及供应"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="建筑业" value="建筑业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="批发和零售业" value="批发和零售业"></li>
+                        </ul>
+
+                        <ul style="margin-left: 480px; margin-top: -168px">
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="交通运输、仓储和物流业" value="交通运输、仓储和物流业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="住宿和餐饮业" value="住宿和餐饮业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="信息技术服务业" value="信息技术服务业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="金融业" value="金融业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="房地产业" value="房地产业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="租赁和商务服务业" value="租赁和商务服务业"></li>
+                        </ul>
+
+                        <ul style="margin-left: 880px; margin-top: -168px">
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="科学技术服务业" value="科学技术服务业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="水利、环境和公共设施管理" value="水利、环境和公共设施管理"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="居民服务、修理和其他服务业" value="居民服务、修理和其他服务业"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="教育" value="教育"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="医疗和社会工作" value="医疗和社会工作"></li>
+                            <li><input type="checkbox" name="investment_field" lay-skin="primary" title="文化、体育和娱乐业" value="文化、体育和娱乐业"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="layui-card" style="border: solid 1px #f2f2f2; margin-left: 0% ">
+                    <div class="layui-card-header"><i class="layui-icon layui-icon-templeate-1" style="font-size: 15px; color: #33aba0;"></i>  <b>主投项目阶段</b> </div>
+                    <div class="layui-card-body">
+                        <button class="layui-btn layui-btn-xs" type="button" >&nbsp;&nbsp;全部&nbsp;&nbsp;</button>
+                        <ul style="margin-left: 90px; margin-top: -28px">
+                            <li><input type="checkbox" name="main_turn" lay-skin="primary" title="立项阶段" value="立项阶段"></li>
+                        </ul>
+
+                        <ul style="margin-left: 480px; margin-top: -28px">
+                            <li><input type="checkbox" name="main_turn" lay-skin="primary" title="创新阶段" value="创新阶段"></li>
+                        </ul>
+
+                        <ul style="margin-left: 880px; margin-top: -28px">
+                            <li><input type="checkbox" name="main_turn" lay-skin="primary" title="成长阶段" value="成长阶段"></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">

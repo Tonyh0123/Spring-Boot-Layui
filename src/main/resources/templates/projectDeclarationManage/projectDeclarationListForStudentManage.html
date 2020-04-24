@@ -35,6 +35,12 @@
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label "><b>项目所属领域</b></label>
+                <div class="layui-input-block">
+                    <input id="project_belong_fields_show"  lay-verify="required" autocomplete="off" class="layui-input" type="text" readonly/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label "><b>项目类型</b></label>
                 <div class="layui-input-block">
                     <input id="projectTypeShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
@@ -62,20 +68,6 @@
 
             <br>
             <blockquote class="layui-elem-quote">项目详细信息</blockquote>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label"><b>所属学科门类</b></label>
-                <div class="layui-input-block">
-                    <input id="projectSSXKMLShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label"><b>所属专业大类</b></label>
-                <div class="layui-input-block">
-                    <input id="projectSSZYDLShow" lay-verify="required"  autocomplete="off" class="layui-input" type="text" readonly/>
-                </div>
-            </div>
-
-
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label"><b>申请理由</b></label>
                 <div class="layui-input-block">
@@ -173,6 +165,7 @@
             <input id="id" type="hidden" name="id"/>
             <input id="projectOwnerId" type="hidden" name="projectOwnerId"/>
             <input id="projectOwnerName" type="hidden" name="projectOwnerName"/>
+            <input type="hidden" id="project_belong_fields" name="project_belong_fields">
 
             <!--表单提交前js会进行字符串拼接并将值填充进来-->
             <input id="projectImplementationTime" type="hidden" name="projectImplementationTime"/>
@@ -192,14 +185,38 @@
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">项目所属领域</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="belong_fields" title="农、林、牧、渔业" value="农、林、牧、渔业">
+                    <input type="checkbox" name="belong_fields" title="采矿业" value="采矿业">
+                    <input type="checkbox" name="belong_fields" title="制造业" value="制造业">
+                    <input type="checkbox" name="belong_fields" title="水、电、热力、燃气生产及供应" value="水、电、热力、燃气生产及供应">
+                    <input type="checkbox" name="belong_fields" title="建筑业" value="建筑业">
+                    <input type="checkbox" name="belong_fields" title="批发和零售业" value="批发和零售业">
+                    <input type="checkbox" name="belong_fields" title="交通运输、仓储和物流业" value="交通运输、仓储和物流业">
+                    <input type="checkbox" name="belong_fields" title="住宿和餐饮业" value="住宿和餐饮业">
+                    <input type="checkbox" name="belong_fields" title="信息技术服务业" value="信息技术服务业">
+                    <input type="checkbox" name="belong_fields" title="金融业" value="金融业">
+                    <input type="checkbox" name="belong_fields" title="房地产业" value="房地产业">
+                    <input type="checkbox" name="belong_fields" title="租赁和商务服务业" value="租赁和商务服务业">
+                    <input type="checkbox" name="belong_fields" title="科学技术服务业" value="科学技术服务业">
+                    <input type="checkbox" name="belong_fields" title="水利、环境和公共设施管理" value="水利、环境和公共设施管理">
+                    <input type="checkbox" name="belong_fields" title="居民服务、修理和其他服务业" value="居民服务、修理和其他服务业">
+                    <input type="checkbox" name="belong_fields" title="教育" value="教育">
+                    <input type="checkbox" name="belong_fields" title="医疗和社会工作" value="医疗和社会工作">
+                    <input type="checkbox" name="belong_fields" title="文化、体育和娱乐业" value="文化、体育和娱乐业">
+
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label ">项目类型</label>
                 <div class="layui-input-block">
                     <select name="projectType" id="projectType" lay-verify="required" lay-search>
                         <option value="">请选择项目类型</option>
-                        <option value="类型1" >类型1</option>
-                        <option value="类型2" >类型2</option>
-                        <option value="类型3" >类型3</option>
-                        <option value="类型4" >类型4</option>
+                        <option value="高校科研转化项目" >高校科研转化项目</option>
+                        <option value="学生团队项目" >学生团队项目</option>
+                        <option value="师生共创项目" >师生共创项目</option>
                     </select>
                 </div>
             </div>
@@ -226,32 +243,6 @@
 
             <br>
             <blockquote class="layui-elem-quote">项目详细信息</blockquote>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">所属学科门类</label>
-                <div class="layui-input-block">
-                    <select name="projectSSXKML" id="projectSSXKML" lay-verify="required" lay-search>
-                        <option value="">请选择项目学校</option>
-                        <option value="学校1" >学校1</option>
-                        <option value="学校2" >学校2</option>
-                        <option value="学校3" >学校3</option>
-                        <option value="学校4" >学校4</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">所属专业大类</label>
-                <div class="layui-input-block">
-                    <select name="projectSSZYDL" id="projectSSZYDL" lay-verify="required" lay-search>
-                        <option value="">请选择项目学校</option>
-                        <option value="学校1" >学校1</option>
-                        <option value="学校2" >学校2</option>
-                        <option value="学校3" >学校3</option>
-                        <option value="学校4" >学校4</option>
-                    </select>
-                </div>
-            </div>
-
-
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">申请理由</label>
                 <div class="layui-input-block">
@@ -436,10 +427,13 @@
                 <div class="layui-input-block">
                     <select name="finance_type" id="finance_type" lay-verify="required" lay-search>
                         <option value="">请选择融资类型</option>
-                        <option value="类型1" >类型1</option>
-                        <option value="类型2" >类型2</option>
-                        <option value="类型3" >类型3</option>
-                        <option value="类型4" >类型4</option>
+                        <option value="种子轮" >种子轮</option>
+                        <option value="天使轮" >天使轮</option>
+                        <option value="A轮" >A轮</option>
+                        <option value="B轮" >B轮</option>
+                        <option value="C轮" >C轮</option>
+                        <option value="D轮" >D轮</option>
+                        <option value="E轮及以后" >E轮及以后</option>
                     </select>
                 </div>
             </div>

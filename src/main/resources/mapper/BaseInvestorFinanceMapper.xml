@@ -87,6 +87,21 @@
     <select id="getInvestments" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_investor_finance
+        <where>
+
+            <if test="investorFinance.investor_name != null and investorFinance.investor_name != '' ">
+                and investor_name LIKE '%' #{investorFinance.investor_name} '%'
+            </if>
+
+            <if test="investorFinance.investment_field != null and investorFinance.investment_field != '' ">
+                and investment_field LIKE '%' #{investorFinance.investment_field} '%'
+            </if>
+
+            <if test="investorFinance.main_turn != null and investorFinance.main_turn != '' ">
+                and main_turn LIKE '%' #{investorFinance.main_turn} '%'
+            </if>
+
+        </where>
         limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
