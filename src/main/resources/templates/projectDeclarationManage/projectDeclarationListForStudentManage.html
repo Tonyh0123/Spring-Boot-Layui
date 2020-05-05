@@ -131,11 +131,9 @@
             </div>
             <table class="layui-table">
                 <colgroup>
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
+                    <col width="240">
+                    <col width="240">
+                    <col width="240">
                     <col>
                 </colgroup>
                 <thead>
@@ -144,18 +142,14 @@
                     <th>年级</th>
                     <th>学号</th>
                     <th>专业</th>
-                    <th>联系电话</th>
-                    <th>Email</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
-
                 </tbody>
             </table>
 
             <blockquote class="layui-elem-quote">项目融资情况</blockquote>
             <table id="projectFinance" lay-filter="projectFinanceTable"></table>
-            <button type="button" class="layui-btn" onclick="addMessage();">对此项目感兴趣，向我留言吧！</button>
         </form>
     </div>
     <!--添加项目申报-->
@@ -224,11 +218,15 @@
                 <label class="layui-form-label">所属学校</label>
                 <div class="layui-input-block">
                     <select name="projectBelongSchool" id="projectBelongSchool" lay-verify="required" lay-search>
-                        <option value="">请选择项目学校</option>
+                        <option value="">请选择项目学校，可搜索，若您的学校不在其中，请联系管理员</option>
                         <option value="福建工程学院" >福建工程学院</option>
-                        <option value="学校2" >学校2</option>
-                        <option value="学校3" >学校3</option>
-                        <option value="学校4" >学校4</option>
+                        <option value="福州大学" >福州大学</option>
+                        <option value="福建师范大学" >福建师范大学</option>
+                        <option value="福建农林大学" >福建农林大学</option>
+                        <option value="福建江夏学院" >福建江夏学院</option>
+                        <option value="闽江学院" >闽江学院</option>
+                        <option value="福建中医药大学" >福建中医药大学</option>
+                        <option value="福建医科大学" >福建医科大学</option>
                     </select>
                 </div>
             </div>
@@ -253,7 +251,7 @@
                 <div class=" layui-col-xs6" >
                     <label class="layui-form-label">申请表</label>
                     <div class="layui-input-block">
-                        <input type="text" id="projectApplyTable" name="projectApplyTable" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                        <input type="text" id="projectApplyTable" name="projectApplyTable" lay-verify="required"  placeholder="请上传申请表文件，支持类型：PDF" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
 
@@ -271,7 +269,7 @@
                 <div class=" layui-col-xs6" >
                     <label class="layui-form-label">项目策划书</label>
                     <div class="layui-input-block">
-                        <input type="text" id="projectPlanningBook" name="projectPlanningBook" lay-verify="required"  placeholder="身份证明文件可为【学生证照片】" autocomplete="off" class="layui-input" readonly>
+                        <input type="text" id="projectPlanningBook" name="projectPlanningBook" lay-verify="required"  placeholder="请上传项目策划书文件，支持类型：PDF" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
 
@@ -328,7 +326,13 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">年级</label>
                         <div class="layui-input-block">
-                            <input id="projectMemberGrade1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                            <select name="projectMemberGrade" id="projectMemberGrade1" lay-verify="required" lay-search>
+                                <option value="">请选择年级</option>
+                                <option value="大一" >大一</option>
+                                <option value="大二" >大二</option>
+                                <option value="大三" >大三</option>
+                                <option value="大四" >大四</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -341,18 +345,6 @@
                         <label class="layui-form-label">专业</label>
                         <div class="layui-input-block">
                             <input id="projectMemberMajor1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">联系电话</label>
-                        <div class="layui-input-block">
-                            <input id="projectMemberPhone1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">Email</label>
-                        <div class="layui-input-block">
-                            <input id="projectMemberEmail1"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
                         </div>
                     </div>
                 </div>
@@ -375,7 +367,7 @@
         <form id="JDBGApplyForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
 
 
-            <blockquote class="layui-elem-quote">项目基本信息</blockquote>
+            <blockquote class="layui-elem-quote">项目阶段变更申请<br>请上传相关附件供答辩组审阅</blockquote>
             <input type="hidden" id="project_pass_status" name="project_pass_status"/>
             <div class="layui-row layui-form-item">
                 <div class=" layui-col-xs6" >
@@ -489,7 +481,13 @@
     <!-查看立项答辩时间-->
     <div id="checkDBSJ" class="layer_self_wrap" style="display:none; ">
         <form class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <blockquote class="layui-elem-quote">立项答辩时间</blockquote>
+            <blockquote class="layui-elem-quote">立项答辩地点时间</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">答辩地点</label>
+                <div class="layui-input-block">
+                    <input type="text" id="LXDBDD"  class="layui-input" readonly>
+                </div>
+            </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">答辩时间</label>
                 <div class="layui-input-block">
@@ -502,7 +500,13 @@
     <!-查看创新答辩时间-->
     <div id="checkCXDBSJ" class="layer_self_wrap" style="display:none; ">
         <form class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <blockquote class="layui-elem-quote">创新阶段变更答辩时间</blockquote>
+            <blockquote class="layui-elem-quote">创新阶段变更答辩地点时间</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">答辩地点</label>
+                <div class="layui-input-block">
+                    <input type="text" id="CXDBDD"  class="layui-input" readonly>
+                </div>
+            </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">答辩时间</label>
                 <div class="layui-input-block">
@@ -515,7 +519,13 @@
     <!-查看成长答辩时间-->
     <div id="checkCZDBSJ" class="layer_self_wrap" style="display:none; ">
         <form class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <blockquote class="layui-elem-quote">成长阶段变更答辩时间</blockquote>
+            <blockquote class="layui-elem-quote">成长阶段变更答辩地点时间</blockquote>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">答辩地点</label>
+                <div class="layui-input-block">
+                    <input type="text" id="CZDBDD"  class="layui-input" readonly>
+                </div>
+            </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">答辩时间</label>
                 <div class="layui-input-block">
@@ -551,7 +561,6 @@
 
             else if(d.project_pass_status == 'DDLXDB'){ }}
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="checkDBSJ">立项答辩时间已安排</a>
-            <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
             {{#  }
 
             else if(d.project_pass_status == 'FQJDBG_CXJD'){ }}

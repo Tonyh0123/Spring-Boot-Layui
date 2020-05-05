@@ -174,8 +174,6 @@ function projectDetail(obj,id) {
             '                    <td>'+members[i].grade+'</td>\n' +
             '                    <td>'+members[i].stuID+'</td>\n' +
             '                    <td>'+members[i].major+'</td>\n' +
-            '                    <td>'+members[i].phone+'</td>\n' +
-            '                    <td>'+members[i].Email+'</td>\n' +
             '                </tr>');
 
     }
@@ -247,9 +245,13 @@ function setTimeOfDB(obj,passStatus) {
     $("#project_pass_status_For_JDBG").val(passStatus);
     var title = "";
     if(passStatus == "CXJDBG_DBSJYAP"){
+        var fileUrl = obj.project_JDBG_SQFJ.replace("/noticeFile/","F:/noticeFile/");
+        $("#tips").after('<button style="margin-bottom: 10px; margin-left: 80%;  width: 100px" type="button" class="layui-btn" onclick="downloadFile(\''+ fileUrl +'\')">下载附件</button>');
         title = "创新阶段变更-答辩安排";
         document.getElementById("project_CZJD_DBSJ_div").style.display="none";
     }else if(passStatus == "CZJDBG_DBSJYAP"){
+        var fileUrl = obj.project_JDBG_SQFJ.replace("/noticeFile/","F:/noticeFile/");
+        $("#tips").after('<button style="margin-bottom: 25px; margin-left: 60%; width: 100px;" type="button" class="layui-btn" onclick="downloadFile(\''+ fileUrl +'\')">下载附件</button>');
         title = "成长阶段变更-答辩安排";
         document.getElementById("project_CXJD_DBSJ_div").style.display="none";
     }

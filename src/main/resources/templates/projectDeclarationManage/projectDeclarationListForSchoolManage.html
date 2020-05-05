@@ -124,11 +124,9 @@
             </div>
             <table class="layui-table">
                 <colgroup>
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
-                    <col width="150">
+                    <col width="240">
+                    <col width="240">
+                    <col width="240">
                     <col>
                 </colgroup>
                 <thead>
@@ -137,8 +135,6 @@
                     <th>年级</th>
                     <th>学号</th>
                     <th>专业</th>
-                    <th>联系电话</th>
-                    <th>Email</th>
                 </tr>
                 </thead>
                 <tbody id="tbody"></tbody>
@@ -171,8 +167,13 @@
             <div class="layui-form-item" id="dbsj" style="display: none">
                 <label class="layui-form-label" style="width: 175px"><b>立项答辩时间</b></label>
                 <div class="layui-input-inline" style="width: 350px;">
-                    <input  id="project_LX_DBSJ" name="project_LX_DBSJ" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                    <input  id="project_LX_DBSJ" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
                 </div>
+                <label class="layui-form-label" style="width: 175px"><b>立项答辩地点</b></label>
+                <div class="layui-input-inline" style="width: 350px;">
+                    <input  id="project_LX_DBDD" name="" placeholder="请输入答辩地点" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <input  id="project_LX_DBDDSJ" name="project_LX_DBSJ" type="hidden"/>
             </div>
 
             <div class="layui-form-item">
@@ -218,7 +219,7 @@
 
     <div id="setTimeOfDB" class="layer_self_wrap" style="display:none; ">
         <form id="setTimeOfDBForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <blockquote class="layui-elem-quote">
+            <blockquote class="layui-elem-quote" id="tips">
                 <b>项目阶段变更</b><br>
                 该项目的项目发起人已向平台发起了项目阶段变更申请<br>
                 请学校方为该项目成员安排校内项目变更申请答辩<br>
@@ -227,18 +228,29 @@
 
             <input name="project_pass_status" id="project_pass_status_For_JDBG" type="hidden"/>
 
+
             <div class="layui-form-item" id="project_CXJD_DBSJ_div">
                 <label class="layui-form-label" style="width: 175px"><b>创新阶段-答辩时间</b></label>
-                <div class="layui-input-inline" style="width: 350px;">
-                    <input  id="project_CXJD_DBSJ" name="project_CXJD_DBSJ" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                <div class="layui-input-inline" style="width: 410px;">
+                    <input  id="project_CXJD_DBSJ" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
                 </div>
+                <label class="layui-form-label" style="width: 175px"><b>创新阶段-答辩地点</b></label>
+                <div class="layui-input-inline" style="width: 410px;">
+                    <input  id="project_CXJD_DBDD" name="" placeholder="请输入答辩地点" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <input  id="project_CXJD_DBDDSJ" name="project_CXJD_DBSJ" type="hidden"/>
             </div>
 
             <div class="layui-form-item" id="project_CZJD_DBSJ_div">
                 <label class="layui-form-label" style="width: 175px"><b>成长阶段-答辩时间</b></label>
-                <div class="layui-input-inline" style="width: 350px;">
-                    <input  id="project_CZJD_DBSJ" name="project_CZJD_DBSJ" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                <div class="layui-input-inline" style="width: 410px;">
+                    <input  id="project_CZJD_DBSJ" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
                 </div>
+                <label class="layui-form-label" style="width: 175px"><b>成长阶段-答辩地点</b></label>
+                <div class="layui-input-inline" style="width: 410px;">
+                    <input  id="project_CZJD_DBDD" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <input  id="project_CZJD_DBDDSJ" name="project_CZJD_DBSJ" type="hidden"/>
             </div>
 
             <div class="layui-form-item">
@@ -370,6 +382,10 @@
             form.on('submit(passOrNotSubmit)', function(data){
                 // TODO 校验
                 var primaryKey = document.getElementById("primaryKey").innerText;
+                var LXDBSJ = document.getElementById("project_LX_DBSJ").value;
+                var LXDBDD = document.getElementById("project_LX_DBDD").value;
+                var LXDBDDSJ = "" + LXDBDD + "--" + LXDBSJ;
+                $("#project_LX_DBDDSJ").val(LXDBDDSJ);
                 $.ajax({
                     type: "POST",
                     data: $.param({"id":primaryKey}) + '&' + $("#projectPassedForm").serialize(),
@@ -413,6 +429,16 @@
             form.on('submit(setTimeOfDBSubmit)', function(data){
                 // TODO 校验
                 var primaryKey = document.getElementById("primaryKey").innerText;
+                var CXJDDBSJ = document.getElementById("project_CXJD_DBSJ").value;
+                var CXJDDBDD = document.getElementById("project_CXJD_DBDD").value;
+                var CXJDDBDDSJ = "" + CXJDDBDD + "--" + CXJDDBSJ;
+                $("#project_CXJD_DBDDSJ").val(CXJDDBDDSJ);
+
+                var CZJDDBSJ = document.getElementById("project_CZJD_DBSJ").value;
+                var CZJDDBDD = document.getElementById("project_CZJD_DBDD").value;
+                var CZJDDBDDSJ = "" + CZJDDBDD + "--" + CZJDDBSJ;
+                $("#project_CZJD_DBDDSJ").val(CZJDDBDDSJ);
+                console.log(CXJDDBSJ+CXJDDBDD);
                 $.ajax({
                     type: "POST",
                     data: $.param({"id":primaryKey}) + '&' + $("#setTimeOfDBForm").serialize(),

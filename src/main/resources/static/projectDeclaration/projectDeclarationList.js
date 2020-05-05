@@ -92,8 +92,6 @@ $(function() {
                         records.grade = document.getElementById("projectMemberGrade"+i.toString()).value;
                         records.stuID = document.getElementById("projectMemberStudentID"+i.toString()).value;
                         records.major = document.getElementById("projectMemberMajor"+i.toString()).value;
-                        records.phone = document.getElementById("projectMemberPhone"+i.toString()).value;
-                        records.Email = document.getElementById("projectMemberEmail"+i.toString()).value;
                         projectMembers.push(records);
                     }
                 // console.log(JSON.stringify(projectMembers).toString());
@@ -261,8 +259,6 @@ function projectDetail(obj,id) {
             '                    <td>'+members[i].grade+'</td>\n' +
             '                    <td>'+members[i].stuID+'</td>\n' +
             '                    <td>'+members[i].major+'</td>\n' +
-            '                    <td>'+members[i].phone+'</td>\n' +
-            '                    <td>'+members[i].Email+'</td>\n' +
             '                </tr>');
 
     }
@@ -357,7 +353,13 @@ function addProjectMembers() {
         '                <div class="layui-form-item">\n' +
         '                    <label class="layui-form-label label-required-prev">年级</label>\n' +
         '                    <div class="layui-input-block">\n' +
-        '                        <input id="projectMemberGrade'+ addStep +'"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>\n' +
+        '                        <select name="projectMemberGrade" id="projectMemberGrade'+ addStep +'" lay-verify="required" lay-search>\n' +
+        '                                <option value="">请选择年级</option>\n' +
+        '                                <option value="大一" >大一</option>\n' +
+        '                                <option value="大二" >大二</option>\n' +
+        '                                <option value="大三" >大三</option>\n' +
+        '                                <option value="大四" >大四</option>\n' +
+        '                         </select>' +
         '                    </div>\n' +
         '                </div>\n' +
         '                <div class="layui-form-item">\n' +
@@ -372,18 +374,6 @@ function addProjectMembers() {
         '                        <input id="projectMemberMajor'+ addStep +'"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>\n' +
         '                    </div>\n' +
         '                </div>\n' +
-        '                <div class="layui-form-item">\n' +
-        '                    <label class="layui-form-label label-required-prev">联系电话</label>\n' +
-        '                    <div class="layui-input-block">\n' +
-        '                        <input id="projectMemberPhone'+ addStep +'"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>\n' +
-        '                    </div>\n' +
-        '                </div>\n' +
-        '                <div class="layui-form-item">\n' +
-        '                    <label class="layui-form-label label-required-prev">Email</label>\n' +
-        '                    <div class="layui-input-block">\n' +
-        '                        <input id="projectMemberEmail'+ addStep +'"  lay-verify="required" autocomplete="off" class="layui-input" type="text"/>\n' +
-        '                    </div>\n' +
-        '                </div>\n' +
         '            </div>\n' +
         '            </div>');
     if(divBox > 1){
@@ -391,6 +381,7 @@ function addProjectMembers() {
     }
 
     console.log("after"+index);
+    form.render('select');
 }
 
 function removeMembersDiv(divId) {
@@ -405,11 +396,17 @@ function removeMembersDiv(divId) {
 }
 
 function JDBG(obj,status) {
+    var title = "";
+    if(status == 'FQJDBG_CXJD'){
+        title = "创新阶段变更申请";
+    }else if(status == 'FQJDBG_CZJD'){
+        title = "成长阶段变更申请";
+    }
     $("#project_pass_status").val(status);
     document.getElementById("primaryKey").innerText = obj.id;
     layer.open({
         type: 1 //此处以iframe举例
-        , title: '阶段变更'
+        , title: title
         , area: ['650px','650px']
         , shade: 0
         , maxmin: true
@@ -443,10 +440,12 @@ function addFinance(obj) {
 }
 
 function checkDBSJ(obj) {
-    $("#LXDBSJ").val(obj.project_LX_DBSJ);
+    var DDSJ = obj.project_LX_DBSJ.split("--");
+    $("#LXDBDD").val(DDSJ[0]);
+    $("#LXDBSJ").val(DDSJ[1]);
     layer.open({
         type: 1
-        , title: '答辩时间'
+        , title: '答辩时间&地点'
         , area: ['650px','650px']
         , shade: 0
         , maxmin: true
@@ -461,10 +460,12 @@ function checkDBSJ(obj) {
 }
 
 function checkCXDBSJ(obj) {
-    $("#CXDBSJ").val(obj.project_CXJD_DBSJ);
+    var DDSJ = obj.project_CXJD_DBSJ.split("--");
+    $("#CXDBDD").val(DDSJ[0]);
+    $("#CXDBSJ").val(DDSJ[1]);
     layer.open({
         type: 1
-        , title: '答辩时间'
+        , title: '答辩时间&地点'
         , area: ['650px','650px']
         , shade: 0
         , maxmin: true
@@ -479,10 +480,12 @@ function checkCXDBSJ(obj) {
 }
 
 function checkCZDBSJ(obj) {
-    $("#CZDBSJ").val(obj.project_CZJD_DBSJ);
+    var CZDDSJ = obj.project_CZJD_DBSJ.split("--");
+    $("#CZDBDD").val(CZDDSJ[0]);
+    $("#CZDBSJ").val(CZDDSJ[1]);
     layer.open({
         type: 1
-        , title: '答辩时间'
+        , title: '答辩时间&地点'
         , area: ['650px','650px']
         , shade: 0
         , maxmin: true

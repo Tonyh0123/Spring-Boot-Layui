@@ -16,7 +16,7 @@
                 <div class="layui-form-item" >
                     <label class="layui-form-label">用户名</label>
                     <div class="layui-input-block">
-                        <input type="text" id="sysUserName" name="sysUserName" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        <input type="text" id="sysUserName" name="sysUserName" lay-verify="required|username" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入用户名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md4" >
                         <label class="layui-form-label">学号</label>
                         <div class="layui-input-block">
-                            <input type="text" id="studentId" name="studentId" lay-verify="required" lay-reqtext="学号是必填项，岂能为空？" placeholder="请输入学号" autocomplete="off" class="layui-input">
+                            <input type="text" id="studentId" name="studentId" lay-verify="required|stuID"  placeholder="请输入学号" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -113,6 +113,7 @@
 
 <script src="/static/js/dateUtils.js"></script>
 <script src="/static/js/sysUser/userList.js"></script>
+<script src="/js/MyVerifyJS.js"></script>
 <script>
     var sended = false;
     var verifyed = false;
@@ -120,38 +121,6 @@
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form
             ,layer = layui.layer
-
-        //自定义验证规则
-        form.verify({
-            title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
-                }
-            }
-            ,pass: [
-                /^[\S]{6,12}$/
-                ,'密码必须6到12位，且不能出现空格'
-            ]
-            ,confirmPass:function(value){
-                if($('input[name=sysUserPwd]').val() !== value)
-                    return '两次密码输入不一致！';
-            }
-            ,verifyCode:function(){
-                if(document.getElementById("verifyCode").value == MainVerifyCode){
-                    verifyed = true;
-
-                }else if(document.getElementById("verifyCode").value == ""){
-                    layer.msg('请验证邮箱！', {
-                        time: 3000, //3s后自动关闭
-                    });
-                }
-                else {
-                    return '验证码不正确！';
-                }
-            }
-
-        });
-
         //监听提交
         form.on('submit(mysubmit)', function(data){
             if(sended == true && verifyed == true){
@@ -225,7 +194,7 @@
     //创建验证码，四位数字
     function createVerifyCode() {
         var email = document.getElementById("studentEmail").value;
-        if(null != email && email!=""){
+        if(null != email && email!="" && new RegExp("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}$").test(email)){
             console.log(email);
             var verifyCode = "";
             for (var i=0; i<4; i++){
@@ -236,8 +205,9 @@
             sendCode(verifyCode,email);
             sended = true;
         }else {
-            layer.msg('请输入邮箱', {
+            layer.msg('请输入邮箱/邮箱格式不正确', {
                 time: 3000, //3s后自动关闭
+                icon: 2
             });
         }
 
