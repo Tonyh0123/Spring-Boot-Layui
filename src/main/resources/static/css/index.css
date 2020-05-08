@@ -78,7 +78,7 @@ body{background: #FFF;}
 .main-service .service-more a{padding: 10px 62px; font-size: 23px; line-height: 46px;color: #FFF; background: #7fd3c6; border-radius: 3px;}
 
 /*底部*/
-.footer{padding-bottom: 20px; background: #896a45;}
+.footer{padding-bottom: 20px; background: rgba(124, 133, 119,0.6);}
 .footer .footer-web{padding-top: 20px; padding-bottom: 20px;}
 .footer .footer-web a{color: #fff; line-height: 22px; margin-right: 20px; transition: 0.3s;}
 .footer .footer-web a:hover{color: #fff; transition: 0.3s;}
