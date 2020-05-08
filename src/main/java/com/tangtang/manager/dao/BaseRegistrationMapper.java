@@ -4,6 +4,7 @@ import com.tangtang.manager.dto.CompanyRegistrationDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
 import com.tangtang.manager.pojo.BaseCompany;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import tk.mapper.MyMapper;
 
@@ -29,4 +30,8 @@ public interface BaseRegistrationMapper extends MyMapper<StudentRegistrationDTO>
     int updateSchoolInfo(SchoolRegistrationDTO schoolRegistrationDTO);
 
     int updateCompanyInfo(CompanyRegistrationDTO companyRegistrationDTO);
+
+    Integer checkSchoolName(@Param("schoolName") String schoolName);
+
+    Integer checkCompanyName(@Param("companyName") String companyName);
 }

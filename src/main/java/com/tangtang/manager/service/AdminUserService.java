@@ -6,6 +6,7 @@ import com.tangtang.manager.pojo.BaseAdminUser;
 import com.tangtang.manager.dto.UserSearchDTO;
 import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.response.PageDataResult;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -40,4 +41,11 @@ public interface AdminUserService {
     Map<String, Object> delUser(Integer id,Integer status);
 
     Map<String, Object> recoverUser(Integer id,Integer status);
+
+    Integer checkStudentEmail(String Email);
+
+    Integer checkSchoolEmail(String Email);
+
+    Integer checkCompanyEmail(String Email);
+
 }

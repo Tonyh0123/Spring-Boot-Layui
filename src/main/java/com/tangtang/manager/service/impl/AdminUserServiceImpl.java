@@ -65,10 +65,17 @@ public class AdminUserServiceImpl implements AdminUserService{
             studentRegistrationDTO.setStudentStatus("0");
             String username = studentRegistrationDTO.getSysUserName();
             BaseAdminUser old = baseAdminUserMapper.getUserByUserName(username,null);
+            BaseAdminUser oldPhone = baseAdminUserMapper.getUserByPhone(studentRegistrationDTO.getUserPhone(),null);
             if(old != null){
                 data.put("code",0);
                 data.put("msg","用户名已存在！");
                 logger.error("用户[新增]，结果=用户名已存在！");
+                return data;
+            }
+            if(oldPhone != null){
+                data.put("code",0);
+                data.put("msg","手机号已被注册！");
+                logger.error("用户[新增]，结果=手机号已存在！");
                 return data;
             }
             if(studentRegistrationDTO.getSysUserPwd() == null || studentRegistrationDTO.getSysUserPwd() == ""){
@@ -103,6 +110,20 @@ public class AdminUserServiceImpl implements AdminUserService{
     @Override
     public Map<String, Object> regSchoolUser(SchoolRegistrationDTO schoolRegistrationDTO) {
         Map<String,Object> data = new HashMap();
+        BaseAdminUser oldPhone = baseAdminUserMapper.getUserByPhone(schoolRegistrationDTO.getSchoolManagerPhone(),null);
+        Integer schoolPhones = baseAdminUserMapper.checkSchoolPhone(schoolRegistrationDTO.getSchoolManagerPhone());
+        Integer companyPhones = baseAdminUserMapper.checkCompanyPhone(schoolRegistrationDTO.getSchoolManagerPhone());
+        if(baseRegistrationMapper.checkSchoolName(schoolRegistrationDTO.getSchoolName())>0){
+            data.put("code",0);
+            data.put("msg","该学校已有账号！");
+            return data;
+        }
+        if(oldPhone != null || schoolPhones>0 || companyPhones>0){
+            data.put("code",0);
+            data.put("msg","手机号已被注册！");
+            logger.error("用户[新增]，结果=手机号已存在！");
+            return data;
+        }
         try {
             schoolRegistrationDTO.setApplyStatus(0);
             boolean result = baseRegistrationMapper.regSchoolUser(schoolRegistrationDTO);
@@ -126,6 +147,21 @@ public class AdminUserServiceImpl implements AdminUserService{
     @Override
     public Map<String, Object> regCompanyUser(BaseCompany company) {
         Map<String,Object> data = new HashMap();
+        BaseAdminUser oldPhone = baseAdminUserMapper.getUserByPhone(company.getCompany_contacts_phone(),null);
+        Integer schoolPhones = baseAdminUserMapper.checkSchoolPhone(company.getCompany_contacts_phone());
+        Integer companyPhones = baseAdminUserMapper.checkCompanyPhone(company.getCompany_contacts_phone());
+        if(baseRegistrationMapper.checkCompanyName(company.getCompany_name())>0){
+            data.put("code",0);
+            data.put("msg","该公司已有账号！");
+            return data;
+        }
+        if(oldPhone != null || schoolPhones>0 || companyPhones>0){
+            data.put("code",0);
+            data.put("msg","手机号已被注册！");
+            logger.error("用户[新增]，结果=手机号已存在！");
+            return data;
+        }
+
         try {
             company.setApply_status("0");
             boolean result = baseRegistrationMapper.regCompanyUser(company);
@@ -267,6 +303,21 @@ public class AdminUserServiceImpl implements AdminUserService{
             logger.error("恢复用户异常！", e);
         }
         return data;
+    }
+
+    @Override
+    public Integer checkStudentEmail(String Email) {
+        return baseAdminUserMapper.checkStudentEmail(Email);
+    }
+
+    @Override
+    public Integer checkSchoolEmail(String Email) {
+        return baseAdminUserMapper.checkSchoolEmail(Email);
+    }
+
+    @Override
+    public Integer checkCompanyEmail(String Email) {
+        return baseAdminUserMapper.checkCompanyEmail(Email);
     }
 
     @Override

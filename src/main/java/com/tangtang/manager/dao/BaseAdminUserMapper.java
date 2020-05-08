@@ -17,6 +17,8 @@ public interface BaseAdminUserMapper extends MyMapper<BaseAdminUser> {
 
     BaseAdminUser getUserByUserName(@Param("sysUserName")String sysUserName,@Param("id") Integer id);
 
+    BaseAdminUser getUserByPhone(@Param("userPhone")String userPhone, @Param("id") Integer id);
+
     int updateUserStatus(@Param("id") Integer id,@Param("status") Integer status);
 
     int updateUser(BaseAdminUser user);
@@ -24,6 +26,16 @@ public interface BaseAdminUserMapper extends MyMapper<BaseAdminUser> {
     BaseAdminUser findByUserName(@Param("userName") String userName);
 
     int updatePwd(@Param("userName") String userName,@Param("password") String password);
+
+    Integer checkStudentEmail(@Param("Email") String Email);
+
+    Integer checkSchoolEmail(@Param("Email") String Email);
+
+    Integer checkCompanyEmail(@Param("Email") String Email);
+
+    Integer checkSchoolPhone(@Param("phone") String phone);
+
+    Integer checkCompanyPhone(@Param("phone") String phone);
 
 
 

@@ -112,5 +112,17 @@
         WHERE id = #{company_id}
     </update>
 
+    <select id="checkSchoolName" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_school
+    WHERE school_name = #{schoolName}
+  </select>
+
+    <select id="checkCompanyName" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_company
+    WHERE company_name = #{companyName}
+  </select>
+
 
 </mapper>

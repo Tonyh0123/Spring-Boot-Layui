@@ -62,6 +62,45 @@
     </if>
   </select>
 
+  <select id="getUserByPhone" resultMap="BaseResultMap">
+    SELECT <include refid="baseColumn"/>
+    FROM base_admin_user
+    WHERE user_phone = #{userPhone}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+  <select id="checkStudentEmail" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_student
+    WHERE school_student_email = #{Email}
+  </select>
+
+  <select id="checkSchoolEmail" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_school
+    WHERE school_manager_email = #{Email}
+  </select>
+
+  <select id="checkCompanyEmail" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_company
+    WHERE company_contacts_email = #{Email}
+  </select>
+
+  <select id="checkSchoolPhone" resultType="java.lang.Integer">
+    SELECT count(keyid)
+    FROM base_school
+    WHERE school_manager_phone = #{phone}
+  </select>
+
+  <select id="checkCompanyPhone" resultType="java.lang.Integer">
+    SELECT count(id)
+    FROM base_company
+    WHERE company_contacts_phone = #{phone}
+  </select>
+
   <select id="findByUserName" resultMap="BaseResultMap">
     SELECT <include refid="baseColumn"/>
     FROM base_admin_user

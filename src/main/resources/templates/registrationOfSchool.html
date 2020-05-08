@@ -141,7 +141,7 @@
                                 window.location.href="/login";
                             });
                         } else {
-                            layer.alert(data.msg);
+                            layer.msg(data.msg,{icon:5,time:2000});
                         }
                     }
                 });
@@ -170,6 +170,7 @@
         }else {
             layer.msg('请输入邮箱/邮箱格式不正确', {
                 time: 3000, //3s后自动关闭
+                icon: 2
             });
         }
 
@@ -185,9 +186,9 @@
             success: function (data) {
                 if (data.code == 1) {
                     MainVerifyCode = verifyCode; //发送成功进行验证
-                    layer.alert(data.msg);
+                    layer.msg(data.msg,{icon:1,time:2000});
                 } else {
-                    layer.alert(data.msg);
+                    layer.msg(data.msg,{icon:5,time:2000});
                 }
             }
         })
