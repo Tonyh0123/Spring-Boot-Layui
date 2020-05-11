@@ -15,6 +15,9 @@
         <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
 
         <table id="companyApplyList" lay-filter="applyTable"></table>
+        <div id="loading" style="position: absolute; margin-left: 46%; display: none;">
+            <img src="../images/loading.gif">
+        </div>
 
         <script type="text/html" id="optBar">
             {{#  if(d.apply_status == '1'){ }}
@@ -27,6 +30,7 @@
 
         </script>
     </div>
+
 
 
     <!--通过申请并为院校设置账号以及密码-->
@@ -84,12 +88,14 @@
     <script>
         function picPreview(uul, title) {
             var realPdf = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile")
+            document.getElementById("loading").style.display = "";
             $.ajax({
                 type: "POST",
                 data: {"encFile":realPdf},
                 url: "/upload/decFile",
                 async: true,
                 success: function (res) {
+                    document.getElementById("loading").style.display = "none";
                     var link = res.fileurl;
                     layui.use('layer', function () {
                         var layer = layui.layer;

@@ -15,6 +15,9 @@
         <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
 
         <table id="schoolApplyList" lay-filter="applyTable"></table>
+        <div id="loading" style="position: absolute; margin-left: 46%; display: none;">
+            <img src="../images/loading.gif">
+        </div>
 
         <script type="text/html" id="optBar">
             {{#  if(d.applyStatus == '1'){ }}
@@ -68,6 +71,7 @@
     <script>
         function picPreview(uul, title) {
             var realPdf = uul.replace("/identifyConfirmFile","F:/identifyConfirmFile")
+            document.getElementById("loading").style.display = "";
             $.ajax({
                 type: "POST",
                 data: {"encFile":realPdf},
@@ -75,6 +79,7 @@
                 async: true,
                 success: function (res) {
                     var link = res.fileurl;
+                    document.getElementById("loading").style.display = "none";
                     layui.use('layer', function () {
                         var layer = layui.layer;
                         layer.open({

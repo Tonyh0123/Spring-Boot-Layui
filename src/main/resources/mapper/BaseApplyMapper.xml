@@ -97,16 +97,19 @@
   <select id="getSchoolApplyList" resultMap="BaseResultMap">
     SELECT <include refid="baseColumn"/>
     FROM base_school
+    limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 
   <select id="getStudentApplyList" resultMap="StudentResultMap">
     SELECT <include refid="studentColumn"/>
     FROM base_student
+    limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 
   <select id="getCompanyApplyList" resultMap="BaseCompanyResultMap">
     SELECT <include refid="companyColumn"/>
     FROM base_company
+    limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
   
   <update id="verifyStudentApply">

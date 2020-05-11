@@ -41,14 +41,12 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public PageDataResult getSchoolApplyList(SchoolApplyDTO schoolApplyDTO, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<SchoolApplyDTO> schoolApplyDTOS = baseApplyMapper.getSchoolApplyList(schoolApplyDTO);
-
-        PageHelper.startPage(pageNum, pageSize);
-
+        pageNum = (pageNum-1)*pageSize;
+        List<SchoolApplyDTO> nums = baseApplyMapper.getSchoolApplyList(schoolApplyDTO,0,100000);
+        List<SchoolApplyDTO> schoolApplyDTOS = baseApplyMapper.getSchoolApplyList(schoolApplyDTO,pageNum,pageSize);
         if(schoolApplyDTOS.size() != 0){
-            PageInfo<SchoolApplyDTO> pageInfo = new PageInfo<>(schoolApplyDTOS);
             pageDataResult.setList(schoolApplyDTOS);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
 
         return pageDataResult;
@@ -57,12 +55,12 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public PageDataResult getStudentApplyList(BaseStudent student, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseStudent> students = baseApplyMapper.getStudentApplyList(student);
-        PageHelper.startPage(pageNum, pageSize);
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseStudent> nums = baseApplyMapper.getStudentApplyList(student,0,10000);
+        List<BaseStudent> students = baseApplyMapper.getStudentApplyList(student,pageNum,pageSize);
         if(students.size() != 0){
-            PageInfo<BaseStudent> pageInfo = new PageInfo<>(students);
             pageDataResult.setList(students);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
         return pageDataResult;
     }
@@ -70,12 +68,12 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public PageDataResult getCompanyApplyList(BaseCompany company, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseCompany> companies = baseApplyMapper.getCompanyApplyList(company);
-        PageHelper.startPage(pageNum, pageSize);
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseCompany> nums = baseApplyMapper.getCompanyApplyList(company,0,100000);
+        List<BaseCompany> companies = baseApplyMapper.getCompanyApplyList(company,pageNum,pageSize);
         if(companies.size() != 0){
-            PageInfo<BaseCompany> pageInfo = new PageInfo<>(companies);
             pageDataResult.setList(companies);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
         return pageDataResult;
     }

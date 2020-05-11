@@ -21,7 +21,7 @@
                 <div class=" layui-col-xs6" >
                     <label class="layui-form-label">学生证</label>
                     <div class="layui-input-block">
-                        <input type="text" id="studentConfirm" name="studentConfirm" lay-verify="required"  placeholder="带学校钢印及个人信息的学生证照片" autocomplete="off" class="layui-input" readonly>
+                        <input type="text" id="studentConfirm" name="studentConfirm" lay-verify="required"  placeholder="学生证照片,大小不超过80kb" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
 
@@ -40,7 +40,7 @@
                 <div class=" layui-col-xs6" >
                     <label class="layui-form-label">身份证正面</label>
                     <div class="layui-input-block">
-                        <input type="text" id="SFZZM" name="SFZZM" lay-verify="required"  placeholder="身份证正面照片" autocomplete="off" class="layui-input" readonly>
+                        <input type="text" id="SFZZM" name="SFZZM" lay-verify="required"  placeholder="身份证正面照片,大小不超过80kb" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                 <div class=" layui-col-xs6" >
                     <label class="layui-form-label">身份证背面</label>
                     <div class="layui-input-block">
-                        <input type="text" id="SFZBM" name="SFZBM" lay-verify="required"  placeholder="身份证背面照片" autocomplete="off" class="layui-input" readonly>
+                        <input type="text" id="SFZBM" name="SFZBM" lay-verify="required"  placeholder="身份证背面照片,大小不超过80kb" autocomplete="off" class="layui-input" readonly>
                     </div>
                 </div>
 
@@ -81,6 +81,9 @@
                 </div>
             </div>
         </form>
+        <div id="loading" style="position: absolute; margin-left: 46%;margin-top: -15%; display: none">
+            <img src="../images/loading.gif">
+        </div>
     </div>
 
     <!--主体区域-->
@@ -166,8 +169,11 @@
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
                 ,size: 80
+                ,before:function () {
+                    document.getElementById("loading").style.display = "";
+                }
                 ,done: function(res){
-
+                    document.getElementById("loading").style.display = "none";
                     document.getElementById("previewButton1").style.display='';
                     pdf1 = res.fileUrl;
                     realPdf1 = pdf1.replace("/identifyConfirmFile","F:/identifyConfirmFile");
@@ -175,6 +181,7 @@
 
                 }
                 ,error: function(){
+                    document.getElementById("loading").style.display = "none";
                     alert("failed");
                     //请求异常回调
                 }
@@ -186,7 +193,11 @@
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
                 ,size: 80
+                ,before:function () {
+                    document.getElementById("loading").style.display = "";
+                }
                 ,done: function(res){
+                    document.getElementById("loading").style.display = "none";
 
                     document.getElementById("previewButton2").style.display='';
                     pdf2 = res.fileUrl;
@@ -195,6 +206,7 @@
 
                 }
                 ,error: function(){
+                    document.getElementById("loading").style.display = "none";
                     alert("failed");
                     //请求异常回调
                 }
@@ -206,8 +218,11 @@
                 ,url: '/upload/identifyConfirmFileUpload' //上传接口
                 ,method: 'post'
                 ,size: 80
+                ,before: function () {
+                    document.getElementById("loading").style.display = "";
+                }
                 ,done: function(res){
-
+                    document.getElementById("loading").style.display = "none";
                     document.getElementById("previewButton3").style.display='';
                     pdf3 = res.fileUrl;
                     realPdf3 = pdf3.replace("/identifyConfirmFile","F:/identifyConfirmFile");
@@ -215,18 +230,21 @@
 
                 }
                 ,error: function(){
+                    document.getElementById("loading").style.display = "none";
                     alert("failed");
                     //请求异常回调
                 }
             });
         });
         function picPreview1() {
+            document.getElementById("loading").style.display = "";
             $.ajax({
                 type: "POST",
                 data: {"encFile":realPdf1},
                 url: "/upload/decFile",
                 async: true,
                 success: function (res) {
+                    document.getElementById("loading").style.display = "none";
                     var uul = res.fileurl;
                     layui.use('layer', function () {
                         var layer = layui.layer;
@@ -257,12 +275,14 @@
         }
 
         function picPreview2() {
+            document.getElementById("loading").style.display = "";
             $.ajax({
                 type: "POST",
                 data: {"encFile":realPdf2},
                 url: "/upload/decFile",
                 async: true,
                 success: function (res) {
+                    document.getElementById("loading").style.display = "none";
                     var uul = res.fileurl;
                     layui.use('layer', function () {
                         var layer = layui.layer;
@@ -292,12 +312,14 @@
         }
 
         function picPreview3() {
+            document.getElementById("loading").style.display = "";
             $.ajax({
                 type: "POST",
                 data: {"encFile":realPdf3},
                 url: "/upload/decFile",
                 async: true,
                 success: function (res) {
+                    document.getElementById("loading").style.display = "none";
                     var uul = res.fileurl;
                     layui.use('layer', function () {
                         var layer = layui.layer;

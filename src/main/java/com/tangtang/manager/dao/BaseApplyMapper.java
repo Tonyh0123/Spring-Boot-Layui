@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface BaseApplyMapper {
-    List<SchoolApplyDTO> getSchoolApplyList(SchoolApplyDTO schoolApplyDTO);
+    List<SchoolApplyDTO> getSchoolApplyList(SchoolApplyDTO schoolApplyDTO, Integer pageNum, Integer pageSize);
 
-    List<BaseStudent> getStudentApplyList(BaseStudent student);
+    List<BaseStudent> getStudentApplyList(BaseStudent student, Integer pageNum, Integer pageSize);
 
-    List<BaseCompany> getCompanyApplyList(BaseCompany company);
+    List<BaseCompany> getCompanyApplyList(BaseCompany company, Integer pageNum, Integer pageSize);
 
     boolean verifyStudentApply(BaseStudent student);
 }
