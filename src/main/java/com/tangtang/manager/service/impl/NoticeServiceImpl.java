@@ -31,14 +31,13 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public PageDataResult getNoticeList(BaseNotice notice, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseNotice> baseNotices = noticeMapper.getNoticeListForManage(notice);
-        PageHelper.startPage(pageNum, pageSize);
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseNotice> nums = noticeMapper.getNoticeListForManage(notice,0,100000);
+        List<BaseNotice> baseNotices = noticeMapper.getNoticeListForManage(notice,pageNum,pageSize);
         if(baseNotices.size() != 0){
-            PageInfo<BaseNotice> pageInfo = new PageInfo<>(baseNotices);
             pageDataResult.setList(baseNotices);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
-
         return pageDataResult;
     }
 

@@ -42,6 +42,7 @@
     <select id="getCaseList" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_successful_case
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
     <update id="updateCase">

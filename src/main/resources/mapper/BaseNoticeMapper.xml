@@ -31,18 +31,21 @@
         SELECT <include refid="baseColumn"/>
         FROM base_notice
         <where>
-            <if test="noticeName != null and noticeName != '' ">
-                and notice_title LIKE '%' #{noticeName} '%'
+            <if test="serachDTO.noticeName != null and serachDTO.noticeName != '' ">
+                and notice_title LIKE '%' #{serachDTO.noticeName} '%'
             </if>
-            <if test="noticeDate != null and noticeDate != '' ">
-                and notice_date  LIKE '%' #{noticeDate} '%'
+            <if test="serachDTO.noticeDate != null and serachDTO.noticeDate != '' ">
+                and notice_date  LIKE '%' #{serachDTO.noticeDate} '%'
             </if>
         </where>
+        order by notice_date desc
     </select>
 
     <select id="getNoticeListForManage" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_notice
+        order by notice_date desc
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
 </mapper>

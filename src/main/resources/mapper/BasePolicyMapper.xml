@@ -35,19 +35,22 @@
         SELECT <include refid="baseColumn"/>
         FROM base_policy
         <where>
-            <if test="policyName != null and policyName != '' ">
-                and policy_title LIKE '%' #{policyName} '%'
+            <if test="serachDTO.policyName != null and serachDTO.policyName != '' ">
+                and policy_title LIKE '%' #{serachDTO.policyName} '%'
             </if>
-            <if test="policyDate != null and policyDate != '' ">
-                and policy_date  LIKE '%' #{policyDate} '%'
+            <if test="serachDTO.policyDate != null and serachDTO.policyDate != '' ">
+                and policy_date  LIKE '%' #{serachDTO.policyDate} '%'
             </if>
         </where>
+        order by policy_date desc
     </select>
 
 
     <select id="getPolicyListForManage" resultMap="BaseResultMap">
         SELECT <include refid="baseColumn"/>
         FROM base_policy
+        order by policy_date desc
+        limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
 

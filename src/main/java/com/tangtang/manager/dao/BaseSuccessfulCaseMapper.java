@@ -13,7 +13,7 @@ import java.util.List;
 public interface BaseSuccessfulCaseMapper extends MyMapper<BaseSuccessfulCase> {
     boolean addCase(BaseSuccessfulCase successfulCase);
 
-    List<BaseSuccessfulCase> getCaseList(BaseSuccessfulCase successfulCase);
+    List<BaseSuccessfulCase> getCaseList(BaseSuccessfulCase successfulCase, Integer pageNum, Integer pageSize);
 
     List<BaseSuccessfulCase> getCaseList();
 

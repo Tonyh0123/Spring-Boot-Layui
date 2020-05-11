@@ -81,6 +81,29 @@ public class PolicyController {
         return pdr;
     }
 
+    @RequestMapping(value = "/getAllPolicies", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getAllPolicies(@RequestParam("pageNum") Integer pageNum,
+                                        @RequestParam("pageSize") Integer pageSize, BasePolicy basePolicy) {
+
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取政策列表
+            pdr = policyService.getPolicyList(basePolicy, pageNum ,pageSize);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("政策列表查询异常！", e);
+        }
+        return pdr;
+    }
+
     /**
      * 新增政策
      * @param basePolicy

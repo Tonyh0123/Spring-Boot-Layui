@@ -108,6 +108,10 @@ public class ShiroConfig {
         filterMap.put("/testQuestion/testPaper", "anon");
         filterMap.put("/upload/decFile", "anon");
         filterMap.put("/upload/encFile", "anon");
+        filterMap.put("/allNotices", "anon");
+        filterMap.put("/allPolicies", "anon");
+        filterMap.put("/notice/getAllNoticesList", "anon");
+        filterMap.put("/policy/getAllPolicies", "anon");
 
 
         filterMap.put("/case", "anon");

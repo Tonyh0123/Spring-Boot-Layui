@@ -28,14 +28,13 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public PageDataResult getPolicyList(BasePolicy policy, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BasePolicy> basePolicies = policyMapper.getPolicyListForManage(policy);
-        PageHelper.startPage(pageNum, pageSize);
+        pageNum = (pageNum-1)*pageSize;
+        List<BasePolicy> nums = policyMapper.getPolicyListForManage(policy,0,100000);
+        List<BasePolicy> basePolicies = policyMapper.getPolicyListForManage(policy,pageNum,pageSize);
         if(basePolicies.size() != 0){
-            PageInfo<BasePolicy> pageInfo = new PageInfo<>(basePolicies);
             pageDataResult.setList(basePolicies);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
-
         return pageDataResult;
     }
 

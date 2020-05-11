@@ -107,6 +107,18 @@ public class IndexController {
         return "projectInfo";
     }
 
+    @RequestMapping("allNotices")
+    public String toAllNotices(){
+        logger.info("定向所有通知界面");
+        return "notice/allNotices";
+    }
+
+    @RequestMapping("allPolicies")
+    public String toAllPolicies(){
+        logger.info("定向所有政策界面");
+        return "policy/allPolicies";
+    }
+
     /**
      * 测试提交[Branch--->mymymy]
      */

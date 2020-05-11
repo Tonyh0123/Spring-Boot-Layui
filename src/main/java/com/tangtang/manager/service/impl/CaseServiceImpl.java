@@ -52,12 +52,12 @@ public class CaseServiceImpl implements CaseService {
     @Override
     public PageDataResult getCaseList(BaseSuccessfulCase successfulCase, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseSuccessfulCase> baseSuccessfulCases = successfulCaseMapper.getCaseList(successfulCase);
-        PageHelper.startPage(pageNum, pageSize);
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseSuccessfulCase> nums = successfulCaseMapper.getCaseList(successfulCase,0,100000);
+        List<BaseSuccessfulCase> baseSuccessfulCases = successfulCaseMapper.getCaseList(successfulCase,pageNum,pageSize);
         if(baseSuccessfulCases.size() != 0){
-            PageInfo<BaseSuccessfulCase> pageInfo = new PageInfo<>(baseSuccessfulCases);
             pageDataResult.setList(baseSuccessfulCases);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
 
         return pageDataResult;

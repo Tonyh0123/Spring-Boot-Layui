@@ -85,6 +85,28 @@ public class NoticeController {
         return pdr;
     }
 
+    @RequestMapping(value = "/getAllNoticesList", method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getAllNoticesList(@RequestParam("pageNum") Integer pageNum,
+                                      @RequestParam("pageSize") Integer pageSize,BaseNotice baseNotice) {
+
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if(null == pageNum) {
+                pageNum = 1;
+            }
+            if(null == pageSize) {
+                pageSize = 10;
+            }
+            // 获取公告列表
+            pdr = noticeService.getNoticeList(baseNotice, pageNum ,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("公告列表查询异常！", e);
+        }
+        return pdr;
+    }
+
     /**
      * 新增通知公告
      * @param baseNotice

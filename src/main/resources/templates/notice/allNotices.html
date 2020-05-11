@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+<!--  <link rel="stylesheet" href="/css/index.css">-->
+</head>
+<body >
+  <div id="shape" >
+    <div class="shapeColor">
+      <div class="shapeFly"></div>
+    </div>
+  </div>
+  <!-- nav部分 -->
+  <div class="nav index">
+    <div th:include="nav :: copyNav"></div>
+  </div>
+  <!-- main部分 -->
+  <div class="main-product">
+  <div class="layui-container">
+    <p class="title"><span>通知公告</span></p>
+    <div class="table_card">
+      <table id="allNotices" lay-filter="allNoticesTable"></table>
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div th:include="footer :: footer"></div>
+  </div>
+  <div class="leftNav-item no-print">
+    <div th:include="navLeft :: navLeft"></div>
+  </div>
+  <script src="/static/js/upupup/rocketTop.js"></script>
+  <script src="/static/js/firm.js"></script>
+  <script src="/static/js/indexInfoSearch.js"></script>
+  <script type="text/javascript" src="../../static/js/xf/nav.js"></script>
+  <script src="/static/js/publicJs.js"></script>
+  <script src="/static/js/getCookies.js"></script>
+  <script src="/js/notice/noticeListForShow.js"></script>
+
+</body>
+
+<script>
+  function pdfsee(uul,title) {
+    console.log(uul);
+    layui.use('layer', function () {
+      var layer = layui.layer;
+      layer.open({
+        title: title,
+        type: 2,
+        area: ['1000px', '950px'],
+        fixed: false, //不固定
+        maxmin: true,
+        content: uul
+      });
+    });
+  };
+</script>
+</html>
