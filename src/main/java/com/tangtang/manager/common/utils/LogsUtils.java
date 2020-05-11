@@ -17,20 +17,16 @@ public class LogsUtils {
         try {
 
             if (!getExtension(inFileName).equalsIgnoreCase("gz")) {
-                System.err.println("File name must have extension of \".gz\"");
                 System.exit(1);
             }
 
-            System.out.println("Opening the compressed file.");
             GZIPInputStream in = null;
             try {
                 in = new GZIPInputStream(new FileInputStream(inFileName));
             } catch(FileNotFoundException e) {
-                System.err.println("File not found. " + inFileName);
                 System.exit(1);
             }
 
-            System.out.println("Open the output file.");
             String outFileName = getFileName(inFileName);
             FileOutputStream out = null;
             try {
@@ -40,14 +36,11 @@ public class LogsUtils {
                 System.exit(1);
             }
 
-            System.out.println("Transfering bytes from compressed file to the output file.");
             byte[] buf = new byte[1024];
             int len;
             while((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-
-            System.out.println("Closing the file and stream");
             in.close();
             out.close();
 

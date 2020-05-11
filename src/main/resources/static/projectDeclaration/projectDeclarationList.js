@@ -314,6 +314,7 @@ function projectDetail(obj,id) {
             $("#project_name_message").val("");
             $("#message_owner").val("");
             $("#message_sender").val("");
+            $("#tbody").html('');
         }
     });
 }

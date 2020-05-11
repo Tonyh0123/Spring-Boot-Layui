@@ -9,7 +9,7 @@
     <div th:include="nav :: copyNav"></div>
 </div>
 <div class="layui-container" style="top: 200px">
-<div class="layui-row"  style="position:absolute; top:30%; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
+<div class="layui-row"  style="position:absolute; top:150px; left:50%; margin:-199px 0 0 -30px;"> <!--  style="position:absolute; top:30%; left:47%; margin:-120px 0 0 -30px;"  -->
     <h1 style="text-align: center">企业申请使用</h1>
 </div>
 <div class="layui-row"  > <!--  style="position:absolute; top:42%; left:50%; margin:-170px 0 0 -150px;"  -->
@@ -55,28 +55,98 @@
         <div class="layui-form-item" >
             <label class="layui-form-label">所在行业</label>
             <div class="layui-input-block">
-                <input type="text" id="company_industry" name="company_industry" lay-verify="required"  placeholder="请输入公司所在行业" autocomplete="off" class="layui-input">
+                <select name="company_industry">
+                    <option value="">请选择所在行业</option>
+                    <option value="农、林、牧、渔业">农、林、牧、渔业</option>
+                    <option value="采矿业">采矿业</option>
+                    <option value="制造业">制造业</option>
+                    <option value="水、电、热力、燃气生产及供应">水、电、热力、燃气生产及供应</option>
+                    <option value="建筑业">建筑业</option>
+                    <option value="批发和零售业">批发和零售业</option>
+                    <option value="交通运输、仓储和物流业">交通运输、仓储和物流业</option>
+                    <option value="住宿和餐饮业">住宿和餐饮业</option>
+                    <option value="信息技术服务业">信息技术服务业</option>
+                    <option value="金融业">金融业</option>
+                    <option value="房地产业">房地产业</option>
+                    <option value="租赁和商务服务业">租赁和商务服务业</option>
+                    <option value="科学技术服务业">科学技术服务业</option>
+                    <option value="水利、环境和公共设施管理">水利、环境和公共设施管理</option>
+                    <option value="居民服务、修理和其他服务业">居民服务、修理和其他服务业</option>
+                    <option value="教育">教育</option>
+                    <option value="医疗和社会工作">医疗和社会工作</option>
+                    <option value="文化、体育和娱乐业">文化、体育和娱乐业</option>
+                </select>
+<!--                <input type="text" id="company_industry" name="company_industry" lay-verify="required"  placeholder="请输入公司所在行业" autocomplete="off" class="layui-input">-->
             </div>
         </div>
 
         <div class="layui-form-item" >
-            <label class="layui-form-label">所在地</label>
+            <label class="layui-form-label">所在省份</label>
             <div class="layui-input-block">
-                <input type="text" id="company_location" name="company_location" lay-verify="required"  placeholder="请输入公司所在地（省份）" autocomplete="off" class="layui-input">
+                <select name="company_location">
+                    <option value="">请选择所在省份</option>
+                    <option value="北京市">北京市</option>
+                    <option value="天津市">天津市</option>
+                    <option value="河北省">河北省</option>
+                    <option value="山西省">山西省</option>
+                    <option value="内蒙古自治区">内蒙古自治区</option>
+                    <option value="辽宁省">辽宁省</option>
+                    <option value="黑龙江省">黑龙江省</option>
+                    <option value="上海市">上海市</option>
+                    <option value="江苏省">江苏省</option>
+                    <option value="浙江省">浙江省</option>
+                    <option value="安徽省">安徽省</option>
+                    <option value="福建省">福建省</option>
+                    <option value="江西省">江西省</option>
+                    <option value="河南省">河南省</option>
+                    <option value="山东省">山东省</option>
+                    <option value="湖北省">湖北省</option>
+                    <option value="湖南省">湖南省</option>
+                    <option value="广东省">广东省</option>
+                    <option value="广西壮族自治区">广西壮族自治区</option>
+                    <option value="海南省">海南省</option>
+                    <option value="重庆市">重庆市</option>
+                    <option value="四川省">四川省</option>
+                    <option value="贵州省">贵州省</option>
+                    <option value="云南省">云南省</option>
+                    <option value="西藏自治区">西藏自治区</option>
+                    <option value="陕西省">陕西省</option>
+                    <option value="甘肃省">甘肃省</option>
+                    <option value="青海省">青海省</option>
+                    <option value="宁夏回族自治区">宁夏回族自治区</option>
+                    <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                    <option value="台湾省">台湾省</option>
+                    <option value="香港特别行政区">香港特别行政区</option>
+                    <option value="澳门特别行政区">澳门特别行政区</option>
+
+                </select>
+<!--                <input type="text" id="company_location" name="company_location" lay-verify="required"  placeholder="请输入公司所在地（省份）" autocomplete="off" class="layui-input">-->
             </div>
         </div>
 
         <div class="layui-form-item" >
             <label class="layui-form-label">公司规模</label>
             <div class="layui-input-block">
-                <input type="text" id="company_staff_size" name="company_staff_size" lay-verify="required"  placeholder="请输入公司人员规模" autocomplete="off" class="layui-input">
+                <select name="company_staff_size">
+                    <option value="">请选择所在行业</option>
+                    <option value="1-10人">1-10人</option>
+                    <option value="11-50人">11-50人</option>
+                    <option value="51-100人">51-100人</option>
+                    <option value="101-500人">101-500人</option>
+                    <option value="501-1000人">501-1000人</option>
+                    <option value="1001-2000人">1001-2000人</option>
+                    <option value="2001-5000人">2001-5000人</option>
+                    <option value="5001-10000人">5001-10000人</option>
+                    <option value="10000人以上">10000人以上</option>
+                </select>
+<!--                <input type="text" id="company_staff_size" name="company_staff_size" lay-verify="required"  placeholder="请输入公司人员规模" autocomplete="off" class="layui-input">-->
             </div>
         </div>
 
         <div class="layui-form-item" >
             <label class="layui-form-label">公司介绍</label>
             <div class="layui-input-block">
-                <input type="text" id="company_introduction" name="company_introduction" lay-verify="required"  placeholder="请输入公司简介" autocomplete="off" class="layui-input">
+                <textarea type="text" id="company_introduction" name="company_introduction" lay-verify="required"  placeholder="请输入公司简介" autocomplete="off" class="layui-textarea"></textarea>
             </div>
         </div>
 
@@ -84,7 +154,7 @@
             <div class=" layui-col-xs6" >
                 <label class="layui-form-label">营业执照</label>
                 <div class="layui-input-block">
-                    <input type="text" id="company_business_license" name="company_business_license" lay-verify="required"  placeholder="原件或带公章的复印件" autocomplete="off" class="layui-input" readonly>
+                    <input type="text" id="company_business_license" name="company_business_license" lay-verify="required"  placeholder="原件或带公章的复印件，文件大小不超过80kb" autocomplete="off" class="layui-input" readonly>
                 </div>
             </div>
 
@@ -106,12 +176,16 @@
             </div>
         </div>
     </form>
+    <div id="loading" style="position: absolute; margin-left: 46%;margin-top: -15%; display: none">
+        <img src="../images/loading.gif">
+    </div>
 </div>
 </div>
 <script src="/static/js/dateUtils.js"></script>
 <script src="/static/js/sysUser/userList.js"></script>
 <script src="/static/js/verifyCode.js"></script>
 <script src="/js/MyVerifyJS.js"></script>
+<script src="/js/publicJs.js"></script>
 <script>
     var sended = false;
     var verifyed = false;
@@ -168,16 +242,19 @@
 
     //ajax请求后端发送邮件
     function sendCode(verifyCode,email) {
+        document.getElementById("loading").style.display = "";
         $.ajax({
             type: "POST",
             dataType : 'json',
             data: {"verifyCode": verifyCode, "email": email},
             url: "/verifyCode/checkVerifyCode",
             success: function (data) {
+                document.getElementById("loading").style.display = "none";
                 if (data.code == 1) {
                     MainVerifyCode = verifyCode; //发送成功进行验证
                     layer.msg(data.msg,{icon:1,time:2000});
                 } else {
+                    document.getElementById("loading").style.display = "none";
                     layer.msg(data.msg,{icon:5,time:2000});
                 }
             }

@@ -43,7 +43,8 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     @Override
     public PageDataResult getRoleList(Integer pageNum,Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<BaseAdminRole> roles = baseAdminRoleMapper.getRoleList();
+        List<BaseAdminRole> nums = baseAdminRoleMapper.getRoleList(0, 100000);
+        List<BaseAdminRole> roles = baseAdminRoleMapper.getRoleList(pageNum, pageSize);
 
         List<AdminRoleDTO> roleList = new ArrayList <>();
         for(BaseAdminRole r:roles){
@@ -66,12 +67,9 @@ public class AdminRoleServiceImpl implements AdminRoleService {
             roleList.add(roleDTO);
         }
 
-        PageHelper.startPage(pageNum, pageSize);
-
         if(roleList.size() != 0){
-            PageInfo<AdminRoleDTO> pageInfo = new PageInfo<>(roleList);
             pageDataResult.setList(roleList);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
         return pageDataResult;
     }
@@ -166,6 +164,6 @@ public class AdminRoleServiceImpl implements AdminRoleService {
 
     @Override
     public List<BaseAdminRole> getRoles() {
-        return baseAdminRoleMapper.getRoleList();
+        return baseAdminRoleMapper.getRoleList(0,10000);
     }
 }

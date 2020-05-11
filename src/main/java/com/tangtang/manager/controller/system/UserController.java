@@ -1,5 +1,6 @@
 package com.tangtang.manager.controller.system;
 
+import com.tangtang.manager.common.utils.DigestUtils;
 import com.tangtang.manager.dto.LoginDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
 import com.tangtang.manager.dto.StudentRegistrationDTO;
@@ -114,7 +115,7 @@ public class UserController {
      */
     @RequestMapping("setPwd")
     @ResponseBody
-    public Map<String,Object> setP(String pwd, String isPwd){
+    public Map<String,Object> setP(String oldPwd, String pwd, String isPwd){
         logger.info("进行密码重置");
         Map<String,Object> data = new HashMap();
         if(!pwd.equals(isPwd)){
@@ -125,6 +126,14 @@ public class UserController {
         }
         //获取当前登陆的用户信息
         BaseAdminUser user = (BaseAdminUser) SecurityUtils.getSubject().getPrincipal();
+        String oldPassWord = user.getSysUserPwd();
+        oldPwd = DigestUtils.Md5(user.getSysUserName(),oldPwd);
+        if(!oldPassWord.equals(oldPwd)){
+            data.put("code",0);
+            data.put("message","当前密码不正确!");
+            logger.error("当前密码不正确!");
+            return data;
+        }
         int result = adminUserService.updatePwd(user.getSysUserName(),pwd);
         if(result == 0){
             data.put("code",0);

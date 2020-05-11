@@ -44,5 +44,6 @@
   <select id="getRoles" resultMap="BaseResultMap">
     SELECT <include refid="baseColumn" />
     FROM base_admin_role WHERE role_status = 1
+    limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 </mapper>

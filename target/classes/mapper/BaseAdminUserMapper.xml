@@ -114,19 +114,20 @@
     user_phone AS userPhone,reg_time AS regTime,user_status AS userStatus
     FROM base_admin_user as u
     <where>
-      <if test="sysUserName != null and sysUserName != '' ">
-        and sys_user_name LIKE '%' #{sysUserName} '%'
+      <if test="userSearchDTO.sysUserName != null and userSearchDTO.sysUserName != '' ">
+        and sys_user_name LIKE '%' #{userSearchDTO.sysUserName} '%'
       </if>
-      <if test="userPhone != null and userPhone != '' ">
-        and user_phone  LIKE '%' #{userPhone} '%'
+      <if test="userSearchDTO.userPhone != null and userSearchDTO.userPhone != '' ">
+        and user_phone  LIKE '%' #{userSearchDTO.userPhone} '%'
       </if>
-      <if test="startTime != null and startTime != '' ">
-        and reg_time &gt;  #{startTime}
+      <if test="userSearchDTO.startTime != null and userSearchDTO.startTime != '' ">
+        and reg_time &gt;  #{userSearchDTO.startTime}
       </if>
-      <if test="endTime != null and endTime != '' ">
-        and reg_time &lt;  #{endTime}
+      <if test="userSearchDTO.endTime != null and userSearchDTO.endTime != '' ">
+        and reg_time &lt;  #{userSearchDTO.endTime}
       </if>
     </where>
+    limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 
 </mapper>

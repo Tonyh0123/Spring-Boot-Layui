@@ -44,16 +44,13 @@ public class AdminUserServiceImpl implements AdminUserService{
     @Override
     public PageDataResult getUserList(UserSearchDTO userSearch, Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<AdminUserDTO> baseAdminUsers = baseAdminUserMapper.getUserList(userSearch);
-
-        PageHelper.startPage(pageNum, pageSize);
-
+        pageNum = (pageNum-1)*pageSize;
+        List<AdminUserDTO> nums = baseAdminUserMapper.getUserList(userSearch, 0, 100000);
+        List<AdminUserDTO> baseAdminUsers = baseAdminUserMapper.getUserList(userSearch, pageNum, pageSize);
         if(baseAdminUsers.size() != 0){
-            PageInfo<AdminUserDTO> pageInfo = new PageInfo<>(baseAdminUsers);
             pageDataResult.setList(baseAdminUsers);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
-
         return pageDataResult;
     }
 

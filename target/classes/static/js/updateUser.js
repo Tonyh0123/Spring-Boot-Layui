@@ -12,9 +12,10 @@ $(function(){
     })
 })
 function setPwd(){
+    var oldPwd=$("#oldPwd").val();
     var pwd=$("#pwd").val();
     var isPwd=$("#isPwd").val();
-    $.post("/user/setPwd",{"pwd":pwd,"isPwd":isPwd},function(data){
+    $.post("/user/setPwd",{"oldPwd":oldPwd,"pwd":pwd,"isPwd":isPwd},function(data){
         console.log("data:"+data);
         if(data.code=="1"){
             layer.alert("操作成功",function () {
@@ -24,6 +25,7 @@ function setPwd(){
         }else{
             layer.alert(data.message,function () {
                 layer.closeAll();
+                document.getElementById("setPwdForm").reset();
             });
         }
     });

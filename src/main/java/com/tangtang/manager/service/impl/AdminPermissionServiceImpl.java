@@ -92,14 +92,12 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Override
     public PageDataResult getPermissionList(Integer pageNum, Integer pageSize) {
         PageDataResult pageDataResult = new PageDataResult();
-        List<PermissionDTO> permissions = permissionMapper.getPermissionList();
-
-        PageHelper.startPage(pageNum, pageSize);
-
+        pageNum = (pageNum-1)*pageSize;
+        List<PermissionDTO> nums = permissionMapper.getPermissionList(0,100000);
+        List<PermissionDTO> permissions = permissionMapper.getPermissionList(pageNum,pageSize);
         if(permissions.size() != 0){
-            PageInfo<PermissionDTO> pageInfo = new PageInfo<>(permissions);
             pageDataResult.setList(permissions);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+            pageDataResult.setTotals(nums.size());
         }
         return pageDataResult;
     }
