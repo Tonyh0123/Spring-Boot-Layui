@@ -215,19 +215,22 @@
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">所属学校</label>
-                <div class="layui-input-block">
-                    <select name="projectBelongSchool" id="projectBelongSchool" lay-verify="required" lay-search>
-                        <option value="">请选择项目学校，可搜索，若您的学校不在其中，请联系管理员</option>
-                        <option value="福建工程学院" >福建工程学院</option>
-                        <option value="福州大学" >福州大学</option>
-                        <option value="福建师范大学" >福建师范大学</option>
-                        <option value="福建农林大学" >福建农林大学</option>
-                        <option value="福建江夏学院" >福建江夏学院</option>
-                        <option value="闽江学院" >闽江学院</option>
-                        <option value="福建中医药大学" >福建中医药大学</option>
-                        <option value="福建医科大学" >福建医科大学</option>
-                    </select>
+                <div class="layui-row layui-form-item">
+                    <div class="layui-col-xs6" >
+                        <label class="layui-form-label">城市</label>
+                        <div class="layui-input-block " >
+                            <select name="" id="cityName" lay-filter="mymymy" lay-verify="required" lay-search>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="school" class="layui-col-xs6" >
+                        <label class="layui-form-label">所属学校</label>
+                        <div class="layui-input-block " >
+                            <select name="projectBelongSchool" id="projectBelongSchool"  lay-verify="required" lay-search>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -750,6 +753,108 @@
                 });
             });
         }
+    </script>
+    <script>
+        var city = ["福州市","龙岩市","南平市","宁德市","莆田市","泉州市","三明市","厦门市","漳州市"];
+
+        var fuzhou = ["福州大学","福建工程学院","福建农林大学","福建医科大学","福建中医药大学","福建师范大学","福建师范大学福清分校","闽江学院","福建船政交通职业学院",
+            "福建商学院","福建警察学院","福建华南女子职业学院","福州职业技术学院","福建信息职业技术学院","福建农业职业技术学院","福建卫生职业技术学院","福州英华职业学院","福建农林大学东方学院","阳光学院",
+            "福州大学至诚学院","福建师范大学协和学院","福建警官职业学院","福州外语外贸学院","福建江夏学院","福州黎明职业技术学院","福州科技职业技术学院","福建对外经济贸易 职业技术学院","福州理工学院",
+            "福建生物工程职业技术学院","福建艺术职业学院","福建幼儿师范高等专科学校","福州软件职业技术学院","福建农林大学金山学院","福建体育职业技术学院","闽江师范高等专科学校","福州墨尔本理工职业学院"];
+        var longyan = ["龙岩学院","闽西职业技术学院"];
+        var nanping = ["武夷学院","福建林业职业技术学院","闽北职业技术学院","武夷山职业学院"];
+        var ningde = ["宁德师范学院","宁德职业技术学院"];
+        var putian = ["莆田学院","湄洲湾职业技术学院"];
+        var quanzhou = ["华侨大学","泉州师范学院","黎明职业大学","仰恩大学","福建电力职业技术学院","泉州医学高等专科学校","闽南理工学院","泉州纺织服装职业学院"
+            ,"泉州华光职业学院","泉州理工职业学院","福建师范大学闽南科技学院","泉州信息工程学院","泉州经贸职业技术学院","泉州工艺美术职业学院","泉州海洋职业学院","泉州轻工职业学院"
+            ,"泉州幼儿师范高等专科学校","泉州工程职业技术学院"];
+        var sanming = ["三明学院","福建水利电力职业技术学院","三明医学科技职业学院"];
+        var xiamen = ["厦门大学","集美大学","厦门理工学院","厦门海洋职业技术学院","厦门医学院","厦门华厦学院","厦门工学院","集美大学诚毅学院"
+            ,"厦门演艺职业学院","厦门华天涉外职业技术学院","厦门城市职业学院","厦门兴才职业技术学院","厦门软件职业技术学院","厦门南洋职业学院","厦门东海职业技术学院","厦门安防科技职业学院"];
+        var zhangzhou = ["闽南师范大学","漳州职业技术学院","厦门大学嘉庚学院","漳州城市职业学院","漳州科技职业学院","漳州理工职业学院","漳州卫生职业学院"];
+
+
+        $(function () {
+            layui.use('form', function () {
+                form = layui.form;
+
+                //各种基于事件的操作，下面会有进一步介绍
+                //设置省份数据
+                setMyCity();
+                //监听下拉事件
+                form.on('select(mymymy)', function (data) {
+                    console.log(data.value);
+                    setSchool(data.value);
+
+                });
+            });
+
+        });
+
+        //设置城市数据
+        function setMyCity() {
+            //给城市下拉列表赋值
+
+            var $cityName = $("#cityName");
+
+            var modelVal = "";
+
+            var option = $("<option value=''>" + "请选择城市" + "</option>");
+            $cityName.append(option);
+            //获取对应城市数据
+            for (var i = 0, len = city.length; i < len; i++) {
+                modelVal = city[i];
+                var option = $("<option value='" + city[i] + "'>" + city[i] + "</option>");
+
+                //添加到 select 元素中
+                $cityName.append(option);
+            }
+            form.render('select');
+            // setSchool($($cityName.get(0)).val());
+
+        }
+
+        //根据选中的城市获取对应的学校
+        function setSchool(city) {
+            var $school = $("#projectBelongSchool");
+            var proCity, option, modelVal;
+            if (city === "福州市") {
+                proCity = fuzhou;
+            }else if(city === "龙岩市"){
+                proCity = longyan;
+            }else if(city === "南平市"){
+                proCity = nanping;
+            }else if(city === "宁德市"){
+                proCity = ningde;
+            }else if(city === "莆田市"){
+                proCity = putian;
+            }else if(city === "泉州市"){
+                proCity = quanzhou;
+            }else if(city === "三明市"){
+                proCity = sanming;
+            }else if(city === "厦门市"){
+                proCity = xiamen;
+            }else if(city === "漳州市"){
+                proCity = zhangzhou;
+            }
+            //先清空之前绑定的值
+            $school.empty();
+
+
+            var option = $("<option value=''>" + "请选择学校" + "</option>");
+            $school.append(option);
+            //设置对应省份的城市
+            for (var i = 0, len = proCity.length; i < len; i++) {
+                modelVal = proCity[i];
+                option = "<option value='" + modelVal + "'>" + modelVal + "</option>";
+
+                //添加
+                $school.append(option);
+            }
+            form.render('select');
+        }
+
+
     </script>
 
 
