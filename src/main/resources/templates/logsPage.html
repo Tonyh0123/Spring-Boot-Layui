@@ -4,52 +4,132 @@
 <!--head部分-->
 <head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
 </head>
-<body background="" >
+<body class="" >
 <div class="layui-layout layui-layout-admin">
     <div th:replace="fragments/head :: header"></div>
     <div class="layui-container" style="height: 100%">
-        <div style="margin-top: 20px">
-            <button class="layui-btn" onclick="showLogs('2020-04-10')">显示04-10日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-11')">显示04-11日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-12')">显示04-12日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-13')">显示04-13日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-14')">显示04-14日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-15')">显示04-15日志</button>
-            <button class="layui-btn" onclick="showLogs('2020-04-16')">显示04-16日志</button>
+        <form class="layui-form">
+            <div style="margin-top: 20px" class="layui-form-item">
+                <div class="layui-input-block "  style="z-index: 9999; margin-left: 200px">
+                    <select id="logsDay" lay-filter="mymymy" lay-search ></select>
+                </div>
+            </div>
+        </form>
+        <div id="loading" style="position: absolute; margin-left: 53%;margin-top: 32%; display: none">
+            <img src="../images/loading.gif">
         </div>
-    <div id="logsFather" style="display:none;">
-        
-        <div id="logs" style="margin-left: 50px; margin-right: 50px; margin-top: 20px"></div>
+        <div style="height: 800px; width: 1620px; margin-left: -305px;border: #0f6c8d solid 2px" class="layui-body">
+            <div id="logShowDiv" style="margin: 25px" >
 
-    </div>
+            </div>
+        </div>
+
+<!--    <div id="logsFather" style="display:none;">-->
+<!--        -->
+<!--        <div id="logs" style="margin-left: 50px; margin-right: 50px; margin-top: 20px"></div>-->
+
+<!--    </div>-->
 </div>
 </div>
 <script>
     var logData;
+    var days;
     window.onload = function () {
+        document.getElementById("loading").style.display = "";
         $.ajax({
             url:'/logs/checkLogs',
             method: 'post',
             async: true,
             success:function(data) {
-                logData = data ;
 
+                var nowDay = dateFormat();
+                logData = data;
+                days = data["nearly30days"];
+                $(function () {
+                    layui.use('form', function () {
+                        form = layui.form;
+                        setLogsDay();
+                        //监听下拉事件
+                        form.on('select(mymymy)', function (data) {
+                            document.getElementById("loading").style.display = "";
+                            $('#logShowDiv').html('');
+                            selectLogs(data.value);
+                            document.getElementById("loading").style.display = "none";
+                            layer.msg("日志已切换日期："+data.value,{icon:1,time:2000})
+
+                        });
+                    });
+
+                });
+                var logs = logData[nowDay];
+                for(var i=0;i<logs.length;i++){
+                    var logsLine = "";
+                    logsLine = logs[i];
+                    $('#logShowDiv').append('<p>'+logsLine+'</p><br>')
+                }
+                document.getElementById("loading").style.display = "none";
 
             }
             ,error: function (data) {
-                console.log(data);
+
             }
         });
     }
 
-    function showLogs(dateStr) {
-        
-        for(var i=0;i<logData.length;i++){
-            var logsLine = "";
-            logsLine = logData[i];
-            if(logsLine.startsWith(dateStr)){
-                $('#logs').append('<p>'+logsLine+'</p><br>')
+
+
+    function setLogsDay() {
+        var $logsDay = $("#logsDay");
+        var modelVal = "";
+        var today = dateFormat();
+
+        //获取30天内日期数据
+        for (var i = 0; i < days.length; i++) {
+            modelVal = days[i];
+            if(days[i] == today){
+                var option = $("<option value='" + days[i] + "' selected>" + days[i] + "</option>");
+            }else {
+                var option = $("<option value='" + days[i] + "'>" + days[i] + "</option>");
             }
+            //添加到 select 元素中
+            $logsDay.append(option);
+        }
+        form.render('select');
+        // setSchool($($cityName.get(0)).val());
+
+    }
+
+    function selectLogs(thatDay) {
+        var logs = logData[thatDay];
+        for(var i=0;i<logs.length;i++){
+            var logsLine = "";
+            logsLine = logs[i];
+            $('#logShowDiv').append('<p>'+logsLine+'</p><br>')
+        }
+
+    }
+
+    function dateFormat() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (day < 10) {
+            day = "0" + day;
+        }
+        var dateFormat = year + '-' + month + '-' + day;
+        return dateFormat;
+    }
+
+    function showLogs(dateStr) {
+        var logs = logData[dateStr];
+        for(var i=0;i<logs.length;i++){
+            var logsLine = "";
+            logsLine = logs[i];
+            $('#logs').append('<p>'+logsLine+'</p><br>')
         }
 
         layui.use('layer', function() {

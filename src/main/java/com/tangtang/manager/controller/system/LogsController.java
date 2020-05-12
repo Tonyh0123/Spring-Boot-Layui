@@ -1,5 +1,6 @@
 package com.tangtang.manager.controller.system;
 
+import com.tangtang.manager.common.utils.DateUtils;
 import com.tangtang.manager.common.utils.LogsUtils;
 import com.tangtang.manager.dto.NoticeSerachDTO;
 import com.tangtang.manager.pojo.BaseNotice;
@@ -50,29 +51,45 @@ public class LogsController {
      */
     @PostMapping("checkLogs")
     @ResponseBody
-    public List<String> checkLogs() {
+    public Map<String, Object> checkLogs() {
         LogsUtils logsUtils = new LogsUtils();
         logger.info("查看系统运行日志！");
+        Map<String, Object> data = new HashMap<>();
         ArrayList<String> listFileName = new ArrayList<String>();
+        List<String> nearly30days = DateUtils.getNearly30days();
+
         logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
-        List<String> list = new ArrayList<>();
         for(String name:listFileName){
             if(name.endsWith(".gz")){
                 logsUtils.doUncompressFile(name); //解压缩.gz文件
             }
         }
-        logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
-        for(String name:listFileName){
-            if(name.endsWith(".0")){
-//                doUncompressFile(name); 解压缩.gz文件
-                logsUtils.readFile(name,list);
-            }else if (name.endsWith(".log")){
-                logsUtils.readFile(name,list);
+
+        for(int i=0; i<nearly30days.size(); i++){
+            for(String name:listFileName){
+                if(name.contains(nearly30days.get(i)) && !name.endsWith(".gz")){
+                    List<String> list = new ArrayList<>();
+                    logsUtils.readFile(name,list);
+                    data.put(nearly30days.get(i),list);
+                }else if(name.endsWith(".log")){
+                    List<String> list = new ArrayList<>();
+                    logsUtils.readFile(name,list);
+                    data.put(nearly30days.get(i),list);
+                }
             }
         }
-        Map<String, Object> data = new HashMap<>();
+//        logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
+//        for(String name:listFileName){
+//            if(name.endsWith(".0")){
+////                doUncompressFile(name); 解压缩.gz文件
+//                logsUtils.readFile(name,list);
+//            }else if (name.endsWith(".log")){
+//                logsUtils.readFile(name,list);
+//            }
+//        }
+        data.put("nearly30days",nearly30days);
 
-        return list;
+        return data;
     }
 
 

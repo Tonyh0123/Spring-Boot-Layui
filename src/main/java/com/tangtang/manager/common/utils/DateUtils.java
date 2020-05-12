@@ -3,8 +3,7 @@ package com.tangtang.manager.common.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @Title: DateUtils
@@ -86,6 +85,25 @@ public class DateUtils {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd");
         return sdf.format( d );
+    }
+
+    /**
+     * 获取当前时间
+     * @return
+     */
+    public static List<String> getNearly30days (  ) {
+        List<String> nearly30days = new ArrayList<>();
+        String today = getNowDateString();
+        nearly30days.add(today);
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd");
+        for(int i=1; i<29; i++ ){
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            calendar.add(calendar.DATE, 0-i);
+            String dates = sdf.format(calendar.getTime());
+            nearly30days.add(dates);
+        }
+        return nearly30days;
     }
 
     /**
