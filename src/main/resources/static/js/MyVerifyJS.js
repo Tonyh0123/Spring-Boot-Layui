@@ -26,6 +26,11 @@ layui.use('form', function() {
                 return '学号只能为全数字组合';
             }
         }
+        , money: function (value, item) {
+            if (!new RegExp("^[0-9_\\s·]+$").test(value)) {
+                return '融资金额必须全为数字';
+            }
+        }
         , verifyCode: function () {
             if (document.getElementById("verifyCode").value == MainVerifyCode) {
                 verifyed = true;

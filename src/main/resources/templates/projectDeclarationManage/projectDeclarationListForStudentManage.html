@@ -411,9 +411,9 @@
             </div>
 
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">融资金额</label>
+                <label class="layui-form-label">融资金额（万）</label>
                 <div class="layui-input-block">
-                    <input type="text" id="finance_money" name="finance_money" lay-verify="required"  autocomplete="off" class="layui-input">
+                    <input type="text" id="finance_money" name="finance_money" lay-verify="required|money"  autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -615,6 +615,7 @@
     <script src="/projectDeclaration/projectDeclarationList.js"></script>
     <script src="/js/getCookies.js"></script>
     <script src="/js/message/message.js"></script>
+    <script src="/js/MyVerifyJS.js"></script>
     <script>
         window.onload = function () {
             if(getCookie("studentStatus")=="1"){
