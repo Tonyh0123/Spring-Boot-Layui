@@ -31,6 +31,16 @@ layui.use('form', function() {
                 return '融资金额必须全为数字';
             }
         }
+        , workYears: function (value, item) {
+            if (!new RegExp("^[0-9_\\s·]+$").test(value)) {
+                return '须全为数字';
+            }
+        }
+        , JGZJGM: function (value, item) {
+            if (!new RegExp("^[0-9_\\s·]+$").test(value)) {
+                return '须全为数字';
+            }
+        }
         , verifyCode: function () {
             if (document.getElementById("verifyCode").value == MainVerifyCode) {
                 verifyed = true;

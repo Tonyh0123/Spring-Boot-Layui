@@ -93,7 +93,14 @@ $(function() {
                 }
                 $("#investment_field").val(investment_field);
 
-                console.log(investment_field);
+                var single_investment_start = $("#single_investment_start").val();
+                var single_investment_end = $("#single_investment_end").val();
+                var single_investment = single_investment_start + '万-' + single_investment_end + '万'
+                $("#single_investment").val(single_investment);
+
+                var organization_ZJGM = $("#organization_ZJGM").val() + '万';
+                $("#organization_ZJGM").val(organization_ZJGM);
+
                 $.ajax({
                     type: "POST",
                     data: $("#addInvestmentForm").serialize(),
