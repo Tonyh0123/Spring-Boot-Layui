@@ -121,7 +121,7 @@ function viewProjectDetail(obj) {
             cols: [[
                 {type:'numbers'}
                 ,{field:'finance_company', title:'融资方', align:'center'}
-                ,{field:'finance_money', title:'融资金额',align:'center'}
+                ,{field:'finance_money', title:'融资金额（万）',align:'center'}
                 ,{field:'finance_type', title:'融资类型',align:'center',sort:true}
                 ,{field:'finance_get_time', title:'融资获得时间',align:'center',sort:true}
             ]],

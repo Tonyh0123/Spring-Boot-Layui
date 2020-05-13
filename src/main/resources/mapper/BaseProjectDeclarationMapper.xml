@@ -130,6 +130,10 @@
             <if test="projectDeclaration.project_current_JD != null and projectDeclaration.project_current_JD != '' ">
                 and project_current_JD LIKE '%' #{projectDeclaration.project_current_JD} '%'
             </if>
+
+            <if test="projectDeclaration.project_recommend_sign != null and projectDeclaration.project_recommend_sign != '' ">
+                and project_recommend_sign LIKE '%' #{projectDeclaration.project_recommend_sign} '%'
+            </if>
         </where>
         limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
