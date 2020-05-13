@@ -232,7 +232,7 @@
             <div class="layui-form-item" id="project_CXJD_DBSJ_div">
                 <label class="layui-form-label" style="width: 175px"><b>创新阶段-答辩时间</b></label>
                 <div class="layui-input-inline" style="width: 410px;">
-                    <input  id="project_CXJD_DBSJ" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                    <input  id="project_CXJD_DBSJ" name="" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off" class="layui-input" type="text"/>
                 </div>
                 <label class="layui-form-label" style="width: 175px"><b>创新阶段-答辩地点</b></label>
                 <div class="layui-input-inline" style="width: 410px;">
@@ -244,7 +244,7 @@
             <div class="layui-form-item" id="project_CZJD_DBSJ_div">
                 <label class="layui-form-label" style="width: 175px"><b>成长阶段-答辩时间</b></label>
                 <div class="layui-input-inline" style="width: 410px;">
-                    <input  id="project_CZJD_DBSJ" name="" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                    <input  id="project_CZJD_DBSJ" name="" placeholder="yyyy-MM-dd hh:mm:ss" autocomplete="off" class="layui-input" type="text"/>
                 </div>
                 <label class="layui-form-label" style="width: 175px"><b>成长阶段-答辩地点</b></label>
                 <div class="layui-input-inline" style="width: 410px;">
@@ -494,13 +494,16 @@
                     , laydate = layui.laydate;
                 //日期
                 laydate.render({
-                    elem: '#project_LX_DBSJ'
+                    elem: '#project_LX_DBSJ',
+                    type: 'datetime'
                 });
                 laydate.render({
-                    elem: '#project_CXJD_DBSJ'
+                    elem: '#project_CXJD_DBSJ',
+                    type: 'datetime'
                 });
                 laydate.render({
-                    elem: '#project_CZJD_DBSJ'
+                    elem: '#project_CZJD_DBSJ',
+                    type: 'datetime'
                 });
 
 
