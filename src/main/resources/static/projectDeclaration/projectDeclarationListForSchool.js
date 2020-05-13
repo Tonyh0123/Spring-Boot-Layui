@@ -61,10 +61,10 @@ $(function() {
                 }else if(obj.event === 'setTimeOfCZJD'){
                     setTimeOfDB(data,"CZJDBG_DBSJYAP");
                 }else if(obj.event === 'agreeCXJDBG'){
-                    agreeJDBG(data,"创新阶段","CXJD_BGCG");
+                    agreeOrNotJDBG("agreeCXJDBG",data);
                 }else if(obj.event === 'agreeCZJDBG'){
-                    agreeJDBG(data,"成长阶段","CZJD_BGCG");
-                }
+                    agreeOrNotJDBG("agreeCZJDBG",data);
+        }
             });
 
             form.on('submit(userSubmit)', function(data){
@@ -178,6 +178,39 @@ function projectDetail(obj,id) {
 
     }
 
+    //加载融资情况
+    layui.use('table', function(){
+        var table = layui.table;
+        FinanceTable=table.render({
+            elem: '#projectFinance',
+            url:'/finance/getProjectFinanceByProjectId',
+            where: {"projectId":obj.projectId},
+            method: 'post', //默认：get请求
+            page: false,
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：pageNum
+                limitName: 'pageSize' //每页数据量的参数名，默认：pageSize
+            },
+            response:{
+                statusName: 'code', //数据状态的字段名称，默认：code
+                statusCode: 200, //成功的状态码，默认：0
+                countName: 'totals', //数据总数的字段名称，默认：count
+                dataName: 'list' //数据列表的字段名称，默认：data
+            },
+            cols: [[
+                {type:'numbers'}
+                ,{field:'finance_company', title:'融资方', align:'center'}
+                ,{field:'finance_money', title:'融资金额（万）',align:'center'}
+                ,{field:'finance_type', title:'融资类型',align:'center',sort:true}
+                ,{field:'finance_get_time', title:'融资获得时间',align:'center',sort:true}
+            ]],
+            done: function(res, curr, count){
+                pageCurr=curr;
+            }
+        });
+
+    });
+
     layer.open({
         type: 1 //此处以iframe举例
         , title: '项目详情'
@@ -272,6 +305,33 @@ function setTimeOfDB(obj,passStatus) {
     });
 }
 
+function agreeOrNotJDBG(BGJD,data) {
+    var title = "";
+    if(BGJD=="agreeCXJDBG"){
+        title = "创新阶段";
+        layer.confirm('请审核'+title+'阶段变更', {
+            btn: ['通过','不通过'] //按钮
+        }, function(){
+            agreeJDBG(data,"创新阶段","CXJD_BGCG");
+            layer.closeAll();
+        }, function(){
+            agreeJDBG(data,"已立项","CXJDBG_FAILED");
+            layer.closeAll();
+        });
+    }else if(BGJD=="agreeCZJDBG"){
+        title = "成长阶段";
+        layer.confirm('请审核'+title+'阶段变更', {
+            btn: ['通过','不通过'] //按钮
+        }, function(){
+            agreeJDBG(data,"成长阶段","CZJD_BGCG");
+            layer.closeAll();
+        }, function(){
+            agreeJDBG(data,"创新阶段","CZJDBG_FAILED");
+            layer.closeAll();
+        });
+    }
+
+}
 
 function agreeJDBG(obj,JD,status) {
     $.ajax({
@@ -280,7 +340,7 @@ function agreeJDBG(obj,JD,status) {
         url: "/declaration/setCurrentJD",
         success: function (data) {
             if (data.code == 1) {
-                layer.alert(data.msg,function(){
+                layer.alert("审核操作成功",function(){
                     location.reload();
                 });
             } else {

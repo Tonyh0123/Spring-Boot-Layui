@@ -35,10 +35,10 @@ $(function() {
                 },
                 cols: [[
                     {type:'numbers'}
-                    ,{field:'projectOwnerName', title:'申请人',width:350, align:'center'}
-                    ,{field:'projectId', title:'项目编号',width:350,align:'center'}
+                    ,{field:'projectOwnerName', title:'申请人',width:150, align:'center'}
+                    ,{field:'projectId', title:'项目编号',width:250,align:'center'}
                     ,{field:'projectName', title:'项目名称',width:500,align:'center',sort:true}
-                    ,{title:'操作',align:'center', width:434, toolbar:'#optBar'}
+                    ,{title:'操作',align:'center', width:734, toolbar:'#optBar'}
                 ]],
                 done: function(res, curr, count){
                     //得到数据总量

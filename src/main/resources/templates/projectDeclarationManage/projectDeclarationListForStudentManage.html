@@ -562,6 +562,12 @@
             <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
             {{#  }
 
+            else if(d.project_pass_status == 'CXJDBG_FAILED'){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="">创新阶段变更失败</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="JDBG_CXJD">申请阶段变更至创新阶段</a>
+            <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
+            {{#  }
+
             else if(d.project_pass_status == 'DDLXDB'){ }}
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="checkDBSJ">立项答辩时间已安排</a>
             {{#  }
@@ -573,7 +579,7 @@
             {{#  }
 
             else if(d.project_pass_status == 'FQJDBG_CZJD'){ }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已立项</a>
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">创新阶段</a>
             <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="">成长阶段变更申请已发起</a>
             <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
             {{#  }
@@ -595,11 +601,20 @@
             <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="del">删除</a>
             {{#  }
 
+
+            else if(d.project_pass_status == 'CZJDBG_FAILED'){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="">成长阶段变更失败</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="JDBG_CZJD">申请阶段变更至成长阶段</a>
+            <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
+            {{#  }
+
             else if(d.project_current_JD == '创新阶段'){ }}
             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">创新阶段</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="JDBG_CZJD">申请阶段变更至成长阶段</a>
             <a class="layui-btn layui-btn-xs" lay-event="addFinance">添加融资条目</a>
             {{#  }
+
+
 
             else if(d.project_current_JD == '成长阶段'){ }}
             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">成长阶段</a>
