@@ -96,6 +96,7 @@ function formSubmit(obj){
                 });
             } else {
                 layer.alert(data.msg);
+                //testing
             }
         }
     });
