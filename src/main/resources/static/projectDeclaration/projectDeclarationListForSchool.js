@@ -279,13 +279,17 @@ function setTimeOfDB(obj,passStatus) {
     $("#project_pass_status_For_JDBG").val(passStatus);
     var title = "";
     if(passStatus == "CXJDBG_DBSJYAP"){
-        var fileUrl = obj.project_JDBG_SQFJ.replace("/noticeFile/","F:/noticeFile/");
-        $("#tips").after('<button style="margin-bottom: 10px; margin-left: 80%;  width: 100px" type="button" class="layui-btn" onclick="downloadFile(\''+ fileUrl +'\')">下载附件</button>');
+        document.getElementById("project_CXJD_DBSJ_div").style.display="";
+        var fileUrl = obj.project_JDBG_SQFJ;
+        document.getElementById("downloadLink").href = fileUrl;
+        document.getElementById("downloadLink").download = fileUrl.replace("/noticeFile/","");
         title = "创新阶段变更-答辩安排";
         document.getElementById("project_CZJD_DBSJ_div").style.display="none";
     }else if(passStatus == "CZJDBG_DBSJYAP"){
-        var fileUrl = obj.project_JDBG_SQFJ.replace("/noticeFile/","F:/noticeFile/");
-        $("#tips").after('<button style="margin-bottom: 25px; margin-left: 60%; width: 100px;" type="button" class="layui-btn" onclick="downloadFile(\''+ fileUrl +'\')">下载附件</button>');
+        document.getElementById("project_CZJD_DBSJ_div").style.display="";
+        var fileUrl = obj.project_JDBG_SQFJ;
+        document.getElementById("downloadLink").href = fileUrl;
+        document.getElementById("downloadLink").download = fileUrl.replace("/noticeFile/","");
         title = "成长阶段变更-答辩安排";
         document.getElementById("project_CXJD_DBSJ_div").style.display="none";
     }
