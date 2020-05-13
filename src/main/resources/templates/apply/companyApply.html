@@ -23,7 +23,7 @@
             {{#  if(d.apply_status == '1'){ }}
             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="">已通过</a>
             {{#  } else if(d.apply_status == '0'){ }}
-            <a class="layui-btn layui-btn-xs" lay-event="Confirm">审核</a>
+            <a class="layui-btn layui-btn-xs" lay-event="Confirm">立即审核</a>
             {{#  } else if(d.apply_status == '-1'){ }}
             <a class="layui-btn-danger layui-btn layui-btn-xs" lay-event="">未通过</a>
             {{#  } }}
@@ -33,7 +33,7 @@
 
 
 
-    <!--通过申请并为院校设置账号以及密码-->
+    <!--通过申请并为投资方设置账号以及密码-->
     <div id="addCompanyUser" class="layer_self_wrap" style="width:500px;display:none;">
         <form id="addCompanyUserForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
             <input id="pageNum" type="hidden" name="pageNum"/>

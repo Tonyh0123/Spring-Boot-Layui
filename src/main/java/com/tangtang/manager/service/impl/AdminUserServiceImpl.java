@@ -122,7 +122,7 @@ public class AdminUserServiceImpl implements AdminUserService{
             return data;
         }
         try {
-            schoolRegistrationDTO.setApplyStatus(0);
+            schoolRegistrationDTO.setApplyStatus("0");
             boolean result = baseRegistrationMapper.regSchoolUser(schoolRegistrationDTO);
             if(!result){
                 data.put("code",0);

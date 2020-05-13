@@ -36,7 +36,18 @@ public class BaseSchoolApply {
     private String schoolConfirm;
 
     @Column(name = "apply_status")
-    private Integer applyStatus;
+    private String applyStatus;
+
+    @Column(name = "apply_opinion")
+    private String apply_opinion;
+
+    public String getApply_opinion() {
+        return apply_opinion;
+    }
+
+    public void setApply_opinion(String apply_opinion) {
+        this.apply_opinion = apply_opinion;
+    }
 
     public String getJobConfirm() {
         return jobConfirm;
@@ -54,11 +65,11 @@ public class BaseSchoolApply {
         this.schoolConfirm = schoolConfirm;
     }
 
-    public Integer getApplyStatus() {
+    public String getApplyStatus() {
         return applyStatus;
     }
 
-    public void setApplyStatus(Integer applyStatus) {
+    public void setApplyStatus(String applyStatus) {
         this.applyStatus = applyStatus;
     }
 

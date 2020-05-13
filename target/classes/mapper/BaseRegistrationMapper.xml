@@ -80,7 +80,7 @@
 
     <insert id="confirmSchoolsApply" parameterType="com.tangtang.manager.dto.SchoolRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
         INSERT  INTO base_admin_user (sys_user_name,sys_user_pwd,user_status,reg_time,user_phone,role_id)
-        VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{userPhone}, #{roleId})
+        VALUES (#{sysUserName}, #{sysUserPwd}, #{userStatus}, #{regTime}, #{schoolManagerPhone}, #{roleId})
    </insert>
 
     <insert id="confirmCompanyApply" parameterType="com.tangtang.manager.dto.CompanyRegistrationDTO" keyProperty="id" useGeneratedKeys="true">
@@ -90,7 +90,23 @@
 
     <update id="updateSchoolInfo">
         UPDATE base_school
-        SET id = #{id} , sys_user_name = #{sysUserName} , apply_status = 1
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+
+            <if test="sysUserName != null">
+                sys_user_name = #{sysUserName},
+            </if>
+
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus},
+            </if>
+
+            <if test="applyOpinion != null">
+                apply_opinion = #{applyOpinion},
+            </if>
+        </set>
         WHERE keyid = #{keyid}
     </update>
 

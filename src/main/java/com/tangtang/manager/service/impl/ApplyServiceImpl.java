@@ -5,11 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.tangtang.manager.common.utils.DateUtils;
 import com.tangtang.manager.common.utils.DigestUtils;
 import com.tangtang.manager.common.utils.PinyinUtils;
+import com.tangtang.manager.dao.BaseAdminUserMapper;
 import com.tangtang.manager.dao.BaseApplyMapper;
 import com.tangtang.manager.dao.BaseRegistrationMapper;
 import com.tangtang.manager.dto.CompanyRegistrationDTO;
 import com.tangtang.manager.dto.SchoolApplyDTO;
 import com.tangtang.manager.dto.SchoolRegistrationDTO;
+import com.tangtang.manager.pojo.BaseAdminUser;
 import com.tangtang.manager.pojo.BaseCompany;
 import com.tangtang.manager.pojo.BaseStudent;
 import com.tangtang.manager.response.PageDataResult;
@@ -30,6 +32,8 @@ public class ApplyServiceImpl implements ApplyService {
     private BaseApplyMapper baseApplyMapper;
     @Autowired
     private BaseRegistrationMapper baseRegistrationMapper;
+    @Autowired
+    private BaseAdminUserMapper baseAdminUserMapper;
 
     @Autowired
     private MailService mailService;
@@ -82,38 +86,63 @@ public class ApplyServiceImpl implements ApplyService {
     public Map<String, Object> confirmSchoolsApply(SchoolRegistrationDTO schoolRegistrationDTO) {
         Map<String,Object> data = new HashMap();
         try {
+            if(schoolRegistrationDTO.getApplyFlag().equals("yes")){
+                String usernameZW = schoolRegistrationDTO.getSysUserName();
+                String username = PinyinUtils.getPinYinHeadChar(usernameZW);
+                BaseAdminUser old = baseAdminUserMapper.getUserByUserName(username,null);
+                if(old != null){
+                    data.put("code",0);
+                    data.put("msg","用户名已存在！");
+                    logger.error("用户[新增]，结果=用户名已存在！");
+                    return data;
+                }
+                schoolRegistrationDTO.setSysUserName(username);
+                String firstPassword = "123456";
+                if(schoolRegistrationDTO.getSysUserPwd() == null || schoolRegistrationDTO.getSysUserPwd() == ""){
+                    String password = DigestUtils.Md5(username,firstPassword);
+                    schoolRegistrationDTO.setSysUserPwd(password);
+                }else{
+                    firstPassword = schoolRegistrationDTO.getSysUserPwd();
+                    String password = DigestUtils.Md5(username, schoolRegistrationDTO.getSysUserPwd());
+                    schoolRegistrationDTO.setSysUserPwd(password);
+                }
+                schoolRegistrationDTO.setRegTime(DateUtils.getCurrentDate());
+                schoolRegistrationDTO.setUserStatus(1);
+                schoolRegistrationDTO.setRoleId(3); //  '3'===高校
+                schoolRegistrationDTO.setApplyStatus("1");
+                boolean result1 = baseRegistrationMapper.confirmSchoolsApply(schoolRegistrationDTO);
+                int iddd = schoolRegistrationDTO.getId();
+                System.out.println("看过来看过来   iddd---->"+iddd);
+                int result2 = baseRegistrationMapper.updateSchoolInfo(schoolRegistrationDTO);
+                if(!result1 && result2<1){
+                    data.put("code",0);
+                    data.put("msg","新增失败！");
+                    logger.error("用户[新增]，结果=新增失败！");
+                    return data;
+                }
+                //开始发送邮件
+                mailService.sendSimpleMail(schoolRegistrationDTO.getSchoolManagerEmail(),"账户开通成功",
+                        "用户名："+schoolRegistrationDTO.getSysUserName()+"密码："+firstPassword);
+                data.put("code",1);
+                data.put("msg","新增成功！");
+                logger.info("用户[新增]，结果=新增成功！");
+            }else {
+                schoolRegistrationDTO.setApplyStatus("-1");
+                int result3 = baseRegistrationMapper.updateSchoolInfo(schoolRegistrationDTO);
+                if(result3<1){
+                    data.put("code",0);
+                    data.put("msg","审核失败！");
+                    logger.error("院校信息更新，结果=失败！");
+                    return data;
+                }
+                mailService.sendSimpleMail(schoolRegistrationDTO.getSchoolManagerEmail(),"审核未通过",
+                        "审核意见："+ schoolRegistrationDTO.getApplyOpinion());
+                data.put("code",1);
+                data.put("msg","审核成功！");
+                logger.info("院校信息更新，结果=成功！");
 
-            String usernameZW = schoolRegistrationDTO.getSysUserName();
-            String username = PinyinUtils.getPinYinHeadChar(usernameZW);
-            schoolRegistrationDTO.setSysUserName(username);
-            String firstPassword = "123456";
-            if(schoolRegistrationDTO.getSysUserPwd() == null || schoolRegistrationDTO.getSysUserPwd() == ""){
-                String password = DigestUtils.Md5(username,firstPassword);
-                schoolRegistrationDTO.setSysUserPwd(password);
-            }else{
-                firstPassword = schoolRegistrationDTO.getSysUserPwd();
-                String password = DigestUtils.Md5(username, schoolRegistrationDTO.getSysUserPwd());
-                schoolRegistrationDTO.setSysUserPwd(password);
             }
-            schoolRegistrationDTO.setRegTime(DateUtils.getCurrentDate());
-            schoolRegistrationDTO.setUserStatus(1);
-            schoolRegistrationDTO.setRoleId(3); //  '3'===高校
-            boolean result1 = baseRegistrationMapper.confirmSchoolsApply(schoolRegistrationDTO);
-            int iddd = schoolRegistrationDTO.getId();
-            System.out.println("看过来看过来   iddd---->"+iddd);
-            int result2 = baseRegistrationMapper.updateSchoolInfo(schoolRegistrationDTO);
-            if(!result1 && result2<1){
-                data.put("code",0);
-                data.put("msg","新增失败！");
-                logger.error("用户[新增]，结果=新增失败！");
-                return data;
-            }
-            //开始发送邮件
-            mailService.sendSimpleMail(schoolRegistrationDTO.getSchoolManagerEmail(),"账户开通成功",
-                    "用户名："+schoolRegistrationDTO.getSysUserName()+"密码："+firstPassword);
-            data.put("code",1);
-            data.put("msg","新增成功！");
-            logger.info("用户[新增]，结果=新增成功！");
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("用户[新增]异常！", e);
@@ -129,6 +158,13 @@ public class ApplyServiceImpl implements ApplyService {
             if(companyRegistrationDTO.getApplyFlag().equals("yes")){
                 String usernameZW = companyRegistrationDTO.getSysUserName();
                 String username = PinyinUtils.getPinYinHeadChar(usernameZW);
+                BaseAdminUser old = baseAdminUserMapper.getUserByUserName(username,null);
+                if(old != null){
+                    data.put("code",0);
+                    data.put("msg","用户名已存在！");
+                    logger.error("用户[新增]，结果=用户名已存在！");
+                    return data;
+                }
                 companyRegistrationDTO.setSysUserName(username);
                 String firstPassword = "123456";
                 if(companyRegistrationDTO.getSysUserPwd() == null || companyRegistrationDTO.getSysUserPwd() == ""){

@@ -29,11 +29,32 @@ public class SchoolRegistrationDTO {
 
     private String schoolManagerEmail;
 
-    private Integer applyStatus;
+    private String applyStatus;
+
+    private String applyOpinion;
 
     private String jobConfirm;
 
     private String schoolConfirm;
+
+    private String applyFlag; //通过审核与否标志
+
+
+    public String getApplyFlag() {
+        return applyFlag;
+    }
+
+    public void setApplyFlag(String applyFlag) {
+        this.applyFlag = applyFlag;
+    }
+
+    public String getApplyOpinion() {
+        return applyOpinion;
+    }
+
+    public void setApplyOpinion(String applyOpinion) {
+        this.applyOpinion = applyOpinion;
+    }
 
     public String getJobConfirm() {
         return jobConfirm;
@@ -59,11 +80,11 @@ public class SchoolRegistrationDTO {
         this.keyid = keyid;
     }
 
-    public Integer getApplyStatus() {
+    public String getApplyStatus() {
         return applyStatus;
     }
 
-    public void setApplyStatus(Integer applyStatus) {
+    public void setApplyStatus(String applyStatus) {
         this.applyStatus = applyStatus;
     }
 

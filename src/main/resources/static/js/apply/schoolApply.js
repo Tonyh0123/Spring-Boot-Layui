@@ -67,7 +67,7 @@ $(function() {
                 if(obj.event === 'del'){
                     //删除
                     delUser(data,data.id,data.sysUserName);
-                } else if(obj.event === 'accessConfirm'){
+                } else if(obj.event === 'Confirm'){
                     openUser(data,"同意申请并为该高校开通账户");
                 } else if(obj.event === 'edit'){
                     //编辑
@@ -127,7 +127,7 @@ function openUser(data,title){
     $("#keyid").val(data.keyid);
     $("#managerEmail").val(data.schoolManagerEmail);
     $("#username").val(data.schoolName);
-    $("#mobile").val(data.schoolManagerPhone);
+    $("#managerPhone").val(data.schoolManagerPhone);
     var pageNum = $(".layui-laypage-skip").find("input").val();
     $("#pageNum").val(pageNum);
     // $.ajax({

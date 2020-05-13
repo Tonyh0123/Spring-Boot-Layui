@@ -317,8 +317,11 @@
             ,url: '/upload/identifyConfirmFileUpload' //上传接口
             ,method: 'post'
             ,size: 80
+            ,before:function () {
+                document.getElementById("loading").style.display = "";
+            }
             ,done: function(res){
-
+                document.getElementById("loading").style.display = "none";
                 document.getElementById("previewButton1").style.display='';
                 pdf1 = res.fileUrl;
                 realPdf1 = pdf1.replace("/identifyConfirmFile","F:/identifyConfirmFile");
@@ -336,8 +339,11 @@
             ,url: '/upload/identifyConfirmFileUpload' //上传接口
             ,method: 'post'
             ,size: 80
+            ,before:function () {
+                document.getElementById("loading").style.display = "";
+            }
             ,done: function(res){
-
+                document.getElementById("loading").style.display = "none";
                 document.getElementById("previewButton2").style.display='';
                 pdf2 = res.fileUrl;
                 realPdf2 = pdf2.replace("/identifyConfirmFile","F:/identifyConfirmFile");
@@ -351,12 +357,14 @@
         });
     });
     function picPreview1() {
+        document.getElementById("loading").style.display = "";
         $.ajax({
             type: "POST",
             data: {"encFile":realPdf1},
             url: "/upload/decFile",
             async: true,
             success: function (res) {
+                document.getElementById("loading").style.display = "none";
                 var uul = res.fileurl;
                 layui.use('layer', function () {
                     var layer = layui.layer;
@@ -385,12 +393,14 @@
         });
     }
     function picPreview2() {
+        document.getElementById("loading").style.display = "";
         $.ajax({
             type: "POST",
             data: {"encFile":realPdf2},
             url: "/upload/decFile",
             async: true,
             success: function (res) {
+                document.getElementById("loading").style.display = "none";
                 var uul = res.fileurl;
                 layui.use('layer', function () {
                     var layer = layui.layer;
