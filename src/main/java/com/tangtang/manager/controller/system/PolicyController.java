@@ -92,7 +92,7 @@ public class PolicyController {
                 pageNum = 1;
             }
             if(null == pageSize) {
-                pageSize = 10;
+                pageSize = 20;
             }
             // 获取政策列表
             pdr = policyService.getPolicyList(basePolicy, pageNum ,pageSize);

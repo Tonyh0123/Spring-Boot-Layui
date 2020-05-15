@@ -87,9 +87,16 @@ public class CaseController {
      * @date: 2020/03/06 16:28
      */
     @GetMapping("caseShowData")
-    public @ResponseBody List<BaseSuccessfulCase> getCaseShowData(){
+    public @ResponseBody List<BaseSuccessfulCase> getCaseShowData(Integer pageNum,Integer pageSize){
+
         logger.info("获取案例展示数据");
-        return caseService.getCaseShowData();
+        if(null == pageNum) {
+            pageNum = 1;
+        }
+        if(null == pageSize) {
+            pageSize = 10;
+        }
+        return caseService.getCaseShowData(pageNum,pageSize);
     }
 
     /**

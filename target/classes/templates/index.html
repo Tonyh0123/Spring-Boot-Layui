@@ -117,82 +117,13 @@
               <li><a href="javascript:;" id="fujianPolicy6"></a><span class="time" id="fujianPolicyTime6"></span></li>
               <li><a href="javascript:;" id="fujianPolicy7"></a><span class="time" id="fujianPolicyTime7"></span></li>
               <li><a href="javascript:;" id="fujianPolicy8"></a><span class="time" id="fujianPolicyTime8"></span></li>
-              <li><span class="time"><a href="javascript:;" >查看更多>></a></span></li>
+              <li><span class="time"><a href="/allPolicies" >查看更多>></a></span></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="main-product">
-    <div class="layui-container">
-      <p class="title"><span>创业合伙人找寻计划</span></p>
-      <div style="padding: 33px; background-color: #f8f8f8;">
-        <div class="layui-row layui-col-space15">
-          <div class="layui-col-md12">
-            <div class="layui-card">
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-              <div class="layui-card-header"  ><a  >标题</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--  <div class="main-service">-->
-<!--    <div class="layui-container">-->
-<!--      <p class="title">为客户打造完美的<span>专业服务</span></p>-->
-<!--      <div class="layui-row layui-col-space25 layui-col-space80">-->
-<!--        <div class="layui-col-sm6">-->
-<!--          <div class="content">-->
-<!--            <div class="content-left"><img src=" /images/home_img1.jpg"></div>-->
-<!--            <div class="content-right">-->
-<!--              <p class="label">1 对 1 前端指导</p>-->
-<!--              <span></span>-->
-<!--              <p>更有多个包含不同主题的Web组件，可快速构建界面出色、体验优秀的跨屏页面，大幅提升开发效率。</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="layui-col-sm6">-->
-<!--          <div class="content">-->
-<!--            <div class="content-left"><img src=" /images/home_img2.jpg"></div>-->
-<!--            <div class="content-right">-->
-<!--              <p class="label">1 对 1 前端指导</p>-->
-<!--              <span></span>-->
-<!--              <p>更有多个包含不同主题的Web组件，可快速构建界面出色、体验优秀的跨屏页面，大幅提升开发效率。</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="layui-col-sm6">-->
-<!--          <div class="content">-->
-<!--            <div class="content-left"><img src=" /images/home_img3.jpg"></div>-->
-<!--            <div class="content-right">-->
-<!--              <p class="label">1 对 1 前端指导</p>-->
-<!--              <span></span>-->
-<!--              <p>更有多个包含不同主题的Web组件，可快速构建界面出色、体验优秀的跨屏页面，大幅提升开发效率。</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="layui-col-sm6">-->
-<!--          <div class="content">-->
-<!--            <div class="content-left"><img src=" /images/home_img4.jpg"></div>-->
-<!--            <div class="content-right">-->
-<!--              <p class="label">1 对 1 前端指导</p>-->
-<!--              <span></span>-->
-<!--              <p>更有多个包含不同主题的Web组件，可快速构建界面出色、体验优秀的跨屏页面，大幅提升开发效率。</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="service-more"><a href="">查看更多</a></div>-->
-<!--    </div>-->
-<!--  </div>-->
   <!-- footer部分 -->
   <div class="footer">
     <div th:include="footer :: footer"></div>
@@ -270,19 +201,31 @@
       method: 'post',
       async: true,
       success:function(data) {
+        console.log(data.length);
+        var length = data.length;
+        if(length>18){
+          length = 18;
+        }
         //填充数据
-        for(var i=1; i<9; i++){
+        console.log(length)
+        var flag = 0;
+        for(var i=1; i<length; i++){
           if(data[i-1].policyLocated=="全国"){
-            document.getElementById("policy"+i.toString()).innerHTML =  data[i-1].policyTitle;
-            document.getElementById("policyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
-            document.getElementById("policy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
-          }else{
-            document.getElementById("fujianPolicy"+i.toString()).innerHTML =  data[i-1].policyTitle;
-            document.getElementById("fujianPolicyTime"+i.toString()).innerHTML =  data[i-1].policyDate;
-            document.getElementById("fujianPolicy"+i.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+            flag += 1;
+            document.getElementById("policy"+flag.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("policyTime"+flag.toString()).innerHTML =  data[i-1].policyDate;
+            document.getElementById("policy"+flag.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
           }
+        }
 
-
+        var flag = 0;
+        for(var i=1; i<length; i++){
+          if(data[i-1].policyLocated=="福建"){
+            flag += 1;
+            document.getElementById("fujianPolicy"+flag.toString()).innerHTML =  data[i-1].policyTitle;
+            document.getElementById("fujianPolicyTime"+flag.toString()).innerHTML =  data[i-1].policyDate;
+            document.getElementById("fujianPolicy"+flag.toString()).setAttribute("onclick", 'pdfsee(\"'+data[i-1].policyUrl+'\",\"'+data[i-1].policyTitle+'\")')
+          }
         }
 
       }

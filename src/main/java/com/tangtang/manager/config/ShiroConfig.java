@@ -83,6 +83,7 @@ public class ShiroConfig {
         filterMap.put("/js/*/*/*", "anon");
         filterMap.put("/images/*/**", "anon");
         filterMap.put("/img/*/**", "anon");
+        filterMap.put("/image/*/**", "anon");
         filterMap.put("/noticeFile/*/**", "anon");
         filterMap.put("/identifyConfirmFile/*/**", "anon");
         filterMap.put("/layui/*", "anon");

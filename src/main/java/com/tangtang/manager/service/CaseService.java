@@ -13,7 +13,7 @@ public interface CaseService {
 
     PageDataResult getCaseList(BaseSuccessfulCase successfulCase, Integer pageNum, Integer pageSize);
 
-    List<BaseSuccessfulCase> getCaseShowData();
+    List<BaseSuccessfulCase> getCaseShowData(Integer pageNum, Integer pageSize);
 
     Map<String, Object> del(long id);
 

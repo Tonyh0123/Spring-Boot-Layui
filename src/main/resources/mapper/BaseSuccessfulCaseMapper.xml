@@ -45,6 +45,11 @@
         limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
 
+    <select id="getCaseListForShow" resultMap="BaseResultMap">
+        SELECT <include refid="baseColumn"/>
+        FROM base_successful_case
+    </select>
+
     <update id="updateCase">
         UPDATE base_successful_case
         <set>

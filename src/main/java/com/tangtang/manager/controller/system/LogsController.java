@@ -57,6 +57,7 @@ public class LogsController {
         Map<String, Object> data = new HashMap<>();
         ArrayList<String> listFileName = new ArrayList<String>();
         List<String> nearly30days = DateUtils.getNearly30days();
+        String nowadays = DateUtils.getNowDateString();
 
         logsUtils.getAllFileName("C:\\Users\\Adminstrador\\logs\\",listFileName);
         for(String name:listFileName){
@@ -71,7 +72,7 @@ public class LogsController {
                     List<String> list = new ArrayList<>();
                     logsUtils.readFile(name,list);
                     data.put(nearly30days.get(i),list);
-                }else if(name.endsWith(".log")){
+                }else if(name.endsWith(".log") && nearly30days.get(i).equals(nowadays)){
                     List<String> list = new ArrayList<>();
                     logsUtils.readFile(name,list);
                     data.put(nearly30days.get(i),list);

@@ -64,8 +64,8 @@ public class CaseServiceImpl implements CaseService {
     }
 
     @Override
-    public List<BaseSuccessfulCase> getCaseShowData() {
-        return successfulCaseMapper.getCaseList();
+    public List<BaseSuccessfulCase> getCaseShowData(Integer pageNum, Integer pageSize) {
+        return successfulCaseMapper.getCaseListForShow(pageNum,pageSize);
     }
 
     @Override

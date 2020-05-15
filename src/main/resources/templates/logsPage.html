@@ -41,6 +41,7 @@
             method: 'post',
             async: true,
             success:function(data) {
+                console.log(data)
 
                 var nowDay = dateFormat();
                 logData = data;
@@ -100,12 +101,21 @@
     }
 
     function selectLogs(thatDay) {
-        var logs = logData[thatDay];
-        for(var i=0;i<logs.length;i++){
-            var logsLine = "";
-            logsLine = logs[i];
-            $('#logShowDiv').append('<p>'+logsLine+'</p><br>')
+        try {
+            var logs = logData[thatDay];
+            if(logs != null || logs != ''){
+                for(var i=0;i<logs.length;i++){
+                    var logsLine = "";
+                    logsLine = logs[i];
+                    $('#logShowDiv').append('<p>'+logsLine+'</p><br>')
+                }
+            }else {
+                $('#logShowDiv').append('今日无日志产生！')
+            }
+        }catch (e) {
+            $('#logShowDiv').append('今日无日志产生！')
         }
+
 
     }
 
