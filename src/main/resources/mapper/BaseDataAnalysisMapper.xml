@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangtang.manager.dao.BaseDataAnalysisMapper">
+    <resultMap id="InvestorProvince" type="com.tangtang.manager.dto.InvestorProvinceDTO">
+        <result column="belong_province" jdbcType="VARCHAR" property="province" />
+        <result column="nums" jdbcType="INTEGER" property="nums" />
+    </resultMap>
+
+    <resultMap id="CompanyTZProjectNums" type="com.tangtang.manager.dto.CompanyTZProjectNumsDTO">
+        <result column="finance_company" jdbcType="VARCHAR" property="company" />
+        <result column="nums" jdbcType="INTEGER" property="nums" />
+    </resultMap>
+
+    <resultMap id="InvestmentJDAvgMoney" type="com.tangtang.manager.dto.InvestmentJDAvgMoneyDTO">
+        <result column="finance_type" jdbcType="VARCHAR" property="investmentType" />
+        <result column="money" jdbcType="INTEGER" property="money" />
+    </resultMap>
+
+    <resultMap id="InvestmentType" type="com.tangtang.manager.dto.InvestmentTypeDTO">
+        <result column="finance_type" jdbcType="VARCHAR" property="investmentType" />
+        <result column="nums" jdbcType="INTEGER" property="nums" />
+    </resultMap>
+
+    <resultMap id="ProjectBelongSchool" type="com.tangtang.manager.dto.ProjectBelongSchoolDTO">
+        <result column="project_belong_school" jdbcType="VARCHAR" property="school" />
+        <result column="nums" jdbcType="INTEGER" property="nums" />
+    </resultMap>
+
+    <select id="studentNums" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM base_student
+    </select>
+
+    <select id="schoolNums" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM base_school
+    </select>
+
+    <select id="companyNums" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM base_company
+    </select>
+
+    <select id="investorProvince" resultMap="InvestorProvince">
+        SELECT belong_province, count(id) as nums
+        FROM base_investor_finance group by belong_province
+    </select>
+
+    <select id="CompanyTZProjectNums" resultMap="CompanyTZProjectNums">
+        SELECT finance_company, count(id) as nums
+        FROM base_finance group by finance_company
+    </select>
+
+    <select id="InvestmentJDAvgMoney" resultMap="InvestmentJDAvgMoney">
+        SELECT finance_type, AVG(finance_money) as money
+        FROM base_finance group by finance_type
+    </select>
+
+    <select id="InvestmentType" resultMap="InvestmentType">
+        SELECT finance_type, count(id) as nums
+        FROM base_finance group by finance_type
+    </select>
+
+    <select id="ProjectBelongSchool" resultMap="ProjectBelongSchool">
+        SELECT project_belong_school, count(id) as nums
+        FROM base_project_establish_report group by project_belong_school
+    </select>
+
+</mapper>

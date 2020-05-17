@@ -97,6 +97,11 @@
                             <span>大学生创业服务平台</span>
                         </p>
 
+                        <p id="admin" class="title" style="display: none; margin-bottom: -100px; margin-top: -100px">
+                            <span>平台相关数据统计概览</span>
+                        </p>
+
+                        <!--学生用户可见身份核验块-->
                         <div class="layui-col-sm6 layui-col-md3" style="margin-top: -50px; margin-left: -155px; display: none" id="checkTab">
                             <div class="content">
                                 <div><img src="/images/Bat-Man.png"></div>
@@ -108,6 +113,42 @@
                         </div>
                     </div>
 
+                    <div id="dataAnalysis" style="display: none">
+                        <div class="layui-col-sm6 layui-col-md3" style="width: 450px; height: 450px; margin-left: -150px; margin-top: -100px">
+                            <canvas id="membersAnalysis"></canvas><br>
+                            <p style="margin-left: 170px">平台用户分布图</p>
+                        </div>
+
+                        <div class="layui-col-sm6 layui-col-md3" style="width: 450px; height: 450px;  margin-top: -100px;">
+                            <canvas id="investorProvinceFB"></canvas><br>
+                            <p style="margin-left: 160px">投资方所在省份分布图</p>
+                        </div>
+
+                        <div class="layui-col-sm6 layui-col-md3" style="width: 450px; height: 450px;  margin-top: -100px;">
+                            <canvas id="ProjectBelongSchool"></canvas><br>
+                            <p style="margin-left: 160px">各学校创业项目分布图</p>
+                        </div>
+
+                        <div class="layui-col-xs6" style="width: 800px; height: 350px;   margin-top: -100px;">
+                            <canvas id="CompanyTZProjectNums"></canvas><br>
+<!--                            <p style="margin-left: 160px">投资方投资项目（个）</p>-->
+                        </div>
+
+                        <div  class="layui-col-xs6" style="width: 800px; height: 350px;   margin-top: 200px;">
+                            <canvas id="InvestmentType"></canvas><br>
+<!--                            <p style="margin-left: 160px">各融资阶段项目数（个）</p>-->
+                        </div>
+
+                        <div class="layui-col-xs6" style="width: 800px; height: 350px;  margin-top: 200px;">
+                            <canvas id="InvestmentJDAvgMoney"></canvas><br>
+<!--                            <p style="margin-left: 160px">各融资阶段平均融资金额（万）</p>-->
+                        </div>
+                    </div>
+
+                    <div id="dataAnalysis2">
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -115,6 +156,7 @@
     <script type="text/javascript" src="/js/error.js"></script>
     <script src="/js/sysUser/userList.js"></script>
     <script src="/js/getCookies.js"></script>
+    <script src="/js/home/Chart.js"></script>
     <!--底部-->
     <div th:replace="fragments/footer :: footer"></div>
     <script>
@@ -149,6 +191,298 @@
                         }
                     }
                 })
+            }
+
+            if(roleId == '1'){
+                document.getElementById("dataAnalysis").style.display = '';
+                document.getElementById("admin").style.display = '';
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/platformMembers",
+                    success: function (data) {
+                        var ctx = document.getElementById('membersAnalysis');
+                        var membersData = {
+                            datasets: [{
+                                data: [data.students, data.schools, data.companies],
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)'
+                                ]
+                            }],
+                            labels: [
+                                '学生',
+                                '学校',
+                                '投资方'
+                            ]
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: membersData
+                        });
+
+
+                    }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/investorProvince",
+                    success: function (data) {
+                        var province = [];
+                        var nums = [];
+                        for(var i=0; i<data.length; i++){
+                            province.push(data[i].province);
+                            nums.push(data[i].nums);
+                        }
+                        console.log(province);
+                        console.log(nums);
+                        var ctx = document.getElementById('investorProvinceFB');
+                        var provinceData = {
+                            datasets: [{
+                                data: nums,
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(0, 153, 36)',
+                                    'rgb(60, 63, 65)',
+                                    'rgb(152, 118, 170)',
+                                    'rgb(199, 84, 80)'
+                                ]
+                            }],
+                            labels: province
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: provinceData
+                        });
+                    }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/ProjectBelongSchool",
+                    success: function (data) {
+                        var school = [];
+                        var nums = [];
+                        for(var i=0; i<data.length; i++){
+                            school.push(data[i].school);
+                            nums.push(data[i].nums);
+                        }
+                        var ctx = document.getElementById('ProjectBelongSchool');
+                        var projectData = {
+                            datasets: [{
+                                data: nums,
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(0, 153, 36)',
+                                    'rgb(60, 63, 65)',
+                                    'rgb(152, 118, 170)',
+                                    'rgb(199, 84, 80)'
+                                ]
+                            }],
+                            labels: school
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'polarArea',
+                            data: projectData
+                        });
+                    }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/CompanyTZProjectNums",
+                    success: function (data) {
+                        var company = [];
+                        var nums = [];
+                        for(var i=0; i<data.length; i++){
+                            company.push(data[i].company);
+                            nums.push(data[i].nums);
+                        }
+                        var ctx = document.getElementById('CompanyTZProjectNums');
+                        var provinceData = {
+                            datasets: [{
+                                data: nums,
+                                barPercentage: 0.5,
+                                backgroundColor: [
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)',
+                                    'rgb(255, 206, 86)'
+                                ],
+                                label: '投资方投资项目（个）'
+                            }],
+                            labels: company
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: provinceData,
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            offsetGridLines: true
+                                        }
+                                    }],
+                                    yAxes: [
+                                        {
+                                            ticks: {
+                                                min: 0,  //最小值
+                                            },
+                                            display: true
+                                        }
+                                    ]
+                                }
+                            }
+                        });
+                    }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/InvestmentType",
+                    success: function (data) {
+                        var investmentType = [];
+                        var nums = [];
+                        for(var i=0; i<data.length; i++){
+                            investmentType.push(data[i].investmentType);
+                            nums.push(data[i].nums);
+                        }
+                        var ctx = document.getElementById('InvestmentType');
+                        var investmentTypeData = {
+                            datasets: [{
+                                data: nums,
+                                barPercentage: 0.5,
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)',
+                                    'rgb(255, 99, 132)'
+                                ],
+                                label: '各融资阶段项目数（个）'
+                            }],
+                            labels: investmentType
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'horizontalBar',
+                            data: investmentTypeData,
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        gridLines: {
+                                            offsetGridLines: true
+                                        }
+                                    }],
+                                    xAxes: [
+                                        {
+                                            ticks: {
+                                                min: 0,  //最小值
+                                            },
+                                            display: true
+                                        }
+                                    ]
+                                }
+                            }
+                        });
+                    }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "/analysis/InvestmentJDAvgMoney",
+                    success: function (data) {
+                        var investmentType = [];
+                        var money = [];
+                        for(var i=0; i<data.length; i++){
+                            investmentType.push(data[i].investmentType);
+                            money.push(data[i].money);
+                        }
+                        var ctx = document.getElementById('InvestmentJDAvgMoney');
+                        var InvestmentJDAvgMoneyData = {
+                            datasets: [{
+                                data: money,
+                                label: '各融资阶段平均融资金额（万）',
+                            }],
+                            labels: investmentType
+
+                        };
+                        var myDoughnutChart = new Chart(ctx, {
+                            type: 'line',
+                            data: InvestmentJDAvgMoneyData,
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            offsetGridLines: true
+                                        }
+                                    }],
+                                    yAxes: [
+                                        {
+                                            ticks: {
+                                                min: 0,  //最小值
+                                            },
+                                            display: true
+                                        }
+                                    ]
+                                }
+                            }
+                        });
+                    }
+                })
+
             }
         }
 

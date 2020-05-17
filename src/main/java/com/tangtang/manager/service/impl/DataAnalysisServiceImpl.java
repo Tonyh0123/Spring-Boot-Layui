@@ -1,0 +1,147 @@
+package com.tangtang.manager.service.impl;
+
+import com.tangtang.manager.dao.BaseDataAnalysisMapper;
+import com.tangtang.manager.dao.BaseSuccessfulCaseMapper;
+import com.tangtang.manager.dto.*;
+import com.tangtang.manager.pojo.BaseSuccessfulCase;
+import com.tangtang.manager.response.PageDataResult;
+import com.tangtang.manager.service.CaseService;
+import com.tangtang.manager.service.DataAnalysisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+@Service
+public class DataAnalysisServiceImpl implements DataAnalysisService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private BaseSuccessfulCaseMapper successfulCaseMapper;
+
+    @Autowired
+    private BaseDataAnalysisMapper analysisMapper;
+
+    @Override
+    public Map<String, Object> addCase(BaseSuccessfulCase successfulCase) {
+        Map<String,Object> data = new HashMap();
+        try {
+            successfulCase.setCaseIdentifier(UUID.randomUUID().toString().replace("-",""));
+            boolean result = successfulCaseMapper.addCase(successfulCase);
+            if(!result){
+                data.put("code",0);
+                data.put("msg","操作失败，请联系管理！");
+                logger.error("新增成功案例，结果=新增失败，数据插入异常！");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","新增成功！");
+            logger.info("新增成功案例，结果=新增成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("新增成功案例异常！", e);
+            return data;
+        }
+        return data;
+    }
+
+    @Override
+    public PageDataResult getCaseList(BaseSuccessfulCase successfulCase, Integer pageNum, Integer pageSize) {
+        PageDataResult pageDataResult = new PageDataResult();
+        pageNum = (pageNum-1)*pageSize;
+        List<BaseSuccessfulCase> nums = successfulCaseMapper.getCaseList(successfulCase,0,100000);
+        List<BaseSuccessfulCase> baseSuccessfulCases = successfulCaseMapper.getCaseList(successfulCase,pageNum,pageSize);
+        if(baseSuccessfulCases.size() != 0){
+            pageDataResult.setList(baseSuccessfulCases);
+            pageDataResult.setTotals(nums.size());
+        }
+
+        return pageDataResult;
+    }
+
+    @Override
+    public List<BaseSuccessfulCase> getCaseShowData(Integer pageNum, Integer pageSize) {
+        return successfulCaseMapper.getCaseListForShow(pageNum,pageSize);
+    }
+
+    @Override
+    public Map<String, Object> del(long id) {
+        Map<String, Object> data = new HashMap<>();
+        try {
+            // 删除权限菜单
+            int result = successfulCaseMapper.deleteByPrimaryKey(id);
+            if(result == 0){
+                data.put("code",0);
+                data.put("msg","删除失败");
+                logger.error("删除失败");
+                return data;
+            }
+            data.put("code",1);
+            data.put("msg","删除成功");
+            logger.info("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("删除成功案例异常！", e);
+        }
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> updateCase(BaseSuccessfulCase successfulCase) {
+        Map<String,Object> data = new HashMap();
+        Integer id = successfulCase.getId();
+        int result = successfulCaseMapper.updateCase(successfulCase);
+        if(result == 0){
+            data.put("code",0);
+            data.put("msg","更新失败！");
+            logger.error("案例[更新]，结果=更新失败！");
+            return data;
+        }
+        data.put("code",1);
+        data.put("msg","更新成功！");
+        logger.info("案例[更新]，结果=更新成功！");
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> platformMembers() {
+        Map<String,Object> data = new HashMap();
+        Integer students = analysisMapper.studentNums();
+        Integer schools = analysisMapper.schoolNums();
+        Integer companies = analysisMapper.companyNums();
+        data.put("students",students);
+        data.put("schools",schools);
+        data.put("companies",companies);
+        return data;
+    }
+
+    @Override
+    public List<InvestorProvinceDTO> investorProvince() {
+        return analysisMapper.investorProvince();
+    }
+
+    @Override
+    public List<CompanyTZProjectNumsDTO> CompanyTZProjectNums() {
+        return analysisMapper.CompanyTZProjectNums();
+    }
+
+    @Override
+    public List<InvestmentJDAvgMoneyDTO> InvestmentJDAvgMoney() {
+        return analysisMapper.InvestmentJDAvgMoney();
+    }
+
+    @Override
+    public List<InvestmentTypeDTO> InvestmentType() {
+        return analysisMapper.InvestmentType();
+    }
+
+    @Override
+    public List<ProjectBelongSchoolDTO> ProjectBelongSchool() {
+        return analysisMapper.ProjectBelongSchool();
+    }
+}
