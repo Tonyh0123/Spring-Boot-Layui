@@ -37,7 +37,8 @@ $(function() {
                     {type:'numbers'}
                     ,{field:'projectOwnerName', title:'申请人',width:150, align:'center'}
                     ,{field:'projectId', title:'项目编号',width:250,align:'center'}
-                    ,{field:'projectName', title:'项目名称',width:500,align:'center',sort:true}
+                    ,{field:'projectName', title:'项目名称',width:380,align:'center',sort:true}
+                    ,{field:'project_current_JD', title:'项目阶段',width:120,align:'center',sort:true}
                     ,{title:'操作',align:'center', width:734, toolbar:'#optBar'}
                 ]],
                 done: function(res, curr, count){

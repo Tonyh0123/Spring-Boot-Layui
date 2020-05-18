@@ -74,7 +74,8 @@
                 url: "/message/getMessageList",
                 async: false,
                 success: function (data) {
-                    for(var i = 0; i<data.list.length; i++){
+                    console.log('qqqqqqqqqqqqqqqqq'+data.list.length);
+                    for(var i = data.list.length-1; i>=0; i--){
                         $("#messageList").append('<div class="content" style="text-align: left;">' +
                             '<p style="color: black"><i class="layui-icon layui-icon-release" style="font-size: 16px; color: #33aba0;"></i> 标题：'+ data.list[i].message_title+'</p>' +
                             '<p style="color: black"><i class="layui-icon layui-icon-dialogue" style="font-size: 16px; color: #33aba0;"></i> 内容：'+ data.list[i].message_content+'</p>' +
@@ -96,7 +97,7 @@
                             url: "/reply/getReplyList",
                             async: false,
                             success: function (replyData) {
-                                for(var i = 0; i<replyData.list.length; i++){
+                                for(var i = replyData.list.length-1; i>=0; i--){
                                     $(ulId).append('<div class="content">' +
                                         '<p style="text-align: left; color: black"><i class="layui-icon layui-icon-friends" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'</p>' +
                                         '<p style="text-align: right; color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_date_time+'</p>' +
@@ -120,7 +121,7 @@
                 url: "/message/getMessageToMeList",
                 async: false,
                 success: function (data) {
-                    for(var i = 0; i<data.list.length; i++){
+                    for(var i = data.list.length-1; i>=0; i--){
                         $("#messageToMe").append('<div class="content" style="text-align: left;">' +
                             '<p style="color: black"><i class="layui-icon layui-icon-release" style="font-size: 16px; color: #33aba0;"></i> 标题：'+ data.list[i].message_title+'</p>' +
                             '<p style="color: black"><i class="layui-icon layui-icon-dialogue" style="font-size: 16px; color: #33aba0;"></i> 内容：'+ data.list[i].message_content+'</p>' +
@@ -143,7 +144,7 @@
                             url: "/reply/getReplyList",
                             async: false,
                             success: function (replyData) {
-                                for(var i = 0; i<replyData.list.length; i++){
+                                for(var i = replyData.list.length-1; i>=0; i--){
                                     $(ulId).append('<div class="content">' +
                                         '<p style="text-align: left; color: black"><i class="layui-icon layui-icon-friends" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'</p>' +
                                         '<p style="text-align: right; color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_date_time+'</p>' +

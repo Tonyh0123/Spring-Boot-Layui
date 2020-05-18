@@ -119,8 +119,10 @@ public class IndexController {
         return "policy/allPolicies";
     }
 
-    /**
-     * 测试提交[Branch--->mymymy]
-     */
+    @RequestMapping("discussForAll")
+    public String toDiscussForAll(){
+        logger.info("定向所有政策界面");
+        return "discussForAll";
+    }
 
 }

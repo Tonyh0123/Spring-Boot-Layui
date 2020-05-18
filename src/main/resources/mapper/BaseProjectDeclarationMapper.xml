@@ -300,7 +300,7 @@
         SELECT <include refid="selectColumn"/>
         FROM base_project_establish_report
         <where>
-            project_belong_school = #{projectBelongSchool} and project_current_JD != ''
+            project_belong_school = #{projectBelongSchool} and project_current_JD != '' and project_current_JD != '已立项'
         </where>
         ORDER BY project_current_JD
     </select>

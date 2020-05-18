@@ -1,5 +1,7 @@
 package com.tangtang;
 
+import com.tangtang.manager.common.utils.DigestUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -153,13 +155,7 @@ class DateUtils {
     }
 
     public static void main(String[] args) {
-        Map<String, Object> data = new HashMap<>();
-        for (int i=0; i<2; i++){
-            List<String> strings = new ArrayList<>();
-            strings.add("121212"+i);
-            data.put("first"+i,strings);
-        }
-        System.out.println(data.toString());
+        System.out.println(DigestUtils.Md5("admin","000000"));
     }
 
     /**

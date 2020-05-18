@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='大学生创业服务平台'">
+<!--  <link rel="stylesheet" href="/css/index.css">-->
+</head>
+<body >
+  <a id="userId" style="display: none"><shiro:principal property="id"></shiro:principal></a>
+  <a id="userName" style="display: none"><shiro:principal property="sysUserName"></shiro:principal></a>
+  <div id="shape" >
+    <div class="shapeColor">
+      <div class="shapeFly"></div>
+    </div>
+  </div>
+  <!-- nav部分 -->
+  <div class="nav index">
+    <div th:include="nav :: copyNav"></div>
+  </div>
+  <!-- banner部分 -->
+  <div>
+    <div class="layui-carousel" id="banner" lay-filter="banner">
+      <div carousel-item>
+      </div>
+    </div>
+  </div>
+  <!-- main部分 -->
+  <div class="main-product">
+  <div class="layui-container">
+    <p class="title" style=" margin-top: -50px">
+      <span>公共讨论区</span>
+    </p>
+
+    <form id="publicDiscussionForm" class="layui-form layui-form-pane" method="post">
+        <input type="hidden" id="message_owner" name="message_owner" value="publicDiscuss"/>
+        <input type="hidden" id="message_sender" name="message_sender"/>
+        <input type="hidden" id="project_name" name="project_name"/>
+        <input type="hidden" id="message_title" name="message_title"/>
+
+        <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+          <textarea id="" name="message_content" lay-verify="required" placeholder="输入内容以讨论" class="layui-textarea"></textarea>
+        </div>
+
+          <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 94.5%; margin-top: -40px">
+              <button class="layui-btn"  lay-submit="" lay-filter="discussSubmit">提交</button>
+            </div>
+          </div>
+      </div>
+    </form>
+
+    <div id="messageToPublic">
+
+    </div>
+
+    <!--回复留言-->
+    <div id="addReply" class="layer_self_wrap" style="display:none; ">
+      <form id="addReplyForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <input type="hidden" id="message_id" name="message_id"/>
+        <input type="hidden" id="reply_user_name" name="reply_user_name"/>
+
+        <div class="layui-form-item layui-form-text">
+          <div class="layui-input-block">
+            <textarea id="reply_content" name="reply_content" lay-verify="required" placeholder="请输入回复内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block" style="margin-left: 90%; margin-top: -53px">
+            <button class="layui-btn"  lay-submit="" lay-filter="addReplySubmit">回复</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  <!-- footer部分 -->
+  <div class="footer">
+    <div th:include="footer :: footer"></div>
+  </div>
+  <div class="leftNav-item no-print">
+    <div th:include="navLeft :: navLeft"></div>
+  </div>
+  <script src="/js/upupup/rocketTop.js"></script>
+  <script src="/js/firm.js"></script>
+  <script src="/js/indexInfoSearch.js"></script>
+  <script type="text/javascript" src="js/xf/nav.js"></script>
+  <script src="/js/publicJs.js"></script>
+  <script src="/js/getCookies.js"></script>
+
+
+</body>
+
+<script>
+  var userName = document.getElementById("userName").innerText;
+  window.onload=function () {
+    getAllPublicDiscussion();
+  }
+  var pageCurr;
+  var form;
+  $(function() {
+    layui.use('table', function(){
+      form = layui.form;
+      form.on('submit(discussSubmit)', function(data){
+
+        $("#message_sender").val(userName);
+        //提交前的字符串拼接/填充
+        // TODO 校验
+        $.ajax({
+          type: "POST",
+          data: $("#publicDiscussionForm").serialize(),
+          url: "/message/addMessage",
+          success: function (data) {
+            if (data.code == 1) {
+              layer.msg(data.msg,{icon:1,time:2000},function(){
+                layer.closeAll();
+                document.getElementById('publicDiscussionForm').reset();
+                $("#messageToPublic").html('');
+                getAllPublicDiscussion();
+                // location.reload();
+              });
+            } else {
+              layer.msg(data.msg,{icon:5,time:2000});
+            }
+          }
+        });
+        return false;
+      });
+
+      form.on('submit(addReplySubmit)', function(data){
+        //提交前的字符串拼接/填充
+        // TODO 校验
+        $.ajax({
+          type: "POST",
+          data: $("#addReplyForm").serialize(),
+          url: "/reply/addReply",
+          success: function (data) {
+            if (data.code == 1) {
+              layer.msg(data.msg,{
+                icon: 1,
+                time: 1000
+              },function(){
+                layer.closeAll();
+                $("#reply_content").val('');
+                document.getElementById("addReplyForm").reset();
+                $("#messageToPublic").html('');
+                getAllPublicDiscussion();
+              });
+            } else {
+              layer.alert(data.msg);
+            }
+          }
+        });
+        return false;
+      });
+
+    });
+  });
+  
+  function getAllPublicDiscussion() {
+    $.ajax({
+      type: "POST",
+      data: {"userName":'publicDiscuss',"pageNum":null,"pageSize":null},
+      url: "/message/getMessageList",
+      async: false,
+      success: function (data) {
+        try {
+          for(var i = data.list.length-1; i>=0; i--){
+            $("#messageToPublic").append('<div class="content" style="text-align: left;">' +
+                    '<p style="color: black"><i class="layui-icon layui-icon-user" style="font-size: 16px; color: #33aba0;"></i> 楼主：'+ data.list[i].message_sender+'</p>' +
+                    '<p style="color: black"><i class="layui-icon layui-icon-dialogue" style="font-size: 16px; color: #33aba0;"></i> 内容：'+ data.list[i].message_content+'</p>' +
+                    '<p style="color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> 时间：'+ data.list[i].message_date_time+'</p>' +
+                    '<button class="layui-btn" type="button" style="width: 100px; margin-left: 91%; margin-bottom: 10px" onclick="addReply(\''+data.list[i].id+'\');">回复</button>' +
+                    '<br>' +
+                    // '<p class="title" style="margin-top: -90px; margin-bottom: -80px"><span style="font-size: 28px;  ">以下是留言回复：</span></p>' +
+                    '<ul id="toMeReply'+data.list[i].id+'">' +
+                    '</ul>' +
+                    '</div>' +
+                    '<br>');
+            var ulId = "#toMeReply"+data.list[i].id;
+            console.log("ulId"+ulId);
+            $.ajax({
+              type: "POST",
+              data: {"message_id":data.list[i].id,"pageNum":null,"pageSize":null},
+              url: "/reply/getReplyList",
+              async: false,
+              success: function (replyData) {
+                for(var i = replyData.list.length-1; i>=0; i--){
+                  $(ulId).append('<div class="content">' +
+                          '<p style="text-align: left; color: black"><i class="layui-icon layui-icon-friends" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_user_name+'：'+replyData.list[i].reply_content+'</p>' +
+                          '<p style="text-align: right; color: black"><i class="layui-icon layui-icon-date" style="font-size: 16px; color: #33aba0;"></i> '+replyData.list[i].reply_date_time+'</p>' +
+                          '</div><br>');
+                  console.log(replyData.list[i].reply_content);
+                }
+
+              }
+            });
+          }
+        }catch (e) {
+
+        }
+
+      }
+    });
+    
+  }
+
+  function addReply(message_id) {
+    $("#message_id").val(message_id);
+    $("#reply_user_name").val(userName);
+    layer.open({
+      type: 1 //此处以iframe举例
+      , title: '回复留言'
+      , area: ['650px','200px']
+      , shade: 0
+      , maxmin: true
+      , offset: ['360px']
+      , content: $("#addReply")
+      ,end: function () {
+        //弹窗关闭后清空值
+        document.getElementById("addReplyForm").reset();
+      }
+    });
+
+  }
+
+</script>
+
+</html>
