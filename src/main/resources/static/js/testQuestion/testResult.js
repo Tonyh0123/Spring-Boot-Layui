@@ -7,23 +7,43 @@ function getData(){
             //填充数据
             var _data = data[data.length-1];
             document.getElementById("testResult").innerHTML =  _data.testResult;
-            var radarChartData = {
+
+            var ctx = document.getElementById('canvas');
+            var testResultData = {
+                datasets: [{
+                    data: [_data.zysz,_data.cysz,_data.gssfzs,_data.cwyxzs,_data.yyglzs,_data.cyjbnl,_data.yyglnl,_data.scyxnl],
+                    label: '测试指标结果分析',
+                    backgroundColor: [
+                        'rgba(151,187,205,0.5)',
+                        'rgba(151,187,205,1)',
+                        'rgba(151,187,205,1)'
+                    ],
+                }],
                 labels : ["职业素质","创业素质","公司商法知识","财务营销知识","运营管理知识","创业基本能力","运营管理能力","市场营销能力"],
-                datasets : [
 
-                    {
-                        fillColor : "rgba(151,187,205,0.5)",
-                        strokeColor : "rgba(151,187,205,1)",
-                        pointColor : "rgba(151,187,205,1)",
-                        pointStrokeColor : "#fff",
-                        // data : [51,50,79,44,50,80,33,50]
-                        data : [_data.zysz,_data.cysz,_data.gssfzs,_data.cwyxzs,_data.yyglzs,_data.cyjbnl,_data.yyglnl,_data.scyxnl]
+            };
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'line',
+                data: testResultData,
+                options: {
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                offsetGridLines: true
+                            }
+                        }],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    min: 0,  //最小值
+                                    max: 100
+                                },
+                                display: true
+                            }
+                        ]
                     }
-                ]
-
-            }
-
-            new Chart(document.getElementById("canvas").getContext("2d")).Line(radarChartData);
+                }
+            });
 
         }
         ,error: function (data) {
