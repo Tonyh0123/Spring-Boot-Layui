@@ -116,7 +116,7 @@ function acceptApply(id) {
         url: "/apply/verifyStudentStatus",
         success: function (data) {
             if (data.code == 1) {
-                layer.msg(data.msg,function(){
+                layer.msg(data.msg,{icon:1,time:2000},function(){
                     tableIns.reload({
                         page: {
                             curr: pageCurr //从当前页码开始
@@ -164,8 +164,8 @@ function formSubmit(obj){
         success: function (data) {
             console.log(data.code);
             if (data.code == 1) {
-                layer.closeAll();
-                layer.msg(data.msg,function(){
+                layer.msg(data.msg,{icon:1,time:2000},function () {
+                    layer.closeAll();
                     load(obj);
                 });
             } else {

@@ -726,11 +726,10 @@
                     url: "/check/updateBaseStudent",
                     success: function (data) {
                         if (data.code == 1) {
-                            layer.closeAll();
-                            layer.msg("身份信息已提交，等待审核");
-                            setTimeout(function () {
+                            layer.msg("身份信息已提交，等待审核",{icon:1,time:2000},function () {
+                                layer.closeAll();
                                 location.reload();
-                            }, 2000);
+                            });
                         } else {
                             layer.alert(data.msg);
                         }
