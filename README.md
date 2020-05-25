@@ -15,7 +15,7 @@
 ---
 
 > * ### 正确配置配置和数据库连接：
->> 找到application.yml文件，把图1-2中url、username、password正确配置即可。
+>> 找到application.yml文件，把其中数据库连接的url、username、password正确配置即可。
 
 ---
 
