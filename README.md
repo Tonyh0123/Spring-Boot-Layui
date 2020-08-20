@@ -52,3 +52,4 @@
 这些问题在部署中可能不会出现，要在实际运行使用中才有可能发现，请务必认真对系统的功能进行全面使用测试。
 
 ##TEST_README GIT FIRST COMMIT
+##TEST_README GIT SECOND COMMIT
