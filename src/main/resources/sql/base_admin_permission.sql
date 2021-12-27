@@ -17,7 +17,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
+-- ----------------------------112121212
 -- Table structure for base_admin_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `base_admin_permission`;
